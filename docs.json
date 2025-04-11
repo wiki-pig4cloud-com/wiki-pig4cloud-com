@@ -35,8 +35,8 @@
             "group": "快速开始",
             "pages": [
               "docs/preface",
-              "docs/preface/development-participation/development-participation",
-              "docs/preface/learning-materials/learning-materials"
+              "docs/preface/development-participation",
+              "docs/preface/learning-materials"
             ]
           },
           {
@@ -55,53 +55,6 @@
               "docs/dev/create-microservice-skeleton",
               "docs/dev/microservice-config-management",
               "docs/dev/monolith-secondary-dev"
-            ]
-          },
-          {
-            "group": "后端开发 - 编程基础",
-            "pages": [
-              "docs/backend/programming-basics/lombok-usage",
-              "docs/backend/programming-basics/java-util-usage",
-              "docs/backend/programming-basics/java8-resources",
-              "docs/backend/programming-basics/pig-stream-usage",
-              "docs/backend/programming-basics/pig-lambda-usage"
-            ]
-          },
-          {
-            "group": "后端开发 - 微服务基础",
-            "pages": [
-              "docs/backend/microservice-basics/nacos-config-center",
-              "docs/backend/microservice-basics/nacos-server-implementation",
-              "docs/backend/microservice-basics/gateway-usage",
-              "docs/backend/microservice-basics/loadbalancer-usage",
-              "docs/backend/microservice-basics/sentinel-protection"
-            ]
-          },
-          {
-            "group": "后端开发 - 网关功能",
-            "pages": [
-              "docs/backend/gateway-features/gateway-routing",
-              "docs/backend/gateway-features/gateway-cors",
-              "docs/backend/gateway-features/gateway-rate-limiting",
-              "docs/backend/gateway-features/gateway-timeout-handling"
-            ]
-          },
-          {
-            "group": "后端开发 - 认证授权",
-            "pages": [
-              "docs/backend/auth-authorization/token-jwt-oauth2-session",
-              "docs/backend/auth-authorization/pig-token-authentication",
-              "docs/backend/auth-authorization/pig-token-expiration",
-              "docs/backend/auth-authorization/pig-authorization-code",
-              "docs/backend/auth-authorization/pig-client-mode",
-              "docs/backend/auth-authorization/inner-annotation",
-              "docs/backend/auth-authorization/feign-service-auth",
-              "docs/backend/auth-authorization/api-exposure",
-              "docs/backend/auth-authorization/get-current-user",
-              "docs/backend/auth-authorization/frontend-login-encryption",
-              "docs/backend/auth-authorization/sms-login-config",
-              "docs/backend/auth-authorization/extension-user-multi-table",
-              "docs/backend/auth-authorization/extension-force-token"
             ]
           },
           {
@@ -150,6 +103,53 @@
               "docs/frontend/dictionary-feature",
               "docs/frontend/route-management",
               "docs/frontend/tab-management"
+            ]
+          },
+          {
+            "group": "后端开发 - 编程基础",
+            "pages": [
+              "docs/backend/programming-basics/lombok-usage",
+              "docs/backend/programming-basics/java-util-usage",
+              "docs/backend/programming-basics/java8-resources",
+              "docs/backend/programming-basics/pig-stream-usage",
+              "docs/backend/programming-basics/pig-lambda-usage"
+            ]
+          },
+          {
+            "group": "后端开发 - 微服务基础",
+            "pages": [
+              "docs/backend/microservice-basics/nacos-config-center",
+              "docs/backend/microservice-basics/nacos-server-implementation",
+              "docs/backend/microservice-basics/gateway-usage",
+              "docs/backend/microservice-basics/loadbalancer-usage",
+              "docs/backend/microservice-basics/sentinel-protection"
+            ]
+          },
+          {
+            "group": "后端开发 - 网关功能",
+            "pages": [
+              "docs/backend/gateway-features/gateway-routing",
+              "docs/backend/gateway-features/gateway-cors",
+              "docs/backend/gateway-features/gateway-rate-limiting",
+              "docs/backend/gateway-features/gateway-timeout-handling"
+            ]
+          },
+          {
+            "group": "后端开发 - 认证授权",
+            "pages": [
+              "docs/backend/auth-authorization/token-jwt-oauth2-session",
+              "docs/backend/auth-authorization/pig-token-authentication",
+              "docs/backend/auth-authorization/pig-token-expiration",
+              "docs/backend/auth-authorization/pig-authorization-code",
+              "docs/backend/auth-authorization/pig-client-mode",
+              "docs/backend/auth-authorization/inner-annotation",
+              "docs/backend/auth-authorization/feign-service-auth",
+              "docs/backend/auth-authorization/api-exposure",
+              "docs/backend/auth-authorization/get-current-user",
+              "docs/backend/auth-authorization/frontend-login-encryption",
+              "docs/backend/auth-authorization/sms-login-config",
+              "docs/backend/auth-authorization/extension-user-multi-table",
+              "docs/backend/auth-authorization/extension-force-token"
             ]
           },
           {

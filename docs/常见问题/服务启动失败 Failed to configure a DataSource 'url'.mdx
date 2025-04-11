@@ -1,4 +1,9 @@
+---
+title: "服务启动失败 Failed to configure a DataSource 'url'"
+---
+
 ## 报错信息
+
 ```shell
 ***************************
 APPLICATION FAILED TO START
@@ -19,27 +24,23 @@ Consider the following:
 
 
 Process finished with exit code 1
-
 ```
 
 ## 解决方案
-+ Nacos 没有配置对应服务的数据库连接信息
-+ 微服务无法连接读取nacos配置信息 (host没配置，本地vpn影响解析等原因)
+
+- Nacos 没有配置对应服务的数据库连接信息
+- 微服务无法连接读取nacos配置信息 (host没配置，本地vpn影响解析等原因)
 
 ## 其他原因
-:::warning
+
+<Warning>
 此报错正常情况下是由于配置文件加载错误导致，虽然 nacos 对应的微服务已经配置配置文件，但是由于 **nacos 加载的规则不能正确加载或者不能正确解析。**
-
-:::
-
-
+</Warning>
 
 DEBUG NacosConfigDataLoader 源代码： ① 、②
 
-+ ①  获取到 nacos 配置文件结果
-+ ②  配置文件解析异常内容
+- ①  获取到 nacos 配置文件结果
+- ②  配置文件解析异常内容
 
-
-
-![](https://minio.pigx.vip/oss/1661770586.png)
+![NacosConfigDataLoader调试截图](https://minio.pigx.vip/oss/1661770586.png)
 

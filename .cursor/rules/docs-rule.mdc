@@ -22,15 +22,13 @@ Use callouts to add eye-catching context to your content
   brings you to the Card Group page.
 </Card>
 
-- Code Groups
-The CodeGroup component lets you combine code blocks in a display separated by tabs
-
-<CodeGroup>
-
-```javascript helloWorld.js
-console.log("Hello World");
-```
-```python hello_world.py
-print('Hello World!')
-```
-</CodeGroup>
+- Tabs
+Toggle content using the Tabs component
+<Tabs>
+  <Tab title="First Tab">
+    ☝️ Welcome to the content that you can only see inside the first Tab.
+  </Tab>
+  <Tab title="Second Tab">
+    ✌️ Here's content that's only inside the second Tab.
+  </Tab>
+</Tabs>

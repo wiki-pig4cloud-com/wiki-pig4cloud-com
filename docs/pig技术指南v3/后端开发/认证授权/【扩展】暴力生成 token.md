@@ -1,0 +1,148 @@
+## 业务背景
++ 本文主要介绍如何自定义 Token 生成逻辑，**<font style="color:#DF2A3F;">不依赖于 OAuth2 协议的严格参数要求</font>**。比如只提供用户名，即可生成指定用户的 Token，使业务流程更加灵活、简便。
++ 在实际业务中，通常在用户注册完成后需要直接生成 Token，方便用户在注册后即刻登录。此时可以通过定制化的 Token 生成逻辑，根据业务规则灵活地生成 Token，以满足业务流程需求。
++ **<font style="color:#DF2A3F;background-color:#FBDE28;">当然这种方式过于暴力，绕过了 Spring Security 认证服务器的各种校验，所以在使用时需要谨慎</font>**。
+
+![别给我讲什么 FilterChain、 Provider、UserDetails](https://cdn.nlark.com/yuque/0/2024/png/283679/1730361988944-f5096ea3-2917-4fd9-a7d4-503f2855a193.png)
+
+## 手动生成 Token 流程图
+![](https://minio.pigx.top/oss/202305/1683870985.jpeg)
+
+## 定义服务调用 Feign 和实体
++ 在 upms-api 模块新增如下实体和 feign client
+
+```java
+@Data
+public class UserTokenDTO {
+    /**
+     * 用户名
+     */
+    private String username;
+    
+    /**
+     * 权限列表
+     */
+    private List<String> authorities = new ArrayList<>();
+}
+```
+
+```java
+@FeignClient(contextId = "remoteTokenService", value = ServiceNameConstants.AUTH_SERVICE)
+public interface RemoteTokenService {
+
+    @NoToken
+    @PostMapping("/token/generate-token")
+    R generateToken(@RequestBody UserTokenDTO userTokenDTO);
+}
+```
+
+## 认证中心提供生成令牌端点
++ 在 PigTokenEndpoint 体面添加如下接口代码，方便 feign 调用
+
+```java
+private final OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator;
+
+@Inner
+@SneakyThrows
+@PostMapping("/generate-token")
+public R generateToken(@RequestBody UserTokenDTO userTokenDTO) {
+    // 构建授权信息
+    RegisteredClient registeredClient = RegisteredClient.withId(SecurityConstants.FROM).clientId(SecurityConstants.FROM)
+            .authorizationGrantType(AuthorizationGrantType.PASSWORD)
+            .tokenSettings(TokenSettings.builder()
+                    .accessTokenTimeToLive(Duration.ofHours(24)) // token 有效期 24 小时
+                    .refreshTokenTimeToLive(Duration.ofDays(7))  // refresh token 有效期 7 天
+                    .accessTokenFormat(OAuth2TokenFormat.REFERENCE)
+                    .build())
+            .build();
+
+
+    // 构建用户信息 , 这里只拼接了  UserTokenDTO 中的 username 和 authorities ，其他字段写死，可以自行场地；
+    PigUser pigUser = new PigUser(1L, 1L, userTokenDTO.getUsername(), StrUtil.EMPTY, StrUtil.EMPTY
+            , true, true, true, true, userTokenDTO.getAuthorities()
+            .stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
+
+    Authentication usernamePasswordAuthentication = new UsernamePasswordAuthenticationToken(pigUser, StrUtil.EMPTY);
+
+    DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()
+            .registeredClient(registeredClient)
+            .principal(usernamePasswordAuthentication)
+            .authorizationServerContext(AuthorizationServerContextHolder.getContext());
+
+    OAuth2Authorization.Builder authorizationBuilder = OAuth2Authorization
+            .withRegisteredClient(registeredClient)
+            .principalName(usernamePasswordAuthentication.getName());
+
+    // ----- Access token -----
+    OAuth2TokenContext tokenContext = tokenContextBuilder.tokenType(OAuth2TokenType.ACCESS_TOKEN)
+            .authorizationGrantType(AuthorizationGrantType.PASSWORD)
+            .authorizationGrant(new OAuth2ClientAuthenticationToken(registeredClient, ClientAuthenticationMethod.CLIENT_SECRET_BASIC, null))
+            .build();
+    OAuth2Token generatedAccessToken = this.tokenGenerator.generate(tokenContext);
+
+    OAuth2AccessToken accessToken = new OAuth2AccessToken(OAuth2AccessToken.TokenType.BEARER,
+            generatedAccessToken.getTokenValue(), generatedAccessToken.getIssuedAt(),
+            generatedAccessToken.getExpiresAt(), tokenContext.getAuthorizedScopes());
+
+    if (generatedAccessToken instanceof ClaimAccessor) {
+        authorizationBuilder.id(accessToken.getTokenValue())
+                .token(accessToken,
+                        (metadata) -> metadata.put(OAuth2Authorization.Token.CLAIMS_METADATA_NAME,
+                                ((ClaimAccessor) generatedAccessToken).getClaims()))
+                .attribute(Principal.class.getName(), usernamePasswordAuthentication);
+    } else {
+        authorizationBuilder.id(accessToken.getTokenValue()).accessToken(accessToken);
+    }
+
+
+    // ----- Refresh token -----
+    OAuth2RefreshToken refreshToken;
+    tokenContext = tokenContextBuilder.tokenType(OAuth2TokenType.REFRESH_TOKEN).build();
+    OAuth2Token generatedRefreshToken = this.tokenGenerator.generate(tokenContext);
+    refreshToken = (OAuth2RefreshToken) generatedRefreshToken;
+    authorizationBuilder.refreshToken(refreshToken);
+
+    OAuth2Authorization authorization = authorizationBuilder
+            .authorizationGrantType(AuthorizationGrantType.PASSWORD)
+            .build();
+
+    this.authorizationService.save(authorization);
+
+    return R.ok(new OAuth2AccessTokenAuthenticationToken(registeredClient, usernamePasswordAuthentication, accessToken,
+            refreshToken, authorization.getAccessToken().getClaims()));
+}
+```
+
+## 业务代码调用签发 token
+```java
+
+private final RemoteTokenService remoteTokenService;
+
+// 拼接请求参数
+UserTokenDTO userTokenDTO = new UserTokenDTO();
+userTokenDTO.setUsername("admin");  // 只需要用户名，就可以生成 token
+userTokenDTO.setAuthorities(List.of("sys_user_add")); // 权限列表的字符串，能调用的接口范围
+
+// feign 调用 auth 模块生成 token
+R<OAuth2AccessTokenAuthenticationToken> authenticationTokenR = remoteTokenService.generateToken(userTokenDTO);
+// token 信息
+OAuth2AccessToken accessToken = authenticationTokenR.getData().getAccessToken();
+// 刷新 token 信息
+OAuth2RefreshToken refreshToken = authenticationTokenR.getData().getRefreshToken();
+// 客户端信息
+RegisteredClient registeredClient = authenticationTokenR.getData().getRegisteredClient();
+```
+
+## 校验令牌微调
+通过如上代码，我们已经实现了 token 的方法；接下来我们<font style="color:#DF2A3F;">需要对校验令牌的逻辑进行微调，以便资源服务器能够识别咱这个暴力 token。</font>
+
++ PigCustomOpaqueTokenIntrospector 调整，如果是自定义签发的token，直接返回用户信息
+
+```java
+if (SecurityConstants.FROM.equals(oldAuthorization.getRegisteredClientId())){
+    return (PigUser) ((UsernamePasswordAuthenticationToken) .requireNonNull(oldAuthorization).getAttributes().get(Principal.class.getName())).getPrincipal();
+}
+```
+
+![](https://cdn.nlark.com/yuque/0/2024/png/283679/1730361982619-55fb5a98-468e-4ba5-9b75-0f77a7a0cbe0.png)
+

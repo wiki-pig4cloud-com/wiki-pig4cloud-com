@@ -1,0 +1,67 @@
+## ①  服务添加 swagger  依赖
+```xml
+<!--接口文档-->
+<dependency>
+  <groupId>com.pig4cloud</groupId>
+  <artifactId>pig-common-swagger</artifactId>
+</dependency>
+```
+
+
+
+## ②   配置EnablePigDoc 注解
+:::success
+**<font style="color:#DF2A3F;">value 和 pig-gateway-dev.yml 里面路由前缀配置对应  </font>**
+
+:::
+
+
+
+![](https://minio.pigx.top/oss/202308/1693272437.png)
+
+
+
+## ③ 重启网关服务
+
+
+## ④ 功能使用
+### 特别注意
+
+
++ **Controller 接口上边必须增加 ****<font style="color:#bbb529;">@SecurityRequirement</font>****(name = HttpHeaders.**_**<font style="color:#9876aa;">AUTHORIZATION</font>**_**)**
+
+![](https://cdn.nlark.com/yuque/0/2022/png/283679/1648806396932-bb15d848-c7bc-4d8c-8451-05e3490fa2f2.png)
+
+
+
+### 常用注解
+
+
+:::success
+详细注解可以参考: [https://blog.csdn.net/weixin_44768189/article/details/115055784](https://blog.csdn.net/weixin_44768189/article/details/115055784)
+
+:::
+
+![](https://cdn.nlark.com/yuque/0/2022/png/283679/1648806259602-add9c677-a602-443b-8060-f4d1e72f5cd6.png)
+
+## 关闭 swagger 接口文档
+
+
++ nacos/application-dev.yml 配置关闭属性
+
+
+
+```yaml
+springdoc:
+  api-docs:
+    enabled: false
+```
+
+
+
+
+
+## 
+## ❤  问题咨询
+![](https://cdn.nlark.com/yuque/0/2022/gif/283679/1662563973685-c22e9831-db66-42b5-973f-886d25d1e0e7.gif)
+

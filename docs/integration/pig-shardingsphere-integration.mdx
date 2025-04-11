@@ -1,10 +1,16 @@
 ---
-title: "数据源"
+title: "pig 整合Sharding 分库分表"
 ---
 
-<Card title="视频教程" icon="video" href="https://player.bilibili.com/player.html?bvid=BV12t411B7e9&p=15&page=15&autoplay=0">
-  点击观看视频教程
-</Card>
+<iframe
+  width="100%"
+  height="500"
+  src="https://player.bilibili.com/player.html?bvid=BV12t411B7e9&p=15&page=15&autoplay=0"
+  title="ShardingSphere 分表教程"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowfullscreen
+></iframe>
 
 <Warning>
 本文适配 SpringBoot 3.x，PIG JDK17 版本
@@ -15,14 +21,14 @@ title: "数据源"
 本章节以尽量短的时间，演示 PIG 框架如何整合 Apache ShardingSphere 完成分表操作。
 
 <Note>
-**实现效果：日志表根据 请求方法的不同 拆分为 GET、POST、PUT、DELETE 数据库**
+**实现效果：日志表根据请求方法的不同拆分为 GET、POST、PUT、DELETE 数据库**
 </Note>
 
 ![](/images/1637109926530-3c9a5aa5-cced-4810-ab0b-a4fa2186f1b3.png)
 
 ## 快速上手
 
-### 1. 添加 maven 依赖
+### 1. 添加 Maven 依赖
 
 ```xml
 <dependency>
@@ -35,117 +41,120 @@ title: "数据源"
 
 ```sql
 CREATE TABLE `sys_log_GET` (
-                           `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
-                           `type` char(1) DEFAULT '1' COMMENT '日志类型',
-                           `title` varchar(255) DEFAULT '' COMMENT '日志标题',
-                           `service_id` varchar(32) DEFAULT NULL COMMENT '服务 ID',
-                            `log_type` varchar(32) DEFAULT NULL COMMENT '日志类型',
-                           `remote_addr` varchar(255) DEFAULT NULL COMMENT '操作 IP 地址',
-                           `user_agent` varchar(1000) DEFAULT NULL COMMENT '用户代理',
-                           `request_uri` varchar(255) DEFAULT NULL COMMENT '请求 URI',
-                           `method` varchar(10) DEFAULT NULL COMMENT '操作方式',
-                           `params` text COMMENT '操作提交的数据',
-                           `time` mediumtext COMMENT '执行时间',
-                           `del_flag` char(1) DEFAULT '0' COMMENT '删除标记',
-                           `exception` text COMMENT '异常信息',
-                           `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-                           `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-                           `create_by` varchar(64) DEFAULT NULL COMMENT '创建人',
-                           `update_by` varchar(64) DEFAULT NULL COMMENT '更新人',
-                           PRIMARY KEY (`id`),
-                           KEY `sys_log_create_by` (`create_by`),
-                           KEY `sys_log_request_uri` (`request_uri`),
-                           KEY `sys_log_type` (`type`),
-                           KEY `sys_log_create_date` (`create_time`)
+    `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
+    `type` char(1) DEFAULT '1' COMMENT '日志类型',
+    `title` varchar(255) DEFAULT '' COMMENT '日志标题',
+    `service_id` varchar(32) DEFAULT NULL COMMENT '服务 ID',
+    `log_type` varchar(32) DEFAULT NULL COMMENT '日志类型',
+    `remote_addr` varchar(255) DEFAULT NULL COMMENT '操作 IP 地址',
+    `user_agent` varchar(1000) DEFAULT NULL COMMENT '用户代理',
+    `request_uri` varchar(255) DEFAULT NULL COMMENT '请求 URI',
+    `method` varchar(10) DEFAULT NULL COMMENT '操作方式',
+    `params` text COMMENT '操作提交的数据',
+    `time` mediumtext COMMENT '执行时间',
+    `del_flag` char(1) DEFAULT '0' COMMENT '删除标记',
+    `exception` text COMMENT '异常信息',
+    `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+    `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+    `create_by` varchar(64) DEFAULT NULL COMMENT '创建人',
+    `update_by` varchar(64) DEFAULT NULL COMMENT '更新人',
+    PRIMARY KEY (`id`),
+    KEY `sys_log_create_by` (`create_by`),
+    KEY `sys_log_request_uri` (`request_uri`),
+    KEY `sys_log_type` (`type`),
+    KEY `sys_log_create_date` (`create_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='日志表';
 
 CREATE TABLE `sys_log_POST` (
-                           `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
-                           `type` char(1) DEFAULT '1' COMMENT '日志类型',
-                           `title` varchar(255) DEFAULT '' COMMENT '日志标题',
-                           `service_id` varchar(32) DEFAULT NULL COMMENT '服务 ID',
-                            `log_type` varchar(32) DEFAULT NULL COMMENT '日志类型',
-                           `remote_addr` varchar(255) DEFAULT NULL COMMENT '操作 IP 地址',
-                           `user_agent` varchar(1000) DEFAULT NULL COMMENT '用户代理',
-                           `request_uri` varchar(255) DEFAULT NULL COMMENT '请求 URI',
-                           `method` varchar(10) DEFAULT NULL COMMENT '操作方式',
-                           `params` text COMMENT '操作提交的数据',
-                           `time` mediumtext COMMENT '执行时间',
-                           `del_flag` char(1) DEFAULT '0' COMMENT '删除标记',
-                           `exception` text COMMENT '异常信息',
-                           `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-                           `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-                           `create_by` varchar(64) DEFAULT NULL COMMENT '创建人',
-                           `update_by` varchar(64) DEFAULT NULL COMMENT '更新人',
-                           PRIMARY KEY (`id`),
-                           KEY `sys_log_create_by` (`create_by`),
-                           KEY `sys_log_request_uri` (`request_uri`),
-                           KEY `sys_log_type` (`type`),
-                           KEY `sys_log_create_date` (`create_time`)
+    `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
+    `type` char(1) DEFAULT '1' COMMENT '日志类型',
+    `title` varchar(255) DEFAULT '' COMMENT '日志标题',
+    `service_id` varchar(32) DEFAULT NULL COMMENT '服务 ID',
+    `log_type` varchar(32) DEFAULT NULL COMMENT '日志类型',
+    `remote_addr` varchar(255) DEFAULT NULL COMMENT '操作 IP 地址',
+    `user_agent` varchar(1000) DEFAULT NULL COMMENT '用户代理',
+    `request_uri` varchar(255) DEFAULT NULL COMMENT '请求 URI',
+    `method` varchar(10) DEFAULT NULL COMMENT '操作方式',
+    `params` text COMMENT '操作提交的数据',
+    `time` mediumtext COMMENT '执行时间',
+    `del_flag` char(1) DEFAULT '0' COMMENT '删除标记',
+    `exception` text COMMENT '异常信息',
+    `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+    `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+    `create_by` varchar(64) DEFAULT NULL COMMENT '创建人',
+    `update_by` varchar(64) DEFAULT NULL COMMENT '更新人',
+    PRIMARY KEY (`id`),
+    KEY `sys_log_create_by` (`create_by`),
+    KEY `sys_log_request_uri` (`request_uri`),
+    KEY `sys_log_type` (`type`),
+    KEY `sys_log_create_date` (`create_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='日志表';
 
 CREATE TABLE `sys_log_PUT` (
-                           `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
-                           `type` char(1) DEFAULT '1' COMMENT '日志类型',
-                           `title` varchar(255) DEFAULT '' COMMENT '日志标题',
-                           `service_id` varchar(32) DEFAULT NULL COMMENT '服务 ID',
-                              `log_type` varchar(32) DEFAULT NULL COMMENT '日志类型',
-                           `remote_addr` varchar(255) DEFAULT NULL COMMENT '操作 IP 地址',
-                           `user_agent` varchar(1000) DEFAULT NULL COMMENT '用户代理',
-                           `request_uri` varchar(255) DEFAULT NULL COMMENT '请求 URI',
-                           `method` varchar(10) DEFAULT NULL COMMENT '操作方式',
-                           `params` text COMMENT '操作提交的数据',
-                           `time` mediumtext COMMENT '执行时间',
-                           `del_flag` char(1) DEFAULT '0' COMMENT '删除标记',
-                           `exception` text COMMENT '异常信息',
-                           `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-                           `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-                           `create_by` varchar(64) DEFAULT NULL COMMENT '创建人',
-                           `update_by` varchar(64) DEFAULT NULL COMMENT '更新人',
-                           PRIMARY KEY (`id`),
-                           KEY `sys_log_create_by` (`create_by`),
-                           KEY `sys_log_request_uri` (`request_uri`),
-                           KEY `sys_log_type` (`type`),
-                           KEY `sys_log_create_date` (`create_time`)
+    `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
+    `type` char(1) DEFAULT '1' COMMENT '日志类型',
+    `title` varchar(255) DEFAULT '' COMMENT '日志标题',
+    `service_id` varchar(32) DEFAULT NULL COMMENT '服务 ID',
+    `log_type` varchar(32) DEFAULT NULL COMMENT '日志类型',
+    `remote_addr` varchar(255) DEFAULT NULL COMMENT '操作 IP 地址',
+    `user_agent` varchar(1000) DEFAULT NULL COMMENT '用户代理',
+    `request_uri` varchar(255) DEFAULT NULL COMMENT '请求 URI',
+    `method` varchar(10) DEFAULT NULL COMMENT '操作方式',
+    `params` text COMMENT '操作提交的数据',
+    `time` mediumtext COMMENT '执行时间',
+    `del_flag` char(1) DEFAULT '0' COMMENT '删除标记',
+    `exception` text COMMENT '异常信息',
+    `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+    `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+    `create_by` varchar(64) DEFAULT NULL COMMENT '创建人',
+    `update_by` varchar(64) DEFAULT NULL COMMENT '更新人',
+    PRIMARY KEY (`id`),
+    KEY `sys_log_create_by` (`create_by`),
+    KEY `sys_log_request_uri` (`request_uri`),
+    KEY `sys_log_type` (`type`),
+    KEY `sys_log_create_date` (`create_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='日志表';
 
 CREATE TABLE `sys_log_DELETE` (
-                           `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
-                           `type` char(1) DEFAULT '1' COMMENT '日志类型',
-                           `title` varchar(255) DEFAULT '' COMMENT '日志标题',
-                           `service_id` varchar(32) DEFAULT NULL COMMENT '服务 ID',
-                              `log_type` varchar(32) DEFAULT NULL COMMENT '日志类型',
-                           `remote_addr` varchar(255) DEFAULT NULL COMMENT '操作 IP 地址',
-                           `user_agent` varchar(1000) DEFAULT NULL COMMENT '用户代理',
-                           `request_uri` varchar(255) DEFAULT NULL COMMENT '请求 URI',
-                           `method` varchar(10) DEFAULT NULL COMMENT '操作方式',
-                           `params` text COMMENT '操作提交的数据',
-                           `time` mediumtext COMMENT '执行时间',
-                           `del_flag` char(1) DEFAULT '0' COMMENT '删除标记',
-                           `exception` text COMMENT '异常信息',
-                           `create_time` datetime DEFAULT NULL COMMENT '创建时间',
-                           `update_time` datetime DEFAULT NULL COMMENT '更新时间',
-                           `create_by` varchar(64) DEFAULT NULL COMMENT '创建人',
-                           `update_by` varchar(64) DEFAULT NULL COMMENT '更新人',
-                           PRIMARY KEY (`id`),
-                           KEY `sys_log_create_by` (`create_by`),
-                           KEY `sys_log_request_uri` (`request_uri`),
-                           KEY `sys_log_type` (`type`),
-                           KEY `sys_log_create_date` (`create_time`)
+    `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
+    `type` char(1) DEFAULT '1' COMMENT '日志类型',
+    `title` varchar(255) DEFAULT '' COMMENT '日志标题',
+    `service_id` varchar(32) DEFAULT NULL COMMENT '服务 ID',
+    `log_type` varchar(32) DEFAULT NULL COMMENT '日志类型',
+    `remote_addr` varchar(255) DEFAULT NULL COMMENT '操作 IP 地址',
+    `user_agent` varchar(1000) DEFAULT NULL COMMENT '用户代理',
+    `request_uri` varchar(255) DEFAULT NULL COMMENT '请求 URI',
+    `method` varchar(10) DEFAULT NULL COMMENT '操作方式',
+    `params` text COMMENT '操作提交的数据',
+    `time` mediumtext COMMENT '执行时间',
+    `del_flag` char(1) DEFAULT '0' COMMENT '删除标记',
+    `exception` text COMMENT '异常信息',
+    `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+    `update_time` datetime DEFAULT NULL COMMENT '更新时间',
+    `create_by` varchar(64) DEFAULT NULL COMMENT '创建人',
+    `update_by` varchar(64) DEFAULT NULL COMMENT '更新人',
+    PRIMARY KEY (`id`),
+    KEY `sys_log_create_by` (`create_by`),
+    KEY `sys_log_request_uri` (`request_uri`),
+    KEY `sys_log_type` (`type`),
+    KEY `sys_log_create_date` (`create_time`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci ROW_FORMAT=DYNAMIC COMMENT='日志表';
 ```
 
-### 3. nacos/pig-upms-biz-dev.yml 添加配置
+### 3. 配置 Nacos
+
+在 `nacos/pig-upms-biz-dev.yml` 中添加配置：
 
 ```yaml
-# 数据源
 spring:
   datasource:
     driver-class-name: org.apache.shardingsphere.driver.ShardingSphereDriver
     url: jdbc:shardingsphere:classpath:sharding.yaml 
 ```
 
-### 3. pig-upms-biz/resources/sharding.yaml 
+### 4. 配置 ShardingSphere
+
+在 `pig-upms-biz/resources/sharding.yaml` 中添加配置：
 
 ```yaml
 dataSources:
@@ -176,12 +185,13 @@ props:
   sql-show: true
 ```
 
-### 4. 业务测试
+### 5. 业务测试
 
 <Warning>
-编辑角色、新增角色 查看数据库中日志表记录
+编辑角色、新增角色后查看数据库中日志表记录
 </Warning>
 
-## ❤  问题咨询
+## 问题咨询
+
 ![](/images/1662563973685-c22e9831-db66-42b5-973f-886d25d1e0e7.gif)
 

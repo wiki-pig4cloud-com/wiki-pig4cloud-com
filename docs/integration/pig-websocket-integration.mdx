@@ -1,22 +1,35 @@
 ---
-title: "websocket 简介"
+title: "pig 整合 WebSocket 通信"
+description: "了解如何在 Pig4Cloud 中使用 WebSocket 进行实时通信"
 ---
 
-<Card title="视频教程" icon="video" href="https://player.bilibili.com/player.html?bvid=BV12t411B7e9&p=36&page=36&autoplay=0">
-  点击观看 WebSocket 相关视频教程
-</Card>
+<iframe
+  src="https://player.bilibili.com/player.html?bvid=BV12t411B7e9&p=36&page=36&autoplay=0"
+  width="100%"
+  height="500"
+  scrolling="no"
+  border="0"
+  frameborder="no"
+  framespacing="0"
+  allowfullscreen="true">
+</iframe>
 
-# websocket 简介
+# WebSocket 概述
 
-WebSocket 协议在 2008 年诞生，2011 年成为国际标准。所有浏览器都已经支持了。
+WebSocket 是一种在单个 TCP 连接上进行全双工通信的协议。它于 2008 年诞生，2011 年成为国际标准，目前所有主流浏览器都已支持。
 
-它的最大特点就是，服务器可以主动向客户端推送信息，客户端也可以主动向服务器发送信息，是真正的双向平等对话，属于[服务器推送技术](https://en.wikipedia.org/wiki/Push_technology)的一种。
+## 主要特点
 
-![WebSocket 示意图](/images/1668404250586-a165fd51-9378-4d71-bfab-a5b9d038bd30.png)
+- 服务器可以主动向客户端推送信息
+- 客户端可以主动向服务器发送信息
+- 实现真正的双向平等对话
+- 属于服务器推送技术的一种
 
-# 上手使用
+![WebSocket 通信示意图](/images/1668404250586-a165fd51-9378-4d71-bfab-a5b9d038bd30.png)
 
-## ① 添加依赖
+# 快速开始
+
+## 添加依赖
 
 ```xml
 <dependency>
@@ -26,57 +39,63 @@ WebSocket 协议在 2008 年诞生，2011 年成为国际标准。所有浏览�
 </dependency>
 ```
 
-## ② 测试使用
+## 测试连接
 
 <Warning>
-使用 [websocket 在线测试工具调试](https://wstool.js.org/)
+建议使用 [WebSocket 在线测试工具](https://wstool.js.org/) 进行调试
 </Warning>
 
-![WebSocket 测试工具](/images/1698816912994-3c28de13-39de-404a-b399-be537303484d.png)
+![WebSocket 测试工具界面](/images/1698816912994-3c28de13-39de-404a-b399-be537303484d.png)
 
-+ 服务地址： 
+### 连接地址格式
 
 ```shell
-# 例如链接 upms 模块的 ws 接口 ws://127.0.0.1:9999/admin/ws/info?access_token=xxxx 
 ws://127.0.0.1:9999/路由前缀/ws/info?access_token=token
 ```
 
-# 进阶使用
+示例：
+```shell
+ws://127.0.0.1:9999/admin/ws/info?access_token=xxxx
+```
 
-## ① 服务端推送消息
+# 高级功能
+
+## 服务端消息推送
+
+使用 `WebSocketMessageSender` 工具类发送消息：
 
 ```java
-// 在服务端需要发送 ws 给客户端发送出，直接使用如下工具类发送
-WebSocketMessageSender.send(sessionKey,message)
+WebSocketMessageSender.send(sessionKey, message)
 ```
 
 <Warning>
-默认 sessionKey 为客户端登录的用户名，比如给 admin 用户发送就是   
+默认情况下，sessionKey 为客户端登录的用户名。例如，向 admin 用户发送消息：
   
-WebSocketMessageSender.send("admin","hello world")
+```java
+WebSocketMessageSender.send("admin", "hello world")
+```
 </Warning>
 
-## ② 个性化客户端消息处理
+## 消息处理
 
-+ 默认直接输出客户端请求的消息
+### 默认处理方式
 
-![消息处理示意图](/images/1668405374784-cef210f4-f49e-4f0d-928e-29fa947862e0.png)
+默认情况下，系统会直接输出客户端发送的消息。
 
-+ 注入 Spring PlanTextMessageHandler  实现即可
+![消息处理流程示意图](/images/1668405374784-cef210f4-f49e-4f0d-928e-29fa947862e0.png)
+
+### 自定义消息处理
+
+通过实现 `PlanTextMessageHandler` 接口来自定义消息处理逻辑：
 
 ```java
 @Service
 public class CustomPlanTextMessageHandler implements PlanTextMessageHandler {
 
-	/**
-	 * 普通文本消息处理
-	 * @param session 当前接收消息的 session
-	 * @param message 文本消息
-	 */
-	@Override
-	public void handle(WebSocketSession session, String message) {
-		log.info("sessionId {} ,msg {}", session.getId(), message);
-	}
+    @Override
+    public void handle(WebSocketSession session, String message) {
+        log.info("sessionId {} ,msg {}", session.getId(), message);
+    }
 
 }
 ```

@@ -1,10 +1,15 @@
 ---
-title: "进阶 - 单体使用"
+title: "PIG 单体架构部署指南"
 ---
 
-<Card title="详细文档" icon="link" href="https://www.yuque.com/docs/147533675#IrzMX">
-点击查看详细文档
-</Card>
+<iframe
+  width="100%"
+  height="500"
+  src="//player.bilibili.com/player.html?isOutside=true&aid=39687329&bvid=BV12t411B7e9&cid=1513528587&p=39"
+  title="PIG 单体架构部署视频教程"
+  frameborder="0"
+  allowfullscreen="true"
+></iframe>
 
 ## 架构设计
 ![](/images/1700533656634-26d87aae-31eb-44ce-a2e6-fc33e8184887.png)
@@ -35,14 +40,14 @@ pig
 │   ├── pig.sql
 ```
 
-### ④ 加载 pig-boot 模块
+### ③ 加载 pig-boot 模块
 <Note>
 切换 Maven profils 至 boot 
 </Note>
 
 ![](/images/1713334205920-02749b6a-3a0a-4dee-acec-e3df113266e1.png)
 
-### ③ 运行 upms 模块
+### ④ 运行 upms 模块
 <Note>
 修改 **pig-boot/application-dev.yml**，redis、mysql 链接信息
 </Note>

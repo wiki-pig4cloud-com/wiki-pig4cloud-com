@@ -1,0 +1,163 @@
+---
+title: "pig整合RabbitMQ消息队列"
+---
+
+[bilibili](https://player.bilibili.com/player.html?bvid=BV12t411B7e9&p=12&page=12)
+
+## ① 安装 RabbitMQ
+
+
++ docker 安装 rabbitmq
+
+
+
+```plain
+docker run -d -p 5672:5672 -p 15672:15672 --name rabbitmq rabbitmq:management
+```
+
+
+
+**访问 rabbitmq 管理台**
+
+
+
+```plain
+http://ip:15672
+```
+
+
+
+
+
++ 默认用户名密码  
+
+| 用户名 | 密码 |
+| --- | --- |
+| guest | guest |
+
+
+
+
+## ② 代码整合
+
+
++ 目标服务增加 amqp 依赖
+
+
+
+```xml
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-amqp</artifactId>
+		</dependency>
+```
+
+
+
++ nacos 对应的服务配置文件增加链接相关信息
+
+
+
+```plain
+spring:
+  rabbitmq:
+    host: 172.16.1.199
+    port: 5672
+    username: guest
+    password: guest
+```
+
+
+
++ 配置服务启动创建队列 hello
+
+
+
+```java
+@Configuration(proxyBeanMethods = false)
+public class RabbitQueueConfiguration {
+
+	/**
+	 * 启动时创建队列
+	 * @return
+	 */
+	@Bean
+	public Queue queue() {
+		return new Queue("hello");
+	}
+}
+```
+
+
+
++ 配置服务监听 hello 队列
+
+
+
+```java
+@Component
+public class RabbitQueueListener {
+
+	/**
+	 * 监听 hello 队列的处理器
+	 * @param message
+	 */
+	@RabbitListener(queues = "hello")
+	@RabbitHandler
+	public void onMessage(Message message) {
+		log.info("消费端Payload: " + message.getPayload().toString());
+	}
+}
+```
+
+
+
++ 代码中向指定队列发送消息
+
+
+
+```plain
+	@Autowired
+	private AmqpTemplate amqpTemplate;
+
+  amqpTemplate.convertAndSend("队列名称","信息");
+```
+
+## ③ 特殊说明
+
+
++ 在 MQ 消费监听逻辑中调用 Feign 
+
+
+
+A 服务并没有 token 去请求 B 服务，pig 也对这种情况进行了兼容。类似于 A 对外暴露 API，但是又安全限制。参考日志插入情况
+
+
+
+FeignClient 需要带一个请求 token,FROM_IN 声明是内部调用
+
+
+
+```java
+remoteLogService.saveLog(sysLog, SecurityConstants.FROM_IN);
+```
+
+
+
+目标接口对内外调用进行限制 [@Inner ](/Inner ) 注解，这样就避免接口对外暴露的安全问题。只能通过内部调用才能使用，浏览器不能直接访问该接口 
+
+
+
+```java
+@Inner
+@PostMapping
+public R save(@Valid @RequestBody SysLog sysLog) {
+    return new R<>(sysLogService.save(sysLog));
+}
+```
+
+
+
+## ❤  问题咨询
+![](https://cdn.nlark.com/yuque/0/2022/gif/283679/1662563973685-c22e9831-db66-42b5-973f-886d25d1e0e7.gif)
+

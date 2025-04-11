@@ -1,0 +1,44 @@
+---
+title: "注意修改 账户密码 为实际数值"
+---
+
+##  错误
+
+
+**服务启动后数据库报错 , 但是检查以后密码正确。**
+
+
+
+```xml
+Access denied for user 'root'@'localhost'(using password: YES)
+```
+
+## 解决方案
+
+
++ 检查数据库密码是否正确 ，使用 navicat 、mysql-client 等工具链接确认
++ 设置数据链接权限为 %  (允许其他IP 链接)
+
+![](https://cdn.nlark.com/yuque/0/2022/png/283679/1669362980548-e96575da-b3d0-41e8-9b89-0074a816e2c5.png)
+
+
+
+
+
+### 配置数据库权限
+```powershell
+mysql -u root -p
+
+USE mysql;
+
+update user set host='%' where user='root';
+
+# 注意修改 账户密码 为实际数值
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%';
+
+#刷新权限
+flush privileges;
+```
+
+![](https://cdn.nlark.com/yuque/0/2021/png/283679/1637116427387-f17296b9-1438-4cd6-b3e1-3fe3b05c84a6.png)
+

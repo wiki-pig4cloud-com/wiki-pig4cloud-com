@@ -1,0 +1,118 @@
+---
+title: "pig整合liteflow规则引擎"
+---
+
+## LiteFlow 简介
+LiteFlow 是一个轻量级的国产规则引擎框架，主要用于复杂的业务流程编排和规则编排。它提供了一种声明式的方式来定义和执行业务流程，支持复杂的条件判断、流程控制和节点组合。
+
+## 操作步骤
+### 1. 增加依赖
+在业务微服务（以 UPMS 为例）的 `pom.xml` 中添加 LiteFlow 依赖：
+
+```xml
+<dependency>
+    <groupId>com.yomahub</groupId>
+    <artifactId>liteflow-spring-boot-starter</artifactId>
+    <version>2.12.4.1</version>
+</dependency>
+```
+
+### 2. 增加配置
+在 Nacos 配置中心 `pig-upms-biz-dev.yml` 文件中添加 LiteFlow 配置：
+
+```yaml
+liteflow:
+  rule-source: config/*-rule.xml
+```
+
+### 3. 增加规则文件
+在项目的 `config` 目录下创建规则文件，例如 `demo-rule.xml`：
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<flow>
+    <chain name="ifChain">
+        THEN(
+            IF(x, a),
+            b
+        );
+    </chain>
+</flow>
+
+```
+
+### 4. 实现节点逻辑
+创建节点组件类，实现具体的业务逻辑：
+
+#### x 节点（条件判断节点）
+```java
+@Slf4j
+@Component("x")
+public class IfCmp extends NodeBooleanComponent {
+    @Override
+    public boolean processBoolean() throws Exception {
+        int requestData = getRequestData();
+        log.info("x node processing... requestData:{}", requestData);
+        return requestData == 1;
+    }
+}
+```
+
+#### a 节点（条件成立时执行）
+```java
+@Slf4j
+@Component("a")
+public class ACmp extends NodeComponent {
+    @Override
+    public void process() {
+        log.info("a node processing...");
+    }
+}
+```
+
+#### b 节点（默认执行或条件不成立时执行）
+```java
+@Slf4j
+@Component("b")
+public class BCmp extends NodeComponent {
+    @Override
+    public void process() {
+        log.info("b node processing...");
+    }
+}
+```
+
+### 5. 测试代码
+在控制器中添加测试接口：
+
+```java
+@Resource
+private FlowExecutor flowExecutor;
+
+@Inner(value = false)
+@SneakyThrows
+@RequestMapping("/test/{id}")
+public R test(@PathVariable Integer id) {
+    flowExecutor.execute("ifChain", id);
+    return R.ok();
+}
+```
+
+### 6. 测试结果
+#### 请求 `http://ip:port/admin/test/0`
+```plain
+[be48436b8cc64e3db81a76168c0c58e6]:CHAIN_NAME[ifChain] x<0>==>b<0>
+```
+
+#### 请求 `http://ip:port/admin/test/1`
+```plain
+[ec5df9e080034ce699f51bd487422412]:CHAIN_NAME[ifChain] x<0>==>a<0>==>b<0>
+```
+
+## 注意事项
+1. 确保所有节点组件都标注了 `@Component` 注解
+2. 节点名称需要与规则文件中的节点名称一致
+3. 规则文件需要放在配置的扫描目录下
+
+
+

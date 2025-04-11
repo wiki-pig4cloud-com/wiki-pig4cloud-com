@@ -1,0 +1,30 @@
+---
+title: "如何修改pig register启动端口"
+---
+
+![](https://cdn.nlark.com/yuque/0/2021/png/283679/1628472077550-ad87fde2-9cd7-41a1-8b8e-e9c3835e9dcc.png)
+
+
+
+
+
+## 问题
+pig-register 模块是直接运行的 nacos-console 模块，不是标准的springboot 启动过程**无法通过修改 application.yml 里面端口号 实现启动端口变更**。
+
+
+
+## 解决方案
+
+
+在 pig-register 启动 Main 方法增加
+
+
+
+```java
+System.setProperty("server.port","8080");
+```
+
+
+
+![](https://cdn.nlark.com/yuque/0/2021/png/283679/1628472209911-a781d249-67f7-4713-8a10-05208ef061c6.png)
+

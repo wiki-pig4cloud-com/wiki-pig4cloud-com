@@ -1,0 +1,116 @@
+---
+title: "单点案例 renren系统接入pig"
+---
+
+## 整体效果
+[此处为语雀卡片，点击链接查看](https://www.yuque.com/docs/14036158#puDxg)
+
+## 环境说明
+
+
++ pig 2.10
++ renren-security 4.0.0
+
+
+
+
+
+## 添加依赖和配置
++ PIG 客户端表 信息客户端
+
+```sql
+INSERT INTO `pig`.`sys_oauth_client_details` (`client_id`,`resource_ids`,`client_secret`,`scope`,`authorized_grant_types`,`web_server_redirect_uri`,`authorities`,`access_token_validity`,`refresh_token_validity`,`additional_information`,`autoapprove`) VALUES ('renren',NULL,'renren','server','refresh_token,authorization_code','http://localhost:8080/renren-admin/sso/login',NULL,43200,2592001,NULL,'true');
+```
+
++ renren-admin/pom.xm 
+
+
+
+```xml
+		<dependency>
+			<groupId>com.pig4cloud.shiro</groupId>
+			<artifactId>sso-sdk</artifactId>
+			<version>0.0.7</version>
+		</dependency>
+```
+
+
+
++ 增加配置 application.yml
+
+```yaml
+oauth2:
+  client:
+    client-id: renren
+    client-secret: renren
+    target-uri: http://localhost:${server.port}/renren-security  #登录后跳转到首页的地址
+    logout-uri: http://localhost:${server.port}/renren-security   #退出后跳转的地址
+    sso-server-uri: http://192.168.0.33:3000      #pig认证中心的地址
+    scope: server
+```
+
+## 新增配置OAuth2Realm
+
+
++ renren-admin/io.renren.modules.sys.shiro
+
+```java
+@Component
+public class OAuth2Realm extends UserRealm {
+    @Autowired
+    private SysUserDao sysUserDao;
+    @Autowired
+    private OAuth2SsoKit auth2SsoKit;
+    @Override
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+        OAuth2SsoAuthenticationToken oAuth2SsoAuthenticationToken = (OAuth2SsoAuthenticationToken) token;
+        Map<String, Object> map = auth2SsoKit.getAccessToken(oAuth2SsoAuthenticationToken.getCode());
+        String username  = (String) map.get(Constant.username);
+        SysUserEntity sysUser = sysUserDao.selectOne(Wrappers.<SysUserEntity>lambdaQuery().eq(SysUserEntity::getUsername,username));
+        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(sysUser, sysUser.getPassword(), ByteSource.Util.bytes(sysUser.getSalt()), getName());
+        oAuth2SsoAuthenticationToken.setUsername(sysUser.getUsername());
+        oAuth2SsoAuthenticationToken.setPassword(sysUser.getPassword().toCharArray());
+        return info;
+    }
+    @Override
+    public CredentialsMatcher getCredentialsMatcher() {
+        return (token, info) -> true;
+    }
+    @Override
+    public boolean supports(AuthenticationToken token) {
+        return token instanceof OAuth2SsoAuthenticationToken;
+    }
+}
+```
+
++ 配置 ShiroConfig
+
+![](https://cdn.nlark.com/yuque/0/2020/png/283679/1601977572787-3ed26630-eda4-49a0-9bc6-c047f5a27e44.png)
+
+![](https://cdn.nlark.com/yuque/0/2020/png/283679/1601977605304-c640af1a-a3d0-4919-899f-1c3c880d7a74.png)
+
+## 前端使用
+
+
+```shell
+http://localhost:8080/renren-admin/sso/login
+```
+
+## 退出逻辑
+```java
+    @ResponseBody
+    @RequestMapping(value = "logout", method = RequestMethod.GET)
+    public void logout() {
+        ssoKit.deleteToken();
+        ShiroUtils.logout();
+        ssoKit.logout();
+    }
+```
+
+![](https://cdn.nlark.com/yuque/0/2020/png/283679/1601979272644-934ef2b2-ddfc-4fdd-b68d-9cd0c6565240.png)
+
+
+
+## ❤  问题咨询
+![](https://cdn.nlark.com/yuque/0/2022/gif/283679/1662563973685-c22e9831-db66-42b5-973f-886d25d1e0e7.gif)
+

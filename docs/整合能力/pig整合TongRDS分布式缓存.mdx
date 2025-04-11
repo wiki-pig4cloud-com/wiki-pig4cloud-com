@@ -1,0 +1,101 @@
+---
+title: "pig整合TongRDS分布式缓存"
+---
+
+## **东方通 RDS 简介**
+TongRDS是一款高性能多并发分布式数据缓存中间件，为企业信息化系统提供数据信息的缓存、分享与同步功能。通过先进的内存分配算法，产品实现了基于内存方式的数据高性能读写、实时稳定数据同步、分布式部署等功能，满足企业分布式与高可用使用场景。TongRDS提供了高度兼容Redis的数据访问接口，并保持优于Redis的读写性能。
+
+![](https://cdn.nlark.com/yuque/0/2024/png/283679/1732002366360-576be7e2-1696-48bd-b9ea-e1d2275b333e.png)
+
+---
+
+## **软件获取**
+1. **下载地址**  
+[东方通 RDS 下载链接](https://pan.baidu.com/s/1ljBkdilh6GISM-dKLGQSLQ?pwd=s3z7)提取码：`s3z7`
+2. **解压安装包**  
+下载完成后，解压对应的安装包：
+
+```plain
+企业版 > 安装文件 > 绿色版
+```
+
+## **安装与运行**
+### **1. 安装并运行 TongRDS MC（控制中心）**
+1. 解压 MC 控制中心安装包：
+
+```bash
+tar -zxvf TongRDS-2.2.1.6.MC.tar.gz
+cd pcenter
+```
+
+2. 联系东方通商务获取授权文件（`licence`）。  
+
+![](https://cdn.nlark.com/yuque/0/2024/png/283679/1732002416108-9824e84b-8297-4ba8-b02e-c4312578c88d.png)
+
+3. 启动服务：
+
+```bash
+cd bin
+./StartServer.sh
+```
+
+### **2. 安装并运行 TongRDS Node（服务节点）**
+1. 解压服务节点安装包：
+
+```bash
+tar -zxvf TongRDS-2.2.1.6.Node.tar.gz
+cd pmemdb/bin
+```
+
+2. 启动服务节点：
+
+```bash
+./StartServer.sh
+```
+
+## **代码配置**
+### **1. 在 Nacos 配置文件中设置缓存连接**
+修改 `application-dev.yaml` 文件，设置东方通 RDS 服务地址：
+
+```yaml
+spring:
+  data:
+    redis:
+      host: <服务节点IP地址>
+      port: 6379
+```
+
+替换 `<服务节点IP地址>` 为实际的服务节点 IP。
+
+### **2. 示例代码**
+使用 Spring Data Redis 的示例代码：
+
+```java
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.stereotype.Service;
+
+@Service
+public class RedisService {
+    private final StringRedisTemplate redisTemplate;
+
+    public RedisService(StringRedisTemplate redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
+
+    public void setKey(String key, String value) {
+        redisTemplate.opsForValue().set(key, value);
+    }
+
+    public String getKey(String key) {
+        return redisTemplate.opsForValue().get(key);
+    }
+}
+```
+
+---
+
+## **注意事项**
+1. 确保防火墙开放了所需的端口（默认 6379）。
+2. 联系东方通获取并正确配置授权文件。
+3. 建议在生产环境中配置高可用集群以提高可靠性。
+

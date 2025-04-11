@@ -4,37 +4,27 @@ title: "pig ui 省市区级联选择"
 
 ## 安装
 
-
 执行 npm install element-china-area-data -S  
-或者 yarn add  element-china-area-data -S  
-![](https://minio.pigx.vip/oss/2022/03/77c1992ca6afe1a358d0c91b914ef286.png)
+或者 yarn add element-china-area-data -S  
 
-
+![安装截图](https://minio.pigx.vip/oss/2022/03/77c1992ca6afe1a358d0c91b914ef286.png)
 
 ## 使用
 
-
 使用时我们需要在页面根据需要 import，主要有下面六个数据或对象。
 
-
-
-1. provinceAndCityData 是省市二级联动数据（不带“全部”选项）
-2. regionData 是省市区三级联动数据（不带“全部”选项）
-3. provinceAndCityDataPlus 是省市区三级联动数据（带“全部”选项）
-4. regionDataPlus 是省市区三级联动数据（带“全部”选项），其中"全部"选项绑定的 value 是空字符串""
+1. provinceAndCityData 是省市二级联动数据（不带"全部"选项）
+2. regionData 是省市区三级联动数据（不带"全部"选项）
+3. provinceAndCityDataPlus 是省市区三级联动数据（带"全部"选项）
+4. regionDataPlus 是省市区三级联动数据（带"全部"选项），其中"全部"选项绑定的 value 是空字符串""
 5. CodeToText 是个大对象，属性是区域码，属性值是汉字 用法例如：CodeToText['110000']输出北京市
 6. TextToCode 是个大对象，属性是汉字，属性值是区域码 用法例如：TextToCode['北京市'].code 输出 110000,TextToCode['北京市']['市辖区'].code 输出 110100,TextToCode['北京市']['市辖区']['朝阳区'].code 输出 110105
 
-
-
-### 二级联动 (不带“全部”选项)
-
+### 二级联动 (不带"全部"选项)
 
 页面引入 provinceAndCityData，引入省市二级数据，其中 v-model 绑定的以及 change 时间传递的 value 均是区域码数组，如果我们需要将区域码转换为汉字，我们需要引入 TextToCode，同样，如果我们需要把汉字转为区域码，我们只需要引入 TextToCode  
-  
+
 **代码：**
-
-
 
 ```vue
 <template>
@@ -71,25 +61,18 @@ title: "pig ui 省市区级联选择"
 </script>
 ```
 
+**效果：** 
+![二级联动效果](https://minio.pigx.vip/oss/2022/03/d183304c1489b5c11e21c0294858e2e0.png)
 
-
-效果： 
-![](https://minio.pigx.vip/oss/2022/03/d183304c1489b5c11e21c0294858e2e0.png)
-
-
-
-### 二级联动 (带有“全部”选项)
-
+### 二级联动 (带有"全部"选项)
 
 页面引入 provinceAndCityDataPlus，引入省市二级数据 (带全部)，其中 v-model 绑定的以及 change 时间传递的 value 均是区域码数组，如果我们需要将区域码转换为汉字，我们需要引入 TextToCode，同样，如果我们需要把汉字转为区域码，我们只需要引入 TextToCode  
-  
+
 **代码：**
-
-
 
 ```vue
 <template>
-  <div >
+  <div>
     <el-cascader
       size="large"
       :options="provinceAndCityDataPlus"
@@ -122,20 +105,15 @@ title: "pig ui 省市区级联选择"
 </script>
 ```
 
+### 省市区三级联动（不带"全部"选项）
 
+页面引入 regionData，引入省市区三级数据 (不带全部)，其中 v-model 绑定的以及 change 时间传递的 value 均是区域码数组，如果我们需要将区域码转换为汉字，我们需要引入 TextToCode，同样，如果我们需要把汉字转为区域码，我们只需要引入 TextToCode  
 
-### 省市区三级联动（不带“全部”选项）
-
-
-页面引入 regionData  ，引入省市区三级数据 (不带全部)，其中 v-model 绑定的以及 change 时间传递的 value 均是区域码数组，如果我们需要将区域码转换为汉字，我们需要引入 TextToCode，同样，如果我们需要把汉字转为区域码，我们只需要引入 TextToCode  
-  
 **代码：**
-
-
 
 ```vue
 <template>
-  <div >
+  <div>
     <el-cascader
       size="large"
       :options="regionData"
@@ -169,16 +147,11 @@ title: "pig ui 省市区级联选择"
 </script>
 ```
 
+### 省市区三级联动（带"全部"选项）
 
+页面引入 regionDataPlus，引入省市区三级数据 (带全部)，其中 v-model 绑定的以及 change 时间传递的 value 均是区域码数组，如果我们需要将区域码转换为汉字，我们需要引入 TextToCode，同样，如果我们需要把汉字转为区域码，我们只需要引入 TextToCode  
 
-### 省市区三级联动（带“全部”选项）
-
-
-页面引入 regionDataPlus  ，引入省市区三级数据 (带全部)，其中 v-model 绑定的以及 change 时间传递的 value 均是区域码数组，如果我们需要将区域码转换为汉字，我们需要引入 TextToCode，同样，如果我们需要把汉字转为区域码，我们只需要引入 TextToCode  
-  
 **代码：**
-
-
 
 ```vue
 <template>
@@ -215,18 +188,14 @@ title: "pig ui 省市区级联选择"
 </script>
 ```
 
-
-
-**完整代码**:
-
-
+**完整代码：**
 
 ```vue
 <template>
   <div class="app-container calendar-list-container">
     <basic-container>
       <div>
-        二级联动 (不带“全部”选项)&nbsp;
+        二级联动 (不带"全部"选项)&nbsp;
         <el-cascader
           size="large"
           :options="provinceAndCityData"
@@ -238,7 +207,7 @@ title: "pig ui 省市区级联选择"
         {{ CodeToText[selectedOptions1[1]] }}
       </div>
       <div>
-        二级联动 (带有“全部”选项)&nbsp;
+        二级联动 (带有"全部"选项)&nbsp;
         <el-cascader
           size="large"
           :options="provinceAndCityDataPlus"
@@ -250,7 +219,7 @@ title: "pig ui 省市区级联选择"
         {{ CodeToText[selectedOptions2[1]] }}
       </div>
       <div>
-        三级联动 (不带“全部”选项)&nbsp;
+        三级联动 (不带"全部"选项)&nbsp;
         <el-cascader
           size="large"
           :options="regionData"
@@ -263,7 +232,7 @@ title: "pig ui 省市区级联选择"
         {{ CodeToText[selectedOptions3[2]] }}
       </div>
       <div>
-        三级联动 (带有“全部”选项)&nbsp;
+        三级联动 (带有"全部"选项)&nbsp;
         <el-cascader
           size="large"
           :options="regionDataPlus"
@@ -337,13 +306,10 @@ title: "pig ui 省市区级联选择"
 </style>
 ```
 
+**效果：** 
+![完整效果](https://minio.pigx.vip/oss/2022/03/6a17183153d320ac75ef80f7663b9323.png)
 
-
-效果： 
-![](https://minio.pigx.vip/oss/2022/03/6a17183153d320ac75ef80f7663b9323.png)
-
-
-
-## ❤  问题咨询
-![](https://cdn.nlark.com/yuque/0/2022/gif/283679/1662563973685-c22e9831-db66-42b5-973f-886d25d1e0e7.gif)
+<Card title="获取帮助" icon="help" href="/support">
+  如果您在使用过程中遇到任何问题，请点击此处获取帮助。
+</Card>
 

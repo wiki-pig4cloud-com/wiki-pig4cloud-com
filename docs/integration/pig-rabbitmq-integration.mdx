@@ -1,64 +1,49 @@
 ---
-title: "pig 整合 RabbitMQ 消息队列"
+title: "Pig 整合 RabbitMQ 消息队列"
+description: "在 Pig 框架中集成 RabbitMQ 消息队列的配置和使用指南"
 ---
 
-[bilibili](https://player.bilibili.com/player.html?bvid=BV12t411B7e9&p=12&page=12)
+<Note>
+本文档介绍如何在 Pig 框架中集成 RabbitMQ 消息队列，包括安装、配置和使用方法。
+</Note>
 
-## ① 安装 RabbitMQ
+## 安装 RabbitMQ
 
+### 1. Docker 安装
+使用 Docker 快速部署 RabbitMQ：
 
-+ docker 安装 rabbitmq
-
-
-
-```plain
+```shell
 docker run -d -p 5672:5672 -p 15672:15672 --name rabbitmq rabbitmq:management
 ```
 
-
-
-**访问 rabbitmq 管理台**
-
-
+### 2. 访问管理界面
+安装完成后，可以通过以下地址访问 RabbitMQ 管理界面：
 
 ```plain
 http://ip:15672
 ```
 
-
-
-
-
-+ 默认用户名密码  
-
+### 3. 默认登录信息
 | 用户名 | 密码 |
 | --- | --- |
 | guest | guest |
 
+## 代码集成
 
-
-
-## ② 代码整合
-
-
-+ 目标服务增加 amqp 依赖
-
-
+### 1. 添加依赖
+在目标服务中添加 AMQP 依赖：
 
 ```xml
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-amqp</artifactId>
-		</dependency>
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-amqp</artifactId>
+</dependency>
 ```
 
+### 2. 配置连接信息
+在 Nacos 配置文件中添加 RabbitMQ 连接信息：
 
-
-+ nacos 对应的服务配置文件增加链接相关信息
-
-
-
-```plain
+```yaml
 spring:
   rabbitmq:
     host: 172.16.1.199
@@ -67,86 +52,66 @@ spring:
     password: guest
 ```
 
-
-
-+ 配置服务启动创建队列 hello
-
-
+### 3. 配置队列
+创建队列配置类，在服务启动时自动创建队列：
 
 ```java
 @Configuration(proxyBeanMethods = false)
 public class RabbitQueueConfiguration {
-
-	/**
-	 * 启动时创建队列
-	 * @return
-	 */
-	@Bean
-	public Queue queue() {
-		return new Queue("hello");
-	}
+    /**
+     * 启动时创建队列
+     */
+    @Bean
+    public Queue queue() {
+        return new Queue("hello");
+    }
 }
 ```
 
-
-
-+ 配置服务监听 hello 队列
-
-
+### 4. 配置消息监听
+创建消息监听器，监听指定队列的消息：
 
 ```java
 @Component
 public class RabbitQueueListener {
-
-	/**
-	 * 监听 hello 队列的处理器
-	 * @param message
-	 */
-	@RabbitListener(queues = "hello")
-	@RabbitHandler
-	public void onMessage(Message message) {
-		log.info("消费端 Payload: " + message.getPayload().toString());
-	}
+    /**
+     * 监听 hello 队列的处理器
+     */
+    @RabbitListener(queues = "hello")
+    @RabbitHandler
+    public void onMessage(Message message) {
+        log.info("消费端 Payload: " + message.getPayload().toString());
+    }
 }
 ```
 
+### 5. 发送消息
+在代码中使用 `AmqpTemplate` 发送消息：
 
+```java
+@Autowired
+private AmqpTemplate amqpTemplate;
 
-+ 代码中向指定队列发送消息
-
-
-
-```plain
-	@Autowired
-	private AmqpTemplate amqpTemplate;
-
-  amqpTemplate.convertAndSend("队列名称","信息");
+// 发送消息
+amqpTemplate.convertAndSend("队列名称", "信息");
 ```
 
-## ③ 特殊说明
+## 特殊说明
 
+### 1. 内部服务调用
+在 MQ 消费监听逻辑中调用 Feign 服务时，需要注意以下事项：
 
-+ 在 MQ 消费监听逻辑中调用 Feign 
+<Warning>
+服务 A 可能没有 token 去请求服务 B，Pig 框架对此情况进行了兼容处理。
+</Warning>
 
-
-
-A 服务并没有 token 去请求 B 服务，pig 也对这种情况进行了兼容。类似于 A 对外暴露 API，但是又安全限制。参考日志插入情况
-
-
-
-FeignClient 需要带一个请求 token,FROM_IN 声明是内部调用
-
-
+1. 在 FeignClient 中声明内部调用：
 
 ```java
 remoteLogService.saveLog(sysLog, SecurityConstants.FROM_IN);
 ```
 
-
-
-目标接口对内外调用进行限制 [@Inner ](/Inner ) 注解，这样就避免接口对外暴露的安全问题。只能通过内部调用才能使用，浏览器不能直接访问该接口 
-
-
+2. 在目标接口上添加 `@Inner` 注解，限制只能通过内部调用访问：
 
 ```java
 @Inner
@@ -156,7 +121,9 @@ public R save(@Valid @RequestBody SysLog sysLog) {
 }
 ```
 
-
+<Note>
+使用 `@Inner` 注解可以避免接口对外暴露的安全问题，确保只能通过内部调用访问。
+</Note>
 
 ## ❤  问题咨询
 ![](https://cdn.nlark.com/yuque/0/2022/gif/283679/1662563973685-c22e9831-db66-42b5-973f-886d25d1e0e7.gif)

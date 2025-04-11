@@ -1,31 +1,27 @@
 ---
-title: "pig 实现接口防刷验证码"
+title: "Pig 实现接口防刷验证码"
+description: "实现接口防刷验证码的配置和使用指南"
 ---
 
-[此处为语雀卡片，点击链接查看](https://www.yuque.com/docs/70086105#impob)
+<Note>
+本文档介绍如何在 Pig 框架中实现接口防刷验证码功能。命中爬虫和防盗刷规则后，会阻断请求，并生成解除阻断的验证码，验证码有多种组合方式，如果客户端可以正确输入验证码，则可以继续访问。
+</Note>
 
-## 背景
-
-
-<font style="color:rgb(64, 72, 91);">命中爬虫和防盗刷规则后，会阻断请求，并生成接除阻断的验证码，验证码有多种组合方式，如果客户端可以正确输入验证码，则可以继续访问</font>
-
-## ![](https://cdn.nlark.com/yuque/0/2022/png/283679/1647683765293-897ad579-b038-4b75-b362-8e27467d0a99.png)
 ## 代码使用
-+ p 在 pig-upms-biz 中引入依赖。
 
+### 1. 引入依赖
+在 `pig-upms-biz` 中引入依赖：
 
-
-```plain
+```xml
 <dependency>
-		<groupId>com.pig4cloud.plugin</groupId>
-		<artifactId>anti-reptile-spring-boot-starter</artifactId>
-		<version>0.0.3</version>
+    <groupId>com.pig4cloud.plugin</groupId>
+    <artifactId>anti-reptile-spring-boot-starter</artifactId>
+    <version>0.0.3</version>
 </dependency>
 ```
 
-
-
-+ 在 nacos 配置文件中加入配置
+### 2. 配置 Nacos
+在 Nacos 配置文件中加入配置：
 
 ```yaml
 anti:
@@ -39,11 +35,8 @@ spring:
     address: redis://127.0.0.1:6379
 ```
 
-+ pig-ui 配置异常拦截
-
-在 pig-ui 的 src/router/axios 的 HTTPresponse 拦截器中添加异常拦截的配置，完整代码如下：
-
-
+### 3. 配置 Pig-UI 异常拦截
+在 pig-ui 的 `src/router/axios` 的 HTTPresponse 拦截器中添加异常拦截的配置：
 
 ```javascript
 // HTTPresponse 拦截
@@ -94,28 +87,13 @@ axios.interceptors.response.use(
 );
 ```
 
+### 4. 配置接口权限
+在 Nacos 的 `application-dev.yml` 中添加相应配置，放开验证码回调接口的权限。
 
+## 配置说明
+所有配置均以 `anti.reptile` 为前缀。
 
-+ pig 放开相应接口权限
-    - [ ] 因为在填写验证码之后，anti-reptile 会进行回调，所以我们要放开相应接口的权限，将其放行。
-
-在 nacos 的 application-dev.yml 中添加如下配置：![](https://minio.pigx.vip/oss/2022/03/d237661fc130cfc89d4fa5c6d48dcecc.png)
-
-
-
-+ 进行测试
-
-
-
-![](https://minio.pigx.vip/oss/2022/03/f8dedebda8d2bcf1df65919a57c805b6.png)  
-![](https://minio.pigx.vip/oss/2022/03/1b3488192abe34185a12e8c3c81eeef9.png)  
-击中反爬规则后弹出验证码，正确填写验证码之后可以访问后端接口。
-
-
-
-更多配置 所有配置均以<font style="color:rgba(0, 0, 0, 0.8);background-color:rgb(247, 247, 249);">anti.reptile 为前缀。</font>
-
-| NAME | 描述 | 默认值 | 示例 |
+| 配置项 | 描述 | 默认值 | 示例 |
 | --- | --- | --- | --- |
 | enabled | 是否启用反爬虫插件 | true | true |
 | globalFilterMode | 是否启用全局拦截模式 | false | true |
@@ -132,178 +110,34 @@ axios.interceptors.response.use(
 | ua-rule.allowed-iot | 是否允许物联网设备访问 | false | false |
 | ua-rule.allowed-proxy | 是否允许代理访问 | false | false |
 
+## 实现原理
 
----
+<Note>
+我们引入依赖之后，实际上是通过 Spring Boot 自动装配了 AntiReptileAutoConfig 配置类。该类 Import 了 RedissonAutoConfig 和 WebMvcConfig 两个配置类。
+</Note>
 
-## 原理
-我们引入依赖之后，实际上是通过 springboot 自动装配了 AntiReptileAutoConfig 配置类![](https://minio.pigx.vip/oss/2022/03/040ffff0ee75628d80c4c2fa2715ba3b.png)  
-该类 Import 了 RedissonAutoConfig 和 WebMvcConfig 两个配置类。RedissonAutoConfig 主要实现了对 RedissonClient 的配置并注入容器，而 WebMvcConfig 的作用是调用 addInterceptors 方法添加了拦截器 AntiReptileInterceptor。
+### 核心组件
 
-再来看 AntiReptileAutoConfig 里面，AntiReptileAutoConfig 里面一共向容器注入了 8 个 bean。
+1. **ServletRegistrationBean**
+   - 注册 ValidateFormServlet，拦截 `/kk-anti-reptile/validate` 路径
+   - 处理验证码验证请求
 
-+ ServletRegistrationBean
+2. **IpRule**
+   - 实现 IP 级别的反爬规则
+   - 支持白名单配置
+   - 支持请求频率限制
 
+3. **UaRule**
+   - 实现 User-Agent 级别的反爬规则
+   - 支持设备类型过滤
+   - 支持代理检测
 
+4. **VerifyImageUtil**
+   - 生成验证码图片
+   - 管理验证码缓存
 
-```plain
- @Bean
-    public ServletRegistrationBean validateFormServlet() {
-        return new ServletRegistrationBean(new ValidateFormServlet(), AntiReptileConsts.VALIDATE_REQUEST_URI);
-    }
-```
+<Warning>
+User-Agent 是终端的身份标识，服务器可以通过它判断请求来源。某些爬虫可能会伪造 User-Agent，因此需要结合其他规则进行防护。
+</Warning>
 
-
-
-通过 ServletRegistrationBean，可以达到向 springboot 内注册 servlet 的作用，因为 servlet 可拦截指定 url 路径，添加自定义操作。 [Spring Boot 注册 Servlet 的三种方法](https://www.cnblogs.com/javastack/archive/2019/05/07/10823558.html)   
-  
-自定义的 ValidateFormServlet 拦截 url/kk-anti-reptile/validate，主要通过 doPost 方法调用了 ValidateFormService 的 validate 方法。validate 中解析请求正文内容，获取输入域的值，然后从 redis 中获取验证码与输入的值进行比较。比较通过，会调用 RuleActuator 的 reset 重置已记录规则，AntiReptileRule 接口有两个实现类 IpRule 和 UaRule。其中 IpRule 会根据 ip 清除计数器，解除访问限制。回到 dopost 方法，会将表单校验结果写入响应。
-
-
-
-+ ServletRegistrationBean
-
-
-
-```plain
-@Bean
-    public ServletRegistrationBean refreshFormServlet() {
-        return new ServletRegistrationBean(new RefreshFormServlet(), AntiReptileConsts.REFRESH_REQUEST_URI);
-    }
-```
-
-
-
-自定义的 RefreshFormServlet 拦截 url:/kk-anti-reptile/refresh，主要通过 doPost 方法调用了 ValidateFormService 的 refresh 方法，refresh 方法会获取请求中的 verifyId，根据 verifyId 删除缓存中的验证码然后重新生成验证码并写入缓存。最后将新生成的验证码信息写入相应。
-
-
-
-+ ipRule
-
-
-
-```plain
-    @Bean
-    @ConditionalOnProperty(prefix = "anti.reptile.manager.ip-rule",value = "enabled", havingValue = "true", matchIfMissing = true)
-    public IpRule ipRule(){
-        return new IpRule();
-    }
-```
-
-
-
-默认向容器内注入 IpRule，IpRule 中主要的三个方法 doExecute、reset、getOrder 分别的作用是反爬规则具体实现、重置已记录规则、设置规则优先级。
-
-
-
-1. doExecute 方法会获取当前请求 ip 并判断判断是否在 ip 白名单，如果不在白名单会判断请求数量是否大于最高 expirationTime 时间内请求数或者已经命中。方法返回 true 为击中反爬规则。
-2. reset 方法会清除 redis 中的记录来达到接触访问限制的作用。
-3. getOrder 方法返回了一个 0，表示规则优先级会在后面用到。
-
-
-
-+ UaRule
-
-
-
-```plain
- @Bean
-    @ConditionalOnProperty(prefix = "anti.reptile.manager.ua-rule",value = "enabled", havingValue = "true", matchIfMissing = true)
-    public UaRule uaRule() {
-        return new UaRule();
-    }
-```
-
-
-
-UaRule 中主要的三个方法 doExecute、reset、getOrder 的作用和 IpRule 相同。
-
-
-
-> User Agent 中文名为用户代理，简称 UA，它是一个特殊字符串头，使得服务器能够识别客户使用的操作系统及版本、CPU 类型、浏览器及版本、浏览器渲染引擎、浏览器语言、浏览器插件等。一些网站常常通过判断 UA 来给不同的操作系统、不同的浏览器发送不同的页面，因此可能造成某些页面无法在某个浏览器中正常显示，但通过伪装 UA 可以绕过检测。  
-  
-在网络请求当中，User-Agent 是标明身份的一种标识，服务器可以通过请求头参数中的 User-Agent 来判断请求方是否是浏览器、客户端程序或者其他的终端（当然，User-Agent 的值为空也是允许的，因为它不是必要参数）。  
-  
-从上面的介绍中，可以看出它是终端的身份标识。意味着服务器可以清楚的知道，这一次的请求是通过火狐浏览器发起的，还是通过 IE 浏览器发起的，甚至说是否是应用程序（比如 Python）发起的。因为编程语言都有默认的标识，在发起网络请求的时候，这个标识在你毫不知情的情况下，作为请求头参数中的 User-Agent 值一并发送到服务器。比如 Python 语言通过代码发起网络请求时，User-Agent 的值中就包含 Python。同样的，Java 和 PHP 这些语言也都有默认的标识。
->
-
-
-
-1. doExecute 方法主要通过判断请求是否命中了 UaRule。
-2. reset 方法此处没有进行实现，直接 return.
-3. getOrder 方法返回了一个 1，表示规则优先级会在后面用到。
-
-
-
-+ VerifyImageUtil
-
-
-
-```plain
- @Bean
-    public VerifyImageUtil verifyImageUtil() {
-        return new VerifyImageUtil();
-    }
-```
-
-
-
-VerifyImageUtil 提供了生成验证码以及对验证码进行缓存操作的一些方法。
-
-
-
-+ RuleActuator
-
-
-
-```plain
- @Bean
-    public RuleActuator ruleActuator(final List<AntiReptileRule> rules){
-        final List<AntiReptileRule> antiReptileRules = rules.stream()
-                .sorted(Comparator.comparingInt(AntiReptileRule::getOrder)).collect(Collectors.toList());
-        return new RuleActuator(antiReptileRules);
-    }
-```
-
-
-
-RuleActuator 的构造入参为我们上面注入的两个 Rule Bean，该类提供了两个方法，isAllowed 方法通过遍历调用我们上面配置的 Rule Bean 的父类 execute 方法来执行 doExecute 方法。reset 方法通过遍历调用我们上面配置的 Rule Bean 的 reset 方法来执行 reset 方法。
-
-
-
-+ ValidateFormService
-
-
-
-```plain
- @Bean
-    public ValidateFormService validateFormService(){
-        return new ValidateFormService();
-    }
-```
-
-
-
-ValidateFormService 这个类在前面提到了，主要是被我们前面注入的 Servlet 调用，提供 validate、和 refresh 方法。
-
-
-
-+ AntiReptileInterceptor
-
-
-
-```plain
-  @Bean
-    public AntiReptileInterceptor antiReptileInterceptor() {
-        return new AntiReptileInterceptor();
-    }
-```
-
-
-
-在一开始的时候，自动配置类就 import 了 WebMvcConfig 配置类，在 WebMvcConfig 配置类中添加了该拦截器。添加此拦截器之后，请求前会先执行该拦截器的 preHandle 方法，该方法调用了 isIntercept 方法，isIntercept 方法通过判断是否配置了全局过滤器模式、请求方法是否含有 AntiReptile 注解、是否被配置的 url 包含来判断是否拦截。同时 preHandle 方法根据我们前面提到的 RuleActuator 的 isAllowed 方法来判断是否放行请求。若不放行，通过 verifyImageUtil 生成验证码并写入响应。
-
-
-
-## ❤  问题咨询
-![](https://cdn.nlark.com/yuque/0/2022/gif/283679/1662563973685-c22e9831-db66-42b5-973f-886d25d1e0e7.gif)
 

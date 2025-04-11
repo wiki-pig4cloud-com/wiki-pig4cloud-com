@@ -4,7 +4,7 @@ title: "Pig 整合邮件发送"
 
 ## 简介
 
-我们利用 spring-boot 的子模块[spring-boot-starter-mail-starter](https://github.com/spring-projects/spring-boot/tree/main/spring-boot-project/spring-boot-starters/spring-boot-starter-mail)就可以方便的进行邮件的整合与发送
+我们利用 spring-boot 的子模块 [spring-boot-starter-mail-starter](https://github.com/spring-projects/spring-boot/tree/main/spring-boot-project/spring-boot-starters/spring-boot-starter-mail) 就可以方便的进行邮件的整合与发送。
 
 ## 使用
 
@@ -20,7 +20,7 @@ title: "Pig 整合邮件发送"
 
 ## 配置
 
-正常情况下，发送邮件以下四项为必须配置的内容：
+### 必需配置
 
 | 配置项 | 默认值 | 说明 |
 | --- | --- | --- |
@@ -29,7 +29,7 @@ title: "Pig 整合邮件发送"
 | spring.mail.username | | SMTP 服务器登录用户名 |
 | spring.mail.password | | SMTP 服务器登录密码 |
 
-以下是一些不常用的配置：
+### 可选配置
 
 | 配置项 | 默认值 | 说明 |
 | --- | --- | --- |
@@ -39,7 +39,7 @@ title: "Pig 整合邮件发送"
 
 ## 发送邮件
 
-注入`org.springframework.mail.MailSender`对象即可轻松地发送邮件，示例代码如下：
+注入 `org.springframework.mail.MailSender` 对象即可轻松地发送邮件，示例代码如下：
 
 ```java
 import lombok.RequiredArgsConstructor;
@@ -73,6 +73,5 @@ public class EmailTriggerService {
 
 如有问题，请通过官方渠道咨询。
 
-## ❤  问题咨询
-![](https://cdn.nlark.com/yuque/0/2022/gif/283679/1662563973685-c22e9831-db66-42b5-973f-886d25d1e0e7.gif)
+![问题咨询](https://cdn.nlark.com/yuque/0/2022/gif/283679/1662563973685-c22e9831-db66-42b5-973f-886d25d1e0e7.gif)
 

@@ -1,53 +1,61 @@
 ---
-title: "X86 默认用户 SYSDBA/SYSDBA"
+title: "Pig 整合达梦数据库"
+description: "在 Pig 框架中使用达梦数据库的配置和使用指南"
 ---
 
-## <font style="color:rgb(38, 38, 38);"> ① 背景</font>
-默认情况下 , pig 仅提供的 MySQL 的数据库脚本，很多同学咨询是否能够提供 PG、国产化等等各种数据库的支持，答案： **<font style="color:#DF2A3F;">必须支持</font>**。
+<Note>
+默认情况下，Pig 仅提供 MySQL 的数据库脚本。本文档介绍如何将 Pig 迁移到使用达梦数据库。
+</Note>
 
-:::warning
-为了 SQL 的准确性、实时性，其他类型的数据库脚本，**<font style="color:#DF2A3F;">需要开发者基于 PIG MYSQL 版本转换一下</font>**，本文档以 达梦数据库为例；
+<Warning>
+为了 SQL 的准确性、实时性，其他类型的数据库脚本需要开发者基于 Pig MySQL 版本进行转换。本文档以达梦数据库为例。
+</Warning>
 
-:::
+## 安装达梦数据库
 
-##   ② 安装达梦
-### 2.1 Docker 运行 DM8
+### 1. Docker 运行 DM8
+使用 Docker 快速部署达梦数据库：
+
 ```shell
-# X86 默认用户 SYSDBA/SYSDBA
+# X86 架构
 docker run -p 5236:5236 registry.cn-hangzhou.aliyuncs.com/dockerhub_mirror/dm:8
 
-# ARM 默认用户 SYSDBA/SYSDBA
+# ARM 架构
 docker run -p 5236:5236 registry.cn-hangzhou.aliyuncs.com/dockerhub_mirror/dm:8-arm64
 ```
 
-### <font style="color:rgb(38, 38, 38);">2.2  安装 SQLark</font>
-<font style="color:rgb(38, 38, 38);">SQLark 是一款面向信创应用开发者的数据库开发管理、数据库迁移 工具，用于快速查询、创建和管理不同类型的数据库系统，现已支持达梦、Oracle 和 MySQL 数据库。</font>
+<Note>
+默认用户名为 SYSDBA，密码为 SYSDBA
+</Note>
 
-[SQLark-信创数据库开发，用百灵](https://www.sqlark.com/)
+### 2. 安装 SQLark
+SQLark 是一款面向信创应用开发者的数据库开发管理、数据库迁移工具，用于快速查询、创建和管理不同类型的数据库系统，现已支持达梦、Oracle 和 MySQL 数据库。
 
-虽然安装达梦会自动安装 DTS (达梦自身的迁移工具) 和图形化管理工具，但是之前的 UI 和操作性太差了并不支持 MacOS；目前达梦又搞了 SQLark，笔者用起来挺好的，并且整合了数据迁移工具。
+<Card title="SQLark 下载" href="https://www.sqlark.com/">
+  虽然安装达梦会自动安装 DTS（达梦自身的迁移工具）和图形化管理工具，但之前的 UI 和操作性较差且不支持 MacOS。SQLark 提供了更好的用户体验，并整合了数据迁移工具。
+</Card>
 
-![](https://cdn.nlark.com/yuque/0/2024/png/283679/1732329067575-d3756054-0f9a-48c9-b444-1345bc14d516.png)
+### 3. 数据迁移
+按照以下步骤进行数据迁移：
 
-###   2.3  数据迁移
-1. 先创建达梦数据库链接
+1. 创建达梦数据库链接
 2. 点击 SQLark 的数据迁移
 3. 创建迁移评估
-4. 链接源数据库（MYSQL）
-5. 选择待迁移的数据库（pig/pig_config）, <font style="color:#DF2A3F;">迁移成功会自动创建 PIG/PIG_CONFIG 的达梦数据库</font>
-6. 注意关闭检查
-7. 注意迁移进度，由于 quartz 的数据结构外键 不适配达梦，有点不兼容可以忽略
+4. 链接源数据库（MySQL）
+5. 选择待迁移的数据库（pig/pig_config）
+6. 关闭检查
+7. 执行迁移
 
+<Warning>
+迁移成功会自动创建 PIG/PIG_CONFIG 的达梦数据库。由于 quartz 的数据结构外键不适配达梦，可能会有一些不兼容的情况，可以忽略。
+</Warning>
 
+## 应用配置
 
-![](https://cdn.nlark.com/yuque/0/2024/png/283679/1732331372684-551072c3-b9ce-4274-8a5c-049e250b161b.png)
+### 1. 配置 Nacos
+在 `pig-register` 模块中：
 
-![](https://cdn.nlark.com/yuque/0/2024/png/283679/1732332106399-1ee8cf7c-5820-4062-af31-5e8a9a79c4c8.png)
-
-## ③ 应用修改
-### 3.1 pig-register
-+ 默认 nacos 应用需要引入相关的达梦驱动、达梦适配插件
-
+1. 添加依赖：
 ```xml
 <!--达梦数据库 nacos 插件-->
 <dependency>
@@ -64,8 +72,7 @@ docker run -p 5236:5236 registry.cn-hangzhou.aliyuncs.com/dockerhub_mirror/dm:8-
 </dependency>
 ```
 
-+ 配置 nacos 数据库链接信息
-
+2. 配置数据库连接：
 ```yaml
 db:
   num: 1
@@ -77,16 +84,16 @@ db:
     config:
       driver-class-name: dm.jdbc.driver.DmDriver
 
-# 配置数据库：dameng（属性默认 mysql 注意修改 dameng）
 spring:
   sql:
     init:
       platform: dameng
 ```
 
-### 3.2 应用微服务增加达梦
-+ pig-upms-biz、pig-codegen、pig-quartz 所有链接数据库的模块增加达梦驱动
+### 2. 配置微服务
+在 `pig-upms-biz`、`pig-codegen`、`pig-quartz` 等模块中：
 
+1. 添加达梦驱动依赖：
 ```xml
 <!--达梦数据库驱动-->
 <dependency>
@@ -96,8 +103,7 @@ spring:
 </dependency>
 ```
 
-+ 修改 nacos/pig-upms-biz-dev.yml、pig-codegen-dev.yml、pig-quartz-dev.yml  **JdbcURL**
-
+2. 修改数据库连接配置：
 ```yaml
 spring:
   datasource:
@@ -108,8 +114,7 @@ spring:
     url: jdbc:dm://127.0.0.01:5236?schema=PIG
 ```
 
-+ pig-codegen/pom.xml 增加 anyline 达梦插件依赖读取数据元数据
-
+3. 在 `pig-codegen` 模块中添加元数据读取依赖：
 ```xml
 <dependency>
   <groupId>org.anyline</groupId>
@@ -118,6 +123,6 @@ spring:
 </dependency>
 ```
 
-## ④ 访问测试
-![](https://cdn.nlark.com/yuque/0/2023/png/283679/1700527095040-b7284663-dc53-4c11-a0c2-7b59c1cd2a08.png)
+## 测试验证
+完成以上配置后，启动应用并验证数据库连接是否正常。可以通过访问系统管理模块，查看用户、角色等数据是否正确显示。
 

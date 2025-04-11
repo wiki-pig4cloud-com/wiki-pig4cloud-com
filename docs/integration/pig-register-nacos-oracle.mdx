@@ -2,42 +2,31 @@
 title: "pig register nacos 支持 oracle 存储"
 ---
 
-[bilibili](https://player.bilibili.com/player.html?bvid=BV1sM411h7t8)
+<Card title="视频教程" icon="video" href="https://player.bilibili.com/player.html?bvid=BV1sM411h7t8">
+  点击观看视频教程
+</Card>
 
 Nacos 从 2.2.0 版本开始，可通过 SPI 机制注入多数据源实现插件，并在引入对应数据源实现后，便可在 Nacos 启动时通过读取 application.properties 配置文件中 spring.datasource.platform 配置项选择加载对应多数据源插件。
 
-
-
 ![](https://minio.pigx.vip/oss/202212/1671179590.jpg)
 
-
-
-> Nacos 官方默认实现 MySQL、Derby，其他类型数据库接入需要参考下文自己扩展。
->
-
-
+<Note>
+Nacos 官方默认实现 MySQL、Derby，其他类型数据库接入需要参考下文自己扩展。
+</Note>
 
 ![](https://minio.pigx.vip/oss/202212/1671180565.png)
 
-
-
 ## 自定义 oracle 插件
-
 
 ### 1. 添加 oracle 插件
 
-
-:::warning
+<Warning>
 源码地址： [https://github.com/pig-mesh/nacos-datasource-plugin-oracle](https://github.com/pig-mesh/nacos-datasource-plugin-oracle)
+</Warning>
 
-:::
-
-
-
-> 依赖已上传 maven 中央仓库，请勿使用阿里云代理
->
-
-
+<Note>
+依赖已上传 maven 中央仓库，请勿使用阿里云代理
+</Note>
 
 ```xml
 <dependency>
@@ -53,17 +42,11 @@ Nacos 从 2.2.0 版本开始，可通过 SPI 机制注入多数据源实现插�
 </dependency>
 ```
 
-
-
 ### 2. 导入 nacos oracle 数据库脚本
-
 
 [点击下载 nacos oracle 脚本](https://github.com/pig-mesh/nacos-datasource-plugin-oracle/tree/master/sql)
 
-
-
 ### 3. 配置 nacos 数据源链接信息
-
 
 ```yaml
 db:
@@ -75,10 +58,7 @@ db:
   pool.config.connection-test-query: 'SELECT 1 FROM DUAL'
 ```
 
-
-
 ### 4. 指定 nacos 数据源平台
-
 
 ```yaml
 spring:
@@ -86,18 +66,10 @@ spring:
     platform: oracle
 ```
 
-
-
 ![](https://minio.pigx.vip/oss/202212/1671184577.png)
 
-
-
->  
->
-
->  
->
-> 源码地址：[https://github.com/pig-mesh/nacos-datasource-plugin-oracle](https://github.com/pig-mesh/nacos-datasource-plugin-oracle)  插件加入到 pig-register 即可使用  
-[https://github.com/pig-mesh/pig](https://github.com/pig-mesh/pig) **点击 Star 关注更新，基于 Spring Cloud 2022、Spring Boot 3、Spring Authorization Server 的微服务平台**
->
+<Note>
+源码地址：[https://github.com/pig-mesh/nacos-datasource-plugin-oracle](https://github.com/pig-mesh/nacos-datasource-plugin-oracle) 插件加入到 pig-register 即可使用  
+[https://github.com/pig-mesh/pig](https://github.com/pig-mesh/pig) 点击 Star 关注更新，基于 Spring Cloud 2022、Spring Boot 3、Spring Authorization Server 的微服务平台
+</Note>
 

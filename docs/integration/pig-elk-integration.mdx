@@ -1,29 +1,22 @@
 ---
-title: "进入 logstash 容器"
+title: "Pig 整合 ELK 日志系统"
+description: "在 Pig 框架中集成 ELK（Elasticsearch、Logstash、Kibana）日志系统的配置和使用指南"
 ---
 
-ELK 即 Elasticsearch、Logstash、Kibana，组合起来可以搭建线上日志系统，在目前这种分布式微服务系统中，通过 ELK 会非常方便的查询和统计日志情况。
+<Note>
+ELK 即 Elasticsearch、Logstash、Kibana，组合起来可以搭建线上日志系统。在分布式微服务系统中，通过 ELK 可以非常方便地查询和统计日志情况。
+</Note>
 
+## ELK 组件说明
 
-
-本文以 pig 的 upms 模块为例
-
-
-
-+ Elasticsearch:用于存储收集到的日志信息；
-+ Logstash:用于收集日志，应用整合了 Logstash 以后会把日志发送给 Logstash,Logstash 再把日志转发给 Elasticsearch；
-+ Kibana:通过 Web 端的可视化界面来查看日志。
-
-
-
-![](https://cdn.nlark.com/yuque/0/2022/png/283679/1648973343218-b7a18b2f-0fe2-4cbf-b0f3-545482fa672f.png)
-
-
+- **Elasticsearch**: 用于存储收集到的日志信息
+- **Logstash**: 用于收集日志，应用整合了 Logstash 以后会把日志发送给 Logstash，Logstash 再把日志转发给 Elasticsearch
+- **Kibana**: 通过 Web 端的可视化界面来查看日志
 
 ## 搭建 ELK 环境
-### 
-### ① 编写 docker-compose.yml 脚本启动 ELK 服务
 
+### 1. 编写 docker-compose.yml
+创建 `docker-compose.yml` 文件，配置 ELK 服务：
 
 ```yaml
 version: '3'
@@ -64,30 +57,18 @@ services:
       - 4560:4560
 ```
 
+### 2. 创建挂载目录
+创建必要的挂载目录并设置权限：
 
-
-### ② 创建对应容器挂载目录
-
-
-```plain
+```shell
 mkdir -p /mydata/logstash
-
 mkdir -p /mydata/elasticsearch/data
-
 mkdir -p /mydata/elasticsearch/plugins
-
-
 chmod 777 /mydata/elasticsearch/data  # 给 777 权限，不然启动 elasticsearch 可能会有权限问题
 ```
 
-
-
-### ③ 编写日志采集 logstash
-
-
-在  `/mydata/logstash`目录创建 `upms-logstash.conf`
-
-
+### 3. 配置 Logstash
+在 `/mydata/logstash` 目录创建 `upms-logstash.conf` 文件：
 
 ```shell
 input {
@@ -106,27 +87,21 @@ output {
 }
 ```
 
+### 4. 启动 ELK 服务
+在 `docker-compose.yml` 同级目录执行：
 
+```shell
+docker-compose up -d
+```
 
-### ④ 启动 ELK 服务
+<Warning>
+Elasticsearch 启动可能需要好几分钟，请耐心等待。
+</Warning>
 
+### 5. 安装 Logstash 插件
+安装 json_lines 格式插件：
 
-在`docker-compose.yml` 同级目录执行 `docker-compose up -d`
-
-
-
-注意：Elasticsearch 启动可能需要好几分钟，要耐心等待。
-
-
-
-![](https://cdn.nlark.com/yuque/0/2020/png/283679/1599470403248-8d70b63e-a96e-4440-b2c1-4b65bf3d75a4.png)
-
-
-
-### ⑤ logstash 安装 json_lines 格式插件
-
-
-```plain
+```shell
 # 进入 logstash 容器
 docker exec -it logstash /bin/bash
 # 进入 bin 目录
@@ -139,20 +114,17 @@ exit
 docker restart logstash
 ```
 
+### 6. 访问 Kibana
+通过浏览器访问 Kibana 界面：
 
+```plain
+http://ip:5601
+```
 
-### ⑥ 访问宿主机 5601 kibana
+## 服务整合 Logstash
 
-
-![](https://cdn.nlark.com/yuque/0/2020/png/283679/1599470402692-ec46654c-1e94-4ff8-8d11-39a1dc323a52.png)
-
-
-
-## 服务整合 Logstash（以 UPMS 模块为例）
-
-
-### ① 添加 pom 依赖
-
+### 1. 添加依赖
+在项目中添加 Logstash 依赖：
 
 ```xml
 <!--集成logstash-->
@@ -163,13 +135,11 @@ docker restart logstash
 </dependency>
 ```
 
-
-
-### ② logback-spring.xml 新增 appender
-
+### 2. 配置 Logback
+在 `logback-spring.xml` 中添加 Logstash appender：
 
 ```xml
- <!--输出到logstash的appender-->
+<!--输出到logstash的appender-->
 <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
     <!--可以访问的logstash日志收集端口-->
     <destination>192.168.0.31:4560</destination>
@@ -180,26 +150,13 @@ docker restart logstash
 </root>
 ```
 
+## 多模块日志采集
 
+<Warning>
+每个应用需要发送到不同的 TCP 端口，注意在 logstash 的容器端口映射中增加相应的端口。
+</Warning>
 
-### ③ 启动 pig 在 kibana 中查询日志
-
-
-![](https://cdn.nlark.com/yuque/0/2020/png/283679/1599470402985-aeb1a6bc-079c-43c0-b30e-42ab8d5227b7.png)
-
-![](https://cdn.nlark.com/yuque/0/2020/png/283679/1599470402668-b36392b1-bb06-4c9b-b814-e1af5b672b7a.png)
-
-
-
-## 扩展：采集多个模块日志
-
-
-:::warning
-`每个应用发送到不同的TCP 端口 这里注意logstash 的容器端口映射增加`
-
-:::
-
-
+配置多模块日志采集：
 
 ```shell
 input {

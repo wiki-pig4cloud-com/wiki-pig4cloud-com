@@ -2,15 +2,16 @@
 title: "pig 整合阿里云 SLS 日志"
 ---
 
+## 什么是阿里云 SLS
 
+阿里云日志服务 SLS 作为可观测数据存储与应用服务，为 Log、Metric、Trace 等可观测数据提供一站式采集、加工、查询与分析、可视化与告警、消费与投递等功能，提升研发、运维、运营、安全等场景化智能应用能力。
 
-## STS 是什么
-<font style="color:rgb(24, 24, 24);">日志服务 SLS 作为可观测数据存储与应用服务，为 Log、Metric、Trace 等可观测数据提供一站式采集、加工、查询与分析、可视化与告警、消费与投递等功能，提升研发、运维、运营、安全等场景化智能应用能力。</font>
+简单来说，SLS 是阿里云提供的云端 ELK 服务。
 
-<font style="color:rgb(24, 24, 24);">简单讲就是云端已经部署好的 ELK 服务</font>
+## 配置接入
 
-## <font style="color:rgb(24, 24, 24);">配置接入</font>
-#### 1. 业务微服务添加依赖
+### 1. 业务微服务添加依赖
+
 ```xml
 <dependency>
     <groupId>com.aliyun.openservices</groupId>
@@ -19,7 +20,8 @@ title: "pig 整合阿里云 SLS 日志"
 </dependency>
 ```
 
-#### 2. 业务微服务添加 logback 配置
+### 2. 业务微服务添加 logback 配置
+
 ```xml
 <!--为了防止进程退出时，内存中的数据丢失，请加上此选项-->
 <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>
@@ -48,8 +50,7 @@ title: "pig 整合阿里云 SLS 日志"
 </root>
 ```
 
-
-
 ## 接入效果
-![](https://cdn.nlark.com/yuque/0/2024/png/283679/1733822212180-9567c4aa-4975-489d-bf89-953f14b828c5.png)
+
+![SLS 接入效果图](https://cdn.nlark.com/yuque/0/2024/png/283679/1733822212180-9567c4aa-4975-489d-bf89-953f14b828c5.png)
 

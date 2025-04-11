@@ -2,52 +2,35 @@
 title: "pig 整合 RocketMQ 消息队列"
 ---
 
-## 
-[bilibili](https://player.bilibili.com/player.html?bvid=BV12t411B7e9&p=13&page=13)
+<Card title="视频教程" icon="video" href="https://player.bilibili.com/player.html?bvid=BV12t411B7e9&p=13&page=13">
+  点击观看视频教程
+</Card>
 
 ## 安装 RocketMQ
 
-
-+ 下载脚本文件
-
-
+下载脚本文件
 
 ```shell
 git clone https://github.com/pig-mesh/rocketmq-docker-compose
 ```
 
-
-
-+ 修改 IP 为宿主机 IP
-
-
+修改 IP 为宿主机 IP
 
 ```shell
 vim ./broker.conf
 ```
 
-
-
 ![](https://minio.pigx.vip/oss/1631422598.png)
 
-
-
-+ 执行启动 rocketmq
-
-
+执行启动 rocketmq
 
 ```shell
 docker-compose up -d
 ```
 
-
-
 ## 代码整合
 
-
-+ 目标服务增加 rocketmq 依赖 jar
-
-
+目标服务增加 rocketmq 依赖 jar
 
 ```xml
 <dependency>
@@ -57,11 +40,7 @@ docker-compose up -d
 </dependency>
 ```
 
-
-
-+ nacos **对应的服务**配置文件增加链接相关信息
-
-
+nacos **对应的服务**配置文件增加链接相关信息
 
 ```yaml
 rocketmq:
@@ -70,11 +49,7 @@ rocketmq:
     group: test-group
 ```
 
-
-
-+ 配置队列监听消费者
-
-
+配置队列监听消费者
 
 ```java
 @Slf4j
@@ -87,11 +62,7 @@ public class MyConsumer1 implements RocketMQListener<String> {
 }
 ```
 
-
-
-+ 测试消息发送
-
-
+测试消息发送
 
 ```java
 @SpringBootTest

@@ -1,0 +1,72 @@
+---
+title: "进阶 单体版二次开发"
+---
+
+<Card title="视频教程" icon="video" href="https://player.bilibili.com/player.html?bvid=BV12t411B7e9&p=3&page=3&autoplay=0">
+  点击查看视频教程
+</Card>
+
+## 一、创建测试表
+
+```sql
+-- 创建测试库
+USE pig;
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- 创建测试表
+DROP TABLE IF EXISTS `demo`;
+CREATE TABLE `demo` (
+  `id` bigint NOT NULL COMMENT '编号',
+  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '用户名',
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL COMMENT '密码',
+  `del_flag` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT '0' COMMENT '删除标记',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin ROW_FORMAT=DYNAMIC COMMENT='demo 表';
+```
+
+## 二、代码生成
+
+<Warning>
+需要启动 pig-boot、pig-ui 服务
+</Warning>
+
+### 2.1 数据源新增
+
+```yaml
+jdbc:mysql://pig-mysql:3306/pig?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowMultiQueries=true&allowPublicKeyRetrieval=true
+```
+
+![数据源配置](https://minio.pigx.top/oss/202307/1688311202.png)
+
+### 2.2 选择目标表
+
+![选择目标表](https://cdn.nlark.com/yuque/0/2024/png/283679/1724736747002-9fd05a31-65a8-4185-9f6c-4245d0adec31.png)
+
+### 2.3 生成代码配置
+
+<Warning>
+选择数据源生成代码时，请注意包名称和模块名称。
+</Warning>
+
+1. 对应 Maven module 名称 **admin**（固定值）
+2. 对应新增服务端 upms-biz 模块的路径（代码放在 upms-biz 目录）
+3. 对应前端 UI 的路径
+
+![生成代码配置](https://cdn.nlark.com/yuque/0/2024/png/283679/1724736679009-e218956c-ef8e-40ae-92eb-22643515ce6e.png)
+
+### 2.4 执行 SQL 脚本
+
+<Warning>
+执行代码生成包（2.2 中的 demo_menu.sql）中的 SQL 脚本（在 upms-biz/menu 目录）。
+</Warning>
+
+![执行SQL脚本](https://cdn.nlark.com/yuque/0/2024/png/283679/1724736815336-8dce895a-0b62-43e2-9d3c-795c261ee132.png)
+
+### 2.5 角色分配权限
+
+最重要的一步：给角色分配权限（角色管理 > 权限）。在重新启动前端并重新登录后，请强制刷新浏览器，查看 demo 功能是否生效。
+
+![角色权限分配](https://cdn.nlark.com/yuque/0/2024/png/283679/1704604236898-e653151a-94fb-4194-a63c-cfc7af5a6227.png)
+

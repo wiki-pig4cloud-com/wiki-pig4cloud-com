@@ -3,17 +3,20 @@ title: "扩展 - 暴力生成 Token"
 ---
 
 ## 业务背景
-+ 本文主要介绍如何自定义 Token 生成逻辑，<Warning>不依赖于 OAuth2 协议的严格参数要求</Warning>。比如只提供用户名，即可生成指定用户的 Token，使业务流程更加灵活、简便。
-+ 在实际业务中，通常在用户注册完成后需要直接生成 Token，方便用户在注册后即刻登录。此时可以通过定制化的 Token 生成逻辑，根据业务规则灵活地生成 Token，以满足业务流程需求。
-+ <Warning>当然这种方式过于暴力，绕过了 Spring Security 认证服务器的各种校验，所以在使用时需要谨慎</Warning>
 
-![别给我讲什么 FilterChain、Provider、UserDetails](https://cdn.nlark.com/yuque/0/2024/png/283679/1730361988944-f5096ea3-2917-4fd9-a7d4-503f2855a193.png)
+- 本文主要介绍如何自定义 Token 生成逻辑，<Warning>不依赖于 OAuth2 协议的严格参数要求</Warning>。比如只提供用户名，即可生成指定用户的 Token，使业务流程更加灵活、简便。
+- 在实际业务中，通常在用户注册完成后需要直接生成 Token，方便用户在注册后即刻登录。此时可以通过定制化的 Token 生成逻辑，根据业务规则灵活地生成 Token，以满足业务流程需求。
+- <Warning>当然这种方式过于暴力，绕过了 Spring Security 认证服务器的各种校验，所以在使用时需要谨慎</Warning>
+
+![认证流程](https://cdn.nlark.com/yuque/0/2024/png/283679/1730361988944-f5096ea3-2917-4fd9-a7d4-503f2855a193.png)
 
 ## 手动生成 Token 流程图
-![](https://minio.pigx.top/oss/202305/1683870985.jpeg)
+
+![Token生成流程](https://minio.pigx.top/oss/202305/1683870985.jpeg)
 
 ## 定义服务调用 Feign 和实体
-+ 在 upms-api 模块新增如下实体和 feign client
+
+在 upms-api 模块新增如下实体和 feign client
 
 ```java
 @Data
@@ -41,7 +44,8 @@ public interface RemoteTokenService {
 ```
 
 ## 认证中心提供生成令牌端点
-+ 在 PigTokenEndpoint 体面添加如下接口代码，方便 feign 调用
+
+在 PigTokenEndpoint 体面添加如下接口代码，方便 feign 调用
 
 ```java
 private final OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator;
@@ -59,7 +63,6 @@ public R generateToken(@RequestBody UserTokenDTO userTokenDTO) {
                     .accessTokenFormat(OAuth2TokenFormat.REFERENCE)
                     .build())
             .build();
-
 
     // 构建用户信息 , 这里只拼接了  UserTokenDTO 中的 username 和 authorities，其他字段写死，可以自行场地；
     PigUser pigUser = new PigUser(1L, 1L, userTokenDTO.getUsername(), StrUtil.EMPTY, StrUtil.EMPTY
@@ -98,7 +101,6 @@ public R generateToken(@RequestBody UserTokenDTO userTokenDTO) {
         authorizationBuilder.id(accessToken.getTokenValue()).accessToken(accessToken);
     }
 
-
     // ----- Refresh token -----
     OAuth2RefreshToken refreshToken;
     tokenContext = tokenContextBuilder.tokenType(OAuth2TokenType.REFRESH_TOKEN).build();
@@ -118,8 +120,8 @@ public R generateToken(@RequestBody UserTokenDTO userTokenDTO) {
 ```
 
 ## 业务代码调用签发 token
-```java
 
+```java
 private final RemoteTokenService remoteTokenService;
 
 // 拼接请求参数
@@ -138,9 +140,10 @@ RegisteredClient registeredClient = authenticationTokenR.getData().getRegistered
 ```
 
 ## 校验令牌微调
+
 通过如上代码，我们已经实现了 token 的方法；接下来我们<Warning>需要对校验令牌的逻辑进行微调，以便资源服务器能够识别咱这个暴力 token。</Warning>
 
-+ PigCustomOpaqueTokenIntrospector 调整，如果是自定义签发的 token，直接返回用户信息
+PigCustomOpaqueTokenIntrospector 调整，如果是自定义签发的 token，直接返回用户信息
 
 ```java
 if (SecurityConstants.FROM.equals(oldAuthorization.getRegisteredClientId())){
@@ -148,5 +151,9 @@ if (SecurityConstants.FROM.equals(oldAuthorization.getRegisteredClientId())){
 }
 ```
 
-![](https://cdn.nlark.com/yuque/0/2024/png/283679/1730361982619-55fb5a98-468e-4ba5-9b75-0f77a7a0cbe0.png)
+![Token校验](https://cdn.nlark.com/yuque/0/2024/png/283679/1730361982619-55fb5a98-468e-4ba5-9b75-0f77a7a0cbe0.png)
+
+## 问题咨询
+
+如有问题，请通过官方渠道咨询。
 

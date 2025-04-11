@@ -10,7 +10,9 @@ title: "前端登录请求加密"
 
 ## 前端加密功能
 
-<Warning>特别说明：修改密钥注意同步修改前后端的 key，必须为 16 位</Warning>
+<Warning>
+特别说明：修改密钥注意同步修改前后端的 key，必须为 16 位
+</Warning>
 
 - 前端 **env VITE_PWD_ENC_KEY** 提供简单的 AES 对称加密算法，注意 key 和后端网关配置相同，这里打包混淆后，相对安全。
 
@@ -18,7 +20,7 @@ title: "前端登录请求加密"
 
 - 对应后端代码解密的 key 在 **nacos/pig-auth-dev.yml** 定义
 
-```shell
+```yaml
 security:
   encode-key: 'thanks,pig4cloud'
 ```

@@ -2,63 +2,54 @@
 title: "短信登录配置短信渠道"
 ---
 
-[bilibili](https://player.bilibili.com/player.html?bvid=BV12t411B7e9&p=18&page=18)
-
 ## 获取阿里云参数
+
 ### 添加短信模板
 
+1. 访问 [阿里云官网](https://www.aliyun.com/minisite/goods?userCode=ueyxv2qf)
+2. 添加短信模板 [添加短信模板](https://dysms.console.aliyun.com/domestic/text/template)
 
-+ [阿里云](https://www.aliyun.com/minisite/goods?userCode=ueyxv2qf)官网  [添加短信模板](https://dysms.console.aliyun.com/domestic/text/template)
-
-![](https://minio.pigx.vip/oss/1640235218.png)
-
-
+![短信模板配置](https://minio.pigx.vip/oss/1640235218.png)
 
 ### 添加签名模板
-+ [阿里云](https://www.aliyun.com/minisite/goods?userCode=ueyxv2qf)官网  [添加签名](https://dysms.console.aliyun.com/domestic/text/sign/add)
 
+1. 访问 [阿里云官网](https://www.aliyun.com/minisite/goods?userCode=ueyxv2qf)
+2. 添加签名 [添加签名](https://dysms.console.aliyun.com/domestic/text/sign/add)
 
-
-![](https://minio.pigx.vip/oss/1640235344.png)
-
-
+![签名配置](https://minio.pigx.vip/oss/1640235344.png)
 
 ### 获取短信参数
-#### 
-+ 模板 Code [https://dysms.console.aliyun.com/domestic/text/template](https://dysms.console.aliyun.com/domestic/text/template)
 
-![](https://cdn.nlark.com/yuque/0/2021/png/283679/1640235569588-3e7f8465-dd02-49aa-8157-fabacde0d5b5.png)
+#### 模板 Code
+访问 [模板管理](https://dysms.console.aliyun.com/domestic/text/template)
 
-+ 获取签名 [https://dysms.console.aliyun.com/domestic/text/sign](https://dysms.console.aliyun.com/domestic/text/sign)
+![模板管理](https://cdn.nlark.com/yuque/0/2021/png/283679/1640235569588-3e7f8465-dd02-49aa-8157-fabacde0d5b5.png)
 
-![](https://cdn.nlark.com/yuque/0/2021/png/283679/1640235643460-1ebc5997-08a7-4310-8ebd-34ea8d7ee374.png)
+#### 获取签名
+访问 [签名管理](https://dysms.console.aliyun.com/domestic/text/sign)
 
+![签名管理](https://cdn.nlark.com/yuque/0/2021/png/283679/1640235643460-1ebc5997-08a7-4310-8ebd-34ea8d7ee374.png)
 
+#### 获取 AK/SK
+访问 [访问密钥管理](https://ram.console.aliyun.com/manage/ak)
 
-+ 获取 ak sk [https://ram.console.aliyun.com/manage/ak](https://ram.console.aliyun.com/manage/ak)
-
-![](https://cdn.nlark.com/yuque/0/2021/png/283679/1640235719899-95efc45b-8812-4472-aa9e-9bdd44f3a15b.png)
-
-
+![访问密钥](https://cdn.nlark.com/yuque/0/2021/png/283679/1640235719899-95efc45b-8812-4472-aa9e-9bdd44f3a15b.png)
 
 ## 配置短信通道
 
+在 Nacos 中配置如上参数即可
 
-+ 在 nacos 中配置如上参数即可
-
-![](https://cdn.nlark.com/yuque/0/2021/png/283679/1640235829763-7717b76a-fea4-472e-a0cd-c1caab4bdd38.png)
+![Nacos配置](https://cdn.nlark.com/yuque/0/2021/png/283679/1640235829763-7717b76a-fea4-472e-a0cd-c1caab4bdd38.png)
 
 ```yaml
 aliyun:
   sms:
     SMS_186401263:
-      accessKeyId:  #阿里云 AK
+      accessKeyId: #阿里云 AK
       accessKeySecret: #阿里云 SK
       signName: #阿里云签名名
 ```
 
+## 问题咨询
 
-
-## ❤  问题咨询
-![](https://cdn.nlark.com/yuque/0/2022/gif/283679/1662563973685-c22e9831-db66-42b5-973f-886d25d1e0e7.gif)
-
+如有问题，请通过官方渠道咨询。

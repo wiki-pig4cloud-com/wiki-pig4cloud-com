@@ -1,15 +1,10 @@
 ---
-title: "pig 授权码模式使用（开放平台）"
+title: "授权码模式使用（开放平台）"
 ---
-
-[此处为语雀卡片，点击链接查看](https://www.yuque.com/docs/12721947#mcAk2)
 
 本文单纯从简单的技术实现来讲，不涉及开放平台的多维度的运营理念。
 
-
-
-## 1️⃣ 什么是开放平台
-
+## 什么是开放平台
 
 通过开放自己平台产品服务的各种 API 接口，让其他第三方开发者在开发应用时根据需求直接调用，例如微信登录、QQ 登录、微信支付、微博登录、热门等。
 
@@ -17,80 +12,49 @@ title: "pig 授权码模式使用（开放平台）"
 
 目前国内主流的网站的的开放平台，都是基于 oauth2.0 协议进行做的开放平台
 
+### 微信开放平台授权机制流程图
 
+![授权流程](https://cdn.nlark.com/yuque/0/2020/jpeg/283679/1599314414672-bed5346e-83cb-48e4-a4ee-a4b85e455212.jpeg)
 
-+ 微信开放平台授权机制流程图
+## 测试开放平台获取授权码
 
-
-
-![](https://cdn.nlark.com/yuque/0/2020/jpeg/283679/1599314414672-bed5346e-83cb-48e4-a4ee-a4b85e455212.jpeg)
-
-
-
-## 2️⃣ 测试开放平台获取授权码
-
-
-+ 注册支持授权码的客户端，**<font style="color:#DF2A3F;background-color:#FBDE28;">直接操作数据库，注意清空 redis  (flushdb)</font>**
+1. 注册支持授权码的客户端，<Warning>直接操作数据库，注意清空 redis (flushdb)</Warning>
 
 ```sql
 UPDATE `sys_oauth_client_details` SET `authorized_grant_types` = 'password,refresh_token,authorization_code,client_credentials', `web_server_redirect_uri` = 'https://pig4cloud.com'WHERE `client_id` = 'test';
 ```
 
-+ 浏览器访问如下链接，必须完全复制不要修改任何参数； <font style="color:#DF2A3F;">注意</font>：授权码模式回调地址不能使用 localhost
-
-
+2. 浏览器访问如下链接，必须完全复制不要修改任何参数；<Warning>注意</Warning>：授权码模式回调地址不能使用 localhost
 
 ```shell
 http://localhost:3000/oauth2/authorize?scope=server&client_id=test&response_type=code&redirect_uri=https://pig4cloud.com
 ```
 
+3. 统一认证界面（admin/123456）
 
+![认证界面](https://cdn.nlark.com/yuque/0/2024/png/283679/1734249521088-b3b4863b-1a9d-43d6-93ca-30650858ecf6.png)
 
+4. 授权确认
 
+![授权确认](https://cdn.nlark.com/yuque/0/2021/png/283679/1633962058487-fc8fa397-cb15-4fde-b7b4-7aab479af0a1.png)
 
-+ 统一认证界面（admin/123456）
+5. 登录成功带着 code 回调到目标接口
 
-![](https://cdn.nlark.com/yuque/0/2024/png/283679/1734249521088-b3b4863b-1a9d-43d6-93ca-30650858ecf6.png)
+![回调结果](https://minio.pigx.vip/oss/1633962131.png)
 
+## 通过授权码获取交互令牌
 
+<Warning>
+参考 Postman 调用章节导入脚本：[https://www.yuque.com/pig4cloud/pig/dzlb0v](https://www.yuque.com/pig4cloud/pig/dzlb0v)
+</Warning>
 
-+ 授权确认
+![获取令牌](https://cdn.nlark.com/yuque/0/2022/png/283679/1661931726658-9d90fc59-3940-40e6-b1a4-8d06aab842f4.png)
 
-
-
-![](https://cdn.nlark.com/yuque/0/2021/png/283679/1633962058487-fc8fa397-cb15-4fde-b7b4-7aab479af0a1.png)
-
-
-
-+ 登录成功带着 code 回调到目标接口
-
-
-
-![](https://minio.pigx.vip/oss/1633962131.png)
-
-
-
-## 3️⃣ 通过授权码获取交互令牌
-
-
-:::warning
-**参考 Postman 调用章节导入脚本：**[https://www.yuque.com/pig4cloud/pig/dzlb0v](https://www.yuque.com/pig4cloud/pig/dzlb0v)
-
-:::
-
-
-
-
-
-![](https://cdn.nlark.com/yuque/0/2022/png/283679/1661931726658-9d90fc59-3940-40e6-b1a4-8d06aab842f4.png)
-
-## 4️⃣ 退出统一身份认证
-
+## 退出统一身份认证
 
 浏览器访问：http://localhost:3000/oauth2/logout
 
+## 问题咨询
 
-
-## ❤  问题咨询
-![](https://cdn.nlark.com/yuque/0/2022/gif/283679/1662563973685-c22e9831-db66-42b5-973f-886d25d1e0e7.gif)
+如有问题，请通过官方渠道咨询。
 

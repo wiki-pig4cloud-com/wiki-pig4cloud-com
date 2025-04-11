@@ -4,16 +4,16 @@ title: "接口对外直接暴露"
 
 ## 现象
 
-如果微服务接入了资源服务器，那么全部的资源被 spring security oauth 拦截，如果没有合法 token 直接会被拒绝。
+如果微服务接入了资源服务器，那么全部的资源被 Spring Security OAuth 拦截，如果没有合法 token 直接会被拒绝。
 
 如下图，提示如下错误。
 
-![](https://cdn.nlark.com/yuque/0/2020/jpeg/283679/1599313987030-1d13cd7b-bf62-4652-9345-9bc75cd14d35.jpeg)
+![错误提示](https://cdn.nlark.com/yuque/0/2020/jpeg/283679/1599313987030-1d13cd7b-bf62-4652-9345-9bc75cd14d35.jpeg)
 
 ## 方案一
 
 <Note>
-+ **直接在接口配置，若封装接口（例如 swagger 等）无法加，可以直接参考下文配置文件中声明**
+直接在接口配置，若封装接口（例如 Swagger 等）无法加，可以直接参考下文配置文件中声明
 </Note>
 
 ```java
@@ -27,7 +27,7 @@ public R api() {
 ## 方案二
 
 <Warning>
-**在对应微服务模块的 Nacos 配置文件中**
+在对应微服务模块的 Nacos 配置文件中
 </Warning>
 
 ```yaml
@@ -39,5 +39,6 @@ security:
 ```
 
 ## 问题咨询
-![](https://cdn.nlark.com/yuque/0/2022/gif/283679/1662563973685-c22e9831-db66-42b5-973f-886d25d1e0e7.gif)
+
+如有问题，请通过官方渠道咨询。
 

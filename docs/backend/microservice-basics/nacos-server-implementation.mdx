@@ -1,104 +1,75 @@
 ---
 title: "Nacos Server 源码运行实现"
+description: "了解如何通过源码方式运行 Nacos Server，以及其优势和使用场景"
 ---
 
 ## 官方标准运行方式
 
-
 ### 下载解压可运行包
 
-
-```java
+```bash
 curl -O https://github.com/alibaba/nacos/releases/download/1.3.2/nacos-server-1.3.2.tar.gz
 tar -zxvf nacos-server-1.3.2.tar.gz
 cd nacos/bin
 ```
 
-
-
 ### 执行运行
 
-
-```shell
+```bash
 # Linux/Unix/Mac 启动命令 (standalone 代表着单机模式运行，非集群模式):
-
 sh startup.sh -m standalone
 
 # 如果您使用的是 ubuntu 系统，或者运行脚本报错提示 [[符号找不到，可尝试如下运行：
-
 bash startup.sh -m standalone
 
 # Windows 启动命令（或者双击 startup.cmd 运行文件）
-
 cmd startup.cmd
 ```
 
-
-
 ## 为什么要源码化运行
-
 
 ### 1. 方便开发过程使用
 
-
 如果从 Spring Cloud Netflix 体系迁移到 Spring Cloud Alibaba 技术体系，明显的感受是整个体系得到简化。Nacos 承担整个 Spring Cloud 的服务发现、配置管理部分的实现。是整个开发过程中**强依赖**，启动微服务业务要去检查 Nacos Server 是否已经启动，解压安装的方式变的非常不便。
 
-
-
-**如果把 Nacos Server 作为整个微服务框架的一部分直接 Main 启动，是不是更加方便便利？**
-
-
+<Note>
+如果把 Nacos Server 作为整个微服务框架的一部分直接 Main 启动，是不是更加方便便利？
+</Note>
 
 ### 2. UI 个性定制化
 
+- 若以解压运行方式，修改 UI 几乎不可能。可以下载 Nacos 源码继续修改然后重新打包运行。非常的不方便
 
-+ 若以解压运行方式，修改 UI 几乎不可能。可以下载 Nacos 源码继续修改 然后重新打包运行。非常的不方便
-
-
-
-```shell
+```bash
 git clone https://github.com/alibaba/nacos.git
-
 cd nacos/
-
 mvn -Prelease-nacos -Dmaven.test.skip=true clean install -U
 ls -al distribution/target/
-
-// change the $version to your actual path
 cd distribution/target/nacos-server-$version/nacos/bin
 ```
 
-
-
-+ 若以源码方式运行，可以试试的调整 UI 然后 build 看到效果。
-
-
+- 若以源码方式运行，可以试试的调整 UI 然后 build 看到效果。
 
 ### 3. 保证 Server & Client 保持一致
 
+<Warning>
+每个版本依赖的 Nacos Client 版本都可能发生变化，这就意味着对应的 Nacos Server 版本也要对应升级，这需要用户自行下载升级成本很高。
+</Warning>
 
-+ pig 作为微服务开源项目，更新迭代速度非常快。**<font style="color:#DF2A3F;">每个版本依赖的 Nacos Client 版本都可能发生变化，这就意味着对应的 Nacos Server 版本也要对应升级，这需要用户自行下载升级成本很高</font>**。
-+ Nacos 具有良好小版本向下兼容性，但是大版本功能变化挺大，比如 1.2、1.3 权限的变更。所以建议大家在实际开发过程中保持版本一致。
-+ 若以源码运行的方式，可以很好的解决此问题。
-
-
+- Nacos 具有良好小版本向下兼容性，但是大版本功能变化挺大，比如 1.2、1.3 权限的变更。所以建议大家在实际开发过程中保持版本一致。
+- 若以源码运行的方式，可以很好的解决此问题。
 
 ## 如何实现
 
-
 ### 1. 下载 Nacos 源码
 
+- 只需保留 nacos console 模块，其他模块均可删除
 
-+ 只需保留 nacos console 模块，其他模块均可删除
-
-
-
-![](https://cdn.nlark.com/yuque/0/2020/png/283679/1600830657449-7c16ae93-cb8d-49ba-8607-d42bce52c56e.png)
-
-
+<Card title="源码结构" icon="info">
+console 模块是 Nacos 的核心控制台模块，包含了主要的 UI 和管理功能。
+</Card>
 
 ### 2. console 源码结构说明
-
 
 ```plain
 ├── pom.xml
@@ -116,43 +87,31 @@ cd distribution/target/nacos-server-$version/nacos/bin
     └── test    # 单元测试部分
 ```
 
-
-
 ### 3. 修改 Nacos.java 类
 
-
-+ 主要在 main 方法中增加 两个参数，是否是单机启动 & 是否关闭权限校验
-
-
+主要在 main 方法中增加两个参数，是否是单机启动 & 是否关闭权限校验：
 
 ```java
 @SpringBootApplication(scanBasePackages = "com.alibaba.nacos")
 @ServletComponentScan
 @EnableScheduling
 public class Nacos {
-
     public static void main(String[] args) {
-        # 通过环境变量的形式 设置 单机启动
-    		System.setProperty(ConfigConstants.STANDALONE_MODE, "true");
-
-        # 通过环境变量的形式 设置 关闭权限校验
-		    System.setProperty(ConfigConstants.AUTH_ENABLED, "false");
+        // 通过环境变量的形式设置单机启动
+        System.setProperty(ConfigConstants.STANDALONE_MODE, "true");
+        // 通过环境变量的形式设置关闭权限校验
+        System.setProperty(ConfigConstants.AUTH_ENABLED, "false");
         SpringApplication.run(Nacos.class, args);
     }
 }
 ```
 
-
-
 ### 4. 修改 console/pom.xml
 
+由于不再使用 nacos bom 管理，需要给所有依赖坐标增加版本号。由于 nacos-config /nacos-naming 等包没有上传至中央仓库无法下载到，groupId 变更为 `com.pig4cloud.nacos` 即可下载。
 
-+ 由于不在使用 nacos bom 管理，需要给所有依赖坐标增加版本号
-+ 由于 nacos-config /nacos-naming 等包没有上传至中央仓库 无法下载到，groupId 变更为 `com.pig4cloud.nacos` 即可下载
-+ 变更后参考如下
-
-
-
+<Tabs>
+  <Tab title="依赖配置">
 ```xml
 <dependency>
   <groupId>com.pig4cloud.nacos</groupId>
@@ -169,14 +128,17 @@ public class Nacos {
   <artifactId>nacos-naming</artifactId>
   <version>1.3.2</version>
 </dependency>
-...
 ```
-
-
+  </Tab>
+</Tabs>
 
 ## 总结
 
+<Card title="源码参考" icon="link" href="https://gitee.com/log4j/pig">
+以上修改后源码参考
+</Card>
 
-+ 以上修改后源码参考： [https://gitee.com/log4j/pig](https://gitee.com/log4j/pig/blob/master/pig-register/pom.xml)
-+ 是否以源码形式运行，此问题仁者见仁智者见智 根据你们实际情况来
+<Note>
+是否以源码形式运行，此问题仁者见仁智者见智，根据你们实际情况来决定。
+</Note>
 

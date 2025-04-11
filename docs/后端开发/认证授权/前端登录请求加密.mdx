@@ -1,55 +1,41 @@
-## 前端报文加密的业务
+---
+title: "前端登录请求加密"
+---
 
+## 前端报文加密的业务
 
 用户登录时，对登录密码进行加密传输
 
-
-
-![](https://pigx.coding.net/p/oss/d/oss1/git/raw/master/2020-9/20200915164251.png)
-
-
+![登录密码加密](https://pigx.coding.net/p/oss/d/oss1/git/raw/master/2020-9/20200915164251.png)
 
 ## 前端加密功能
 
+<Warning>特别说明: 修改密钥注意同步修改前后端的key，必须为16位</Warning>
 
-+ **<font style="color:#F5222D;">特别说明: 修改密钥注意同步修改前后端的key ，必须为 16位</font>**
+- 前端 **env VITE_PWD_ENC_KEY** 提供简单的AES对称加密算法，注意key和后端网关配置相同，这里打包混淆后，相对安全。
 
+![密钥配置](https://minio.pigx.top/oss/202307/1690082310.png)
 
-
-+ ① 前端 **env VITE_PWD_ENC_KEY **提供简单的AES对称加密算法，注意key 和后端网关配置相同，这里打包混淆后，相对安全。
-
-
-
-![](https://minio.pigx.top/oss/202307/1690082310.png)
-
-
-
-+ ② 对应后端代码解密的key 在 **nacos/pig-auth-dev.yml** 定义
+- 对应后端代码解密的key在 **nacos/pig-auth-dev.yml** 定义
 
 ```shell
 security:
   encode-key: 'thanks,pig4cloud'
 ```
 
-
-
 ## 通过在线服务获取密文
-
 
 使用密码加密服务: [https://enc.pig4cloud.com](https://enc.pig4cloud.com)
 
+![密码加密服务](https://minio.pigx.vip/oss/1638683003.png)
 
+## 总结
 
-![](https://minio.pigx.vip/oss/1638683003.png)
+虽然AES是对称加密，但在此场景中提供了基本的传输保护。
 
+## 问题咨询
 
-
-### 总结
-
-
-杠精不要抬杠AES 是对称加密，不安全。
-
-
+如有问题，请通过官方渠道咨询。
 
 ## ❤  问题咨询
 ![](https://cdn.nlark.com/yuque/0/2022/gif/283679/1662563973685-c22e9831-db66-42b5-973f-886d25d1e0e7.gif)

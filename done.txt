@@ -37,3 +37,7 @@ docs/后端开发/认证授权/token、jwt、oauth2、session.mdx
 docs/后端开发/认证授权/【扩展】暴力生成 token.mdx
 docs/后端开发/认证授权/服务中获取当前用户.mdx
 docs/后端开发/认证授权/接口对外直接暴露.mdx
+docs/后端开发/认证授权/前端登录请求加密.mdx
+docs/整合能力/pig 整合邮件发送.mdx
+docs/常见问题/fastjson 安全漏洞.mdx
+docs/生产部署/Rainbond部署整套应用.mdx

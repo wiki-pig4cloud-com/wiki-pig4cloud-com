@@ -38,9 +38,9 @@
           {
             "group": "Secondary Development",
             "pages": [
-              "docs/secondary-dev/create-microservice-skeleton",
-              "docs/secondary-dev/microservice-config-management",
-              "docs/secondary-dev/monolith-secondary-dev"
+              "docs/dev/create-microservice-skeleton",
+              "docs/dev/microservice-config-management",
+              "docs/dev/monolith-secondary-dev"
             ]
           },
           {

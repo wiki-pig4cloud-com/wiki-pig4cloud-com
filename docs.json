@@ -165,7 +165,6 @@
               "docs/integration/pig-ui-cascade-selector",
               "docs/integration/pig-dingtalk-wechat-robot",
               "docs/integration/sso-jfinal-pig",
-              "docs/integration/sso-ruoyi-pig-monolith",
               "docs/integration/sso-ruoyi-pig-separated",
               "docs/integration/sso-guns-pig",
               "docs/integration/sso-renren-pig",

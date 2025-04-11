@@ -24,3 +24,7 @@ docs/后端开发/编程基础/java工具类使用.mdx
 docs/后端开发/编程基础/java8资料汇总.mdx
 docs/后端开发/编程基础/pig-stream使用及其技巧.mdx
 docs/后端开发/编程基础/pig-lambda使用及其技巧.mdx
+docs/后端开发/网关功能/网关路由配置.mdx
+docs/后端开发/网关功能/网关配置跨域.mdx
+docs/后端开发/网关功能/网关限流使用.mdx
+docs/后端开发/网关功能/网关超时及异常处理.mdx

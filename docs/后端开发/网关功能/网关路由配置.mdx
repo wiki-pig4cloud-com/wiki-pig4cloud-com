@@ -1,20 +1,14 @@
-
-
-
+---
+title: "网关路由配置"
+---
 
 Pig 3.0 采用的是spring官方的网关组件，通过异步背压的高性能网关。路由配置是整个微服务中最为核心的功能
 
-
-
 ### ① 配置路由解释
 
-
-:::warning
+<Warning>
 访问 nacos /pig-gateway-dev.yml 我们以UPMS 的路由为例子，注意注释
-
-:::
-
-
+</Warning>
 
 ```yaml
 spring:
@@ -28,14 +22,9 @@ spring:
         - Path=/admin/**  #所有业务的请求前缀，会在② 中自动去除
 ```
 
-
-
 ### ② 全局的路由过滤器
 
-
-PigRequestGlobalFilter,对全部的微服务提供了安全过滤（这个后边会讲）和全局StripPrefix=1配置，**意味着你在使用Pig的时候，****<font style="color:#E8323C;">网关转发到业务模块时候会自动截取前缀</font>****，不用再每个微服务路由配置了StripPrefixFilter**
-
-
+PigRequestGlobalFilter,对全部的微服务提供了安全过滤（这个后边会讲）和全局StripPrefix=1配置，**意味着你在使用Pig的时候，网关转发到业务模块时候会自动截取前缀，不用再每个微服务路由配置了StripPrefixFilter**
 
 ```java
 public class PigRequestGlobalFilter implements GlobalFilter, Ordered {

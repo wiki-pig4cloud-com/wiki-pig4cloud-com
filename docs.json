@@ -12,9 +12,24 @@
   },
   "favicon": "/favicon.svg",
   "navigation": {
+    "global": {
+      "anchors": [
+        {
+          "href": "https://paper.pig4cloud.com",
+          "anchor": "商业版本",
+          "icon": "book-open"
+        },
+        {
+          "href": "https://ai.pig4cloud.com",
+          "anchor": "AI 解决方案",
+          "icon": "brain"
+        }
+      ]
+    },
     "tabs": [
       {
         "tab": "快速入门",
+        "icon": "book-open",
         "groups": [
           {
             "group": "快速开始",
@@ -178,6 +193,11 @@
         ]
       },
       {
+        "tab": "视频教程",
+        "icon": "video",
+        "href": "https://tv.pig4cloud.com"
+      },
+      {
         "tab": "常见问题",
         "groups": [
           {
@@ -218,6 +238,11 @@
     "dark": "/logo/dark.svg"
   },
   "navbar": {
+    "primary": {
+      "type": "button",
+      "label": "微信群",
+      "href": "/images/1728703600955-45cedb6b-0f2a-4949-ac17-a51239a503c3.png"
+    },
     "links": [
       {
         "label": "官方网站",

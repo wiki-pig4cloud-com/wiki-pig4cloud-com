@@ -1,11 +1,11 @@
 ---
-title: "websocket简介"
+title: "websocket 简介"
 ---
 
 [bilibili](https://player.bilibili.com/player.html?bvid=BV12t411B7e9&p=36&page=36&autoplay=0)
 
-# websocket简介
-WebSocket 协议在2008年诞生，2011年成为国际标准。所有浏览器都已经支持了。
+# websocket 简介
+WebSocket 协议在 2008 年诞生，2011 年成为国际标准。所有浏览器都已经支持了。
 
 它的最大特点就是，服务器可以主动向客户端推送信息，客户端也可以主动向服务器发送信息，是真正的双向平等对话，属于[服务器推送技术](https://en.wikipedia.org/wiki/Push_technology)的一种。
 
@@ -33,10 +33,10 @@ WebSocket 协议在2008年诞生，2011年成为国际标准。所有浏览器�
 
 
 
-+ 服务地址:  
++ 服务地址： 
 
 ```shell
-# 例如链接upms模块的ws接口 ws://127.0.0.1:9999/admin/ws/info?access_token=xxxx 
+# 例如链接 upms 模块的 ws 接口 ws://127.0.0.1:9999/admin/ws/info?access_token=xxxx 
 ws://127.0.0.1:9999/路由前缀/ws/info?access_token=token
 ```
 
@@ -48,7 +48,7 @@ WebSocketMessageSender.send(sessionKey,message)
 ```
 
 :::warning
-默认sessionKey为客户端登录的用户名，比如给admin 用户发送就是   
+默认 sessionKey 为客户端登录的用户名，比如给 admin 用户发送就是   
   
 WebSocketMessageSender.send("admin","hello world")
 
@@ -69,7 +69,7 @@ public class CustomPlanTextMessageHandler implements PlanTextMessageHandler {
 
 	/**
 	 * 普通文本消息处理
-	 * @param session 当前接收消息的session
+	 * @param session 当前接收消息的 session
 	 * @param message 文本消息
 	 */
 	@Override

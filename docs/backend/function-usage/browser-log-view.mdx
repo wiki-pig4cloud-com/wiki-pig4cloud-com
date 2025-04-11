@@ -1,5 +1,5 @@
 ---
-title: "配置Logfile Viewer 日志挂载"
+title: "配置 Logfile Viewer 日志挂载"
 ---
 
 开启后可以在浏览器实时查看当前日志输出
@@ -15,7 +15,7 @@ title: "配置Logfile Viewer 日志挂载"
 
 
 
-可以直接复制 **pig-upms/pig-upms-biz/src/main/resources/logback-spring.xml** 文件，到新增服务的resources 目录。
+可以直接复制 **pig-upms/pig-upms-biz/src/main/resources/logback-spring.xml** 文件，到新增服务的 resources 目录。
 
 
 
@@ -31,12 +31,12 @@ title: "配置Logfile Viewer 日志挂载"
 
 
 
-在 bootstrap.yml 配置 logging.file 的配置即可开启Logfile view
+在 bootstrap.yml 配置 logging.file 的配置即可开启 Logfile view
 
 
 
 ```yaml
-# 配置Logfile Viewer 日志挂载
+# 配置 Logfile Viewer 日志挂载
 logging:
   file:
     name: logs/${spring.application.name}/debug.log

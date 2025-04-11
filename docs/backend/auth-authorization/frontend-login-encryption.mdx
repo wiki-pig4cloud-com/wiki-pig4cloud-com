@@ -10,13 +10,13 @@ title: "前端登录请求加密"
 
 ## 前端加密功能
 
-<Warning>特别说明: 修改密钥注意同步修改前后端的key，必须为16位</Warning>
+<Warning>特别说明：修改密钥注意同步修改前后端的 key，必须为 16 位</Warning>
 
-- 前端 **env VITE_PWD_ENC_KEY** 提供简单的AES对称加密算法，注意key和后端网关配置相同，这里打包混淆后，相对安全。
+- 前端 **env VITE_PWD_ENC_KEY** 提供简单的 AES 对称加密算法，注意 key 和后端网关配置相同，这里打包混淆后，相对安全。
 
 ![密钥配置](https://minio.pigx.top/oss/202307/1690082310.png)
 
-- 对应后端代码解密的key在 **nacos/pig-auth-dev.yml** 定义
+- 对应后端代码解密的 key 在 **nacos/pig-auth-dev.yml** 定义
 
 ```shell
 security:
@@ -25,13 +25,13 @@ security:
 
 ## 通过在线服务获取密文
 
-使用密码加密服务: [https://enc.pig4cloud.com](https://enc.pig4cloud.com)
+使用密码加密服务：[https://enc.pig4cloud.com](https://enc.pig4cloud.com)
 
 ![密码加密服务](https://minio.pigx.vip/oss/1638683003.png)
 
 ## 总结
 
-虽然AES是对称加密，但在此场景中提供了基本的传输保护。
+虽然 AES 是对称加密，但在此场景中提供了基本的传输保护。
 
 ## 问题咨询
 

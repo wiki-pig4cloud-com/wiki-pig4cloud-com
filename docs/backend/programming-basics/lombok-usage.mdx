@@ -1,17 +1,17 @@
 ---
-title: "Lombok使用及技巧"
+title: "Lombok 使用及技巧"
 ---
 
 ### ① 为什么使用
 
-还在编写无聊枯燥又难以维护的POJO吗？  洁癖者的春天在哪里？请看Lombok！在过往的Java项目中，充斥着太多不友好的代码：POJO的getter/setter/toString；异常处理；I/O流的关闭操作等等，这些样板代码既没有技术含量，又影响着代码的美观，Lombok应运而生。首先说明一下：任何技术的出现都是为了解决某一类问题的，如果在此基础上再建立奇技淫巧，不如回归Java本身。应该保持合理使用而不滥用。
+还在编写无聊枯燥又难以维护的 POJO 吗？洁癖者的春天在哪里？请看 Lombok！在过往的 Java 项目中，充斥着太多不友好的代码：POJO 的 getter/setter/toString；异常处理；I/O 流的关闭操作等等，这些样板代码既没有技术含量，又影响着代码的美观，Lombok 应运而生。首先说明一下：任何技术的出现都是为了解决某一类问题的，如果在此基础上再建立奇技淫巧，不如回归 Java 本身。应该保持合理使用而不滥用。
 
 ### ② 如何安装
 
-当前你使用的ide未安装lombok. lombok能够达到的效果就是在源码中不需要写一些通用的方法，但是在编译生成的字节码文件中会帮我们生成这些方法,减少代码冗余.
+当前你使用的 ide 未安装 lombok. lombok 能够达到的效果就是在源码中不需要写一些通用的方法，但是在编译生成的字节码文件中会帮我们生成这些方法，减少代码冗余。
 
 <Warning>
-**IDEA安装方法** https://blog.csdn.net/zhglance/article/details/54931430 | **eclipse安装方法** https://blog.csdn.net/arkblue/article/details/52608213
+**IDEA 安装方法** https://blog.csdn.net/zhglance/article/details/54931430 | **eclipse 安装方法** https://blog.csdn.net/arkblue/article/details/52608213
 </Warning>
 
 ### ③ 常用且特殊注解
@@ -19,7 +19,7 @@ title: "Lombok使用及技巧"
 #### @AllArgsConstructor
 
 <Note>
-**@AllArgsConstructor 替代@Autowired构造注入**，多个bean 注入时更加清晰
+**@AllArgsConstructor 替代@Autowired 构造注入**，多个 bean 注入时更加清晰
 </Note>
 
 ```java
@@ -93,7 +93,7 @@ private void checkCode(ServerHttpRequest request) throws ValidateCodeException {
 #### @UtilityClass
 
 <Note>
-**@UtilityClass 工具类再也不用定义static的方法了，直接就可以Class.Method 使用**
+**@UtilityClass 工具类再也不用定义 static 的方法了，直接就可以 Class.Method 使用**
 </Note>
 
 ```java
@@ -113,7 +113,7 @@ public static void main(String[] args) {
 #### @Cleanup
 
 <Note>
-**@CleanUp:** 清理流对象,不用手动去关闭流，多么优雅
+**@CleanUp:** 清理流对象，不用手动去关闭流，多么优雅
 </Note>
 
 ```java

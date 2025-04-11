@@ -5,7 +5,7 @@ title: "Linux-部署应用"
 ## 基础环境搭建
 ### ① 购买 ECS
 
-特别说明: 开发环境、测试环境强烈建议选择【ECS 按量付费】[👉🏻 《阿里云服务器 ECS 按量付费和包年包月有什么区别？》](https://developer.aliyun.com/article/1178762?source=5176.11533457&userCode=ueyxv2qf)
+特别说明：开发环境、测试环境强烈建议选择【ECS 按量付费】[👉🏻 《阿里云服务器 ECS 按量付费和包年包月有什么区别？》](https://developer.aliyun.com/article/1178762?source=5176.11533457&userCode=ueyxv2qf)
 
 - [👉🏻 建议直接访问阿里云 ECS 官网进行购买，无需关注官方活动，因为官方活动并不一定会更便宜。【选择按量付费】](https://www.aliyun.com/product/ecs?source=5176.11533457&userCode=ueyxv2qf)
 
@@ -52,7 +52,7 @@ yum install -y mysql mysql-server
 vim /etc/my.cnf
 lower_case_table_names=1
 
-# 重启mysql
+# 重启 mysql
 systemctl restart mysqld
 
 # 查看默认密码
@@ -211,9 +211,9 @@ server {
 **注意配置安全组，服务相关的端口对外暴露**
 
 - 80/443    (生产模式只需要开启此关口)
-- 9999 网关 （如需访问swagger 需要）
-- 5001 监控 （如需访问monitor 需要）
-- 5020 监控 （如需访问monitor 需要）
+- 9999 网关（如需访问 swagger 需要）
+- 5001 监控（如需访问 monitor 需要）
+- 5020 监控（如需访问 monitor 需要）
 </Warning>
 
 ![](https://cdn.nlark.com/yuque/0/2020/png/283679/1600526129960-ccee8fcd-1db8-4597-a9ab-411b0ea84f67.png)

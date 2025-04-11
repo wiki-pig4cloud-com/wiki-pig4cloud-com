@@ -1,5 +1,5 @@
 ---
-title: "Sentinel流量保护作用"
+title: "Sentinel 流量保护作用"
 ---
 
 ## 熔断降级
@@ -8,14 +8,14 @@ title: "Sentinel流量保护作用"
 
 ![熔断降级示意图](https://cdn.nlark.com/yuque/0/2020/png/283679/1600614947185-0c75dfce-bc82-473a-bab9-957e043be3a2.png)
 
-Sentinel 和 Hystrix 的原则是一致的: 当调用链路中某个资源出现不稳定，例如，表现为 timeout，异常比例升高的时候，则对这个资源的调用进行限制，并让请求快速失败，避免影响到其它的资源，最终产生雪崩的效果。
+Sentinel 和 Hystrix 的原则是一致的：当调用链路中某个资源出现不稳定，例如，表现为 timeout，异常比例升高的时候，则对这个资源的调用进行限制，并让请求快速失败，避免影响到其它的资源，最终产生雪崩的效果。
 
 ### 熔断降级设计理念
 在限制的手段上，Sentinel 和 Hystrix 采取了完全不一样的方法。
 
-Hystrix 通过[线程池](https://github.com/Netflix/Hystrix/wiki/How-it-Works#benefits-of-thread-pools)的方式，来对依赖(在我们的概念中对应资源)进行了隔离。这样做的好处是资源和资源之间做到了最彻底的隔离。缺点是除了增加了线程切换的成本，还需要预先给各个资源做线程池大小的分配。
+Hystrix 通过[线程池](https://github.com/Netflix/Hystrix/wiki/How-it-Works#benefits-of-thread-pools)的方式，来对依赖 (在我们的概念中对应资源) 进行了隔离。这样做的好处是资源和资源之间做到了最彻底的隔离。缺点是除了增加了线程切换的成本，还需要预先给各个资源做线程池大小的分配。
 
-Sentinel 对这个问题采取了两种手段:
+Sentinel 对这个问题采取了两种手段：
 
 - 通过并发线程数进行限制
 和资源池隔离的方法不同，Sentinel 通过限制资源并发线程的数量，来减少不稳定资源对其它资源的影响。这样不但没有线程切换的损耗，也不需要您预先分配线程池的大小。当某个资源出现不稳定的情况下，例如响应时间变长，对资源的直接影响就是会造成线程数的逐步堆积。当线程数在特定资源上堆积到一定的数量之后，对该资源的新请求就会被拒绝。堆积的线程完成任务后才开始继续接收请求。
@@ -28,7 +28,7 @@ Sentinel 对这个问题采取了两种手段:
 
 ![流量控制示意图](https://cdn.nlark.com/yuque/0/2020/png/283679/1600614134148-ed7c7493-0754-497b-bc00-2f31b1f12df7.png)
 
-流量控制有以下几个角度:
+流量控制有以下几个角度：
 
 - 资源的调用关系，例如资源的调用链路，资源和资源之间的关系；
 - 运行指标，例如 QPS、线程池、系统负载等；
@@ -42,5 +42,5 @@ Sentinel 同时提供[系统维度的自适应保护能力](https://sentinelguar
 针对这个情况，Sentinel 提供了对应的保护机制，让系统的入口流量和系统的负载达到一个平衡，保证系统在能力范围之内处理最多的请求。
 
 <Card title="参考资料" icon="link" href="https://sentinelguard.io/zh-cn/docs/introduction.html">
-  了解更多关于Sentinel的信息
+  了解更多关于 Sentinel 的信息
 </Card>

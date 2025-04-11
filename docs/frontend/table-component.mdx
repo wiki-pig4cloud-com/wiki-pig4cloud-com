@@ -4,7 +4,7 @@ title: "前端表格组件"
 
 
 ## 1. useTable 函数是什么
-官方对自定义 hook 定义：在 Vue 应用的概念中，“组合式函数” (Composables) 是一个利用 Vue 组合式 API 来封装和复用有状态逻辑的函数。Hooks 在前端领域并没有明确定义，借用知乎大佬的定义：在 JS 里是 callback,事件驱动，集成定义一些可复用的方法。
+官方对自定义 hook 定义：在 Vue 应用的概念中，“组合式函数” (Composables) 是一个利用 Vue 组合式 API 来封装和复用有状态逻辑的函数。Hooks 在前端领域并没有明确定义，借用知乎大佬的定义：在 JS 里是 callback，事件驱动，集成定义一些可复用的方法。
 
 **useTable 函数的名称就能清晰地表达其作用，它是集成了前端 element-plus 表格的一些通用函数。**
 
@@ -31,7 +31,7 @@ const {
 ```
 
 ## 3. useTable 初始化 state 如何构建
-如果你想通过 useTable 生成一些通用的表格方法，那么就需要向它提供一些初始值，比如查询的URL和分页大小等参数。
+如果你想通过 useTable 生成一些通用的表格方法，那么就需要向它提供一些初始值，比如查询的 URL 和分页大小等参数。
 
 ```plain
 const state: BasicTableProps = reactive<BasicTableProps>({
@@ -45,23 +45,23 @@ const state: BasicTableProps = reactive<BasicTableProps>({
 
 ```plain
 export interface BasicTableProps {
-	// 是否在创建页面时即调用数据列表接口，默认为true
+	// 是否在创建页面时即调用数据列表接口，默认为 true
 	createdIsNeed?: boolean;
-	// 是否需要分页，默认为true
+	// 是否需要分页，默认为 true
 	isPage?: boolean;
-	// 查询条件表单对象，类型为any
+	// 查询条件表单对象，类型为 any
 	queryForm?: any;
 	// 数据列表数组
 	dataList?: any[];
 	// 分页属性对象
 	pagination?: Pagination;
-	// 数据列表，loading状态标志，默认为false
+	// 数据列表，loading 状态标志，默认为 false
 	dataListLoading?: boolean;
 	// 数据列表多选项数组
 	dataListSelections?: any[];
-	// 数据列表查询接口api方法，接收任意数量参数，返回Promise
+	// 数据列表查询接口 api 方法，接收任意数量参数，返回 Promise
 	pageList?: (...arg: any) => Promise<any>;
-	// loading标志，默认为false
+	// loading 标志，默认为 false
 	loading?: Boolean;
 	// 多选结果数组
 	selectObjs?: any[];
@@ -69,7 +69,7 @@ export interface BasicTableProps {
 	descs?: string[];
 	// 排序方式数组
 	ascs?: string[];
-	// props属性对象，类型为any
+	// props 属性对象，类型为 any
 	props?: any;
 }
 ```

@@ -4,7 +4,7 @@ title: "网关超时及异常处理"
 
 ### 网关超时配置
 
-路由超时配置可以为所有路由配置Http超时（响应和连接），并为每个特定路由覆盖Http超时。
+路由超时配置可以为所有路由配置 Http 超时（响应和连接），并为每个特定路由覆盖 Http 超时。
 
 #### ① 配置全局路由超时时间
 
@@ -17,12 +17,12 @@ spring:
         response-timeout: 10s
 ```
 
-+ `connect-timeout` 必须以毫秒为单位指定连接超时时间.
-+ `response-timeout` 必须指定为java.time.Duration
++ `connect-timeout` 必须以毫秒为单位指定连接超时时间。
++ `response-timeout` 必须指定为 java.time.Duration
 
 #### ②  特定接口配置超时时间
 ```yaml
-- id: pig-upms      # 唯一的服务ID
+- id: pig-upms      # 唯一的服务 ID
   uri: lb://pig-upms # 注册中心的服务名称，实现负载均衡
   predicates:
   - Path=/admin/demo  #所有业务的请求前缀
@@ -31,10 +31,10 @@ spring:
     connect-timeout: 200
 ```
 
-可以通过路由的metadata以下两个参数配置每个路由超时：
+可以通过路由的 metadata 以下两个参数配置每个路由超时：
 
-+ `connect-timeout` 必须以毫秒为单位指定连接超时时间.
-+ `response-timeout` 必须以毫秒为单位指定响应超时时间.
++ `connect-timeout` 必须以毫秒为单位指定连接超时时间。
++ `response-timeout` 必须以毫秒为单位指定响应超时时间。
 
 ### 网关统一异常包装
 

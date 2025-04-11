@@ -1,18 +1,18 @@
 ---
-title: "进入logstash容器"
+title: "进入 logstash 容器"
 ---
 
-ELK即Elasticsearch、Logstash、Kibana,组合起来可以搭建线上日志系统，在目前这种分布式微服务系统中，通过ELK 会非常方便的查询和统计日志情况.
+ELK 即 Elasticsearch、Logstash、Kibana，组合起来可以搭建线上日志系统，在目前这种分布式微服务系统中，通过 ELK 会非常方便的查询和统计日志情况。
 
 
 
-本文以pig 的upms 模块为例
+本文以 pig 的 upms 模块为例
 
 
 
 + Elasticsearch:用于存储收集到的日志信息；
-+ Logstash:用于收集日志，应用整合了Logstash以后会把日志发送给Logstash,Logstash再把日志转发给Elasticsearch；
-+ Kibana:通过Web端的可视化界面来查看日志。
++ Logstash:用于收集日志，应用整合了 Logstash 以后会把日志发送给 Logstash,Logstash 再把日志转发给 Elasticsearch；
++ Kibana:通过 Web 端的可视化界面来查看日志。
 
 
 
@@ -20,9 +20,9 @@ ELK即Elasticsearch、Logstash、Kibana,组合起来可以搭建线上日志系�
 
 
 
-## 搭建ELK环境
+## 搭建 ELK 环境
 ### 
-### ① 编写docker-compose.yml脚本启动ELK服务
+### ① 编写 docker-compose.yml 脚本启动 ELK 服务
 
 
 ```yaml
@@ -32,9 +32,9 @@ services:
     image: elasticsearch:6.4.0
     container_name: elasticsearch
     environment:
-      - "cluster.name=elasticsearch" #设置集群名称为elasticsearch
+      - "cluster.name=elasticsearch" #设置集群名称为 elasticsearch
       - "discovery.type=single-node" #以单一节点模式启动
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m" #设置使用jvm内存大小
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m" #设置使用 jvm 内存大小
     volumes:
       - /mydata/elasticsearch/plugins:/usr/share/elasticsearch/plugins #插件文件挂载
       - /mydata/elasticsearch/data:/usr/share/elasticsearch/data #数据文件挂载
@@ -44,11 +44,11 @@ services:
     image: kibana:6.4.0
     container_name: kibana
     links:
-      - elasticsearch:es #可以用es这个域名访问elasticsearch服务
+      - elasticsearch:es #可以用 es 这个域名访问 elasticsearch 服务
     depends_on:
-      - elasticsearch #kibana在elasticsearch启动之后再启动
+      - elasticsearch #kibana 在 elasticsearch 启动之后再启动
     environment:
-      - "elasticsearch.hosts=http://es:9200" #设置访问elasticsearch的地址
+      - "elasticsearch.hosts=http://es:9200" #设置访问 elasticsearch 的地址
     ports:
       - 5601:5601
   logstash:
@@ -57,9 +57,9 @@ services:
     volumes:
       - /mydata/logstash/upms-logstash.conf:/usr/share/logstash/pipeline/logstash.conf 
     depends_on:
-      - elasticsearch #kibana在elasticsearch启动之后再启动
+      - elasticsearch #kibana 在 elasticsearch 启动之后再启动
     links:
-      - elasticsearch:es #可以用es这个域名访问elasticsearch服务
+      - elasticsearch:es #可以用 es 这个域名访问 elasticsearch 服务
     ports:
       - 4560:4560
 ```
@@ -77,12 +77,12 @@ mkdir -p /mydata/elasticsearch/data
 mkdir -p /mydata/elasticsearch/plugins
 
 
-chmod 777 /mydata/elasticsearch/data  # 给777权限，不然启动elasticsearch 可能会有权限问题
+chmod 777 /mydata/elasticsearch/data  # 给 777 权限，不然启动 elasticsearch 可能会有权限问题
 ```
 
 
 
-### ③ 编写日志采集logstash
+### ③ 编写日志采集 logstash
 
 
 在  `/mydata/logstash`目录创建 `upms-logstash.conf`
@@ -108,14 +108,14 @@ output {
 
 
 
-### ④ 启动ELK 服务
+### ④ 启动 ELK 服务
 
 
 在`docker-compose.yml` 同级目录执行 `docker-compose up -d`
 
 
 
-注意：Elasticsearch启动可能需要好几分钟，要耐心等待。
+注意：Elasticsearch 启动可能需要好几分钟，要耐心等待。
 
 
 
@@ -123,35 +123,35 @@ output {
 
 
 
-### ⑤ logstash 安装json_lines 格式插件
+### ⑤ logstash 安装 json_lines 格式插件
 
 
 ```plain
-# 进入logstash容器
+# 进入 logstash 容器
 docker exec -it logstash /bin/bash
-# 进入bin目录
+# 进入 bin 目录
 cd /bin/
 # 安装插件
 logstash-plugin install logstash-codec-json_lines
 # 退出容器
 exit
-# 重启logstash服务
+# 重启 logstash 服务
 docker restart logstash
 ```
 
 
 
-### ⑥ 访问宿主机5601 kibana
+### ⑥ 访问宿主机 5601 kibana
 
 
 ![](https://cdn.nlark.com/yuque/0/2020/png/283679/1599470402692-ec46654c-1e94-4ff8-8d11-39a1dc323a52.png)
 
 
 
-## 服务整合Logstash （以UPMS模块为例）
+## 服务整合 Logstash（以 UPMS 模块为例）
 
 
-### ① 添加pom 依赖
+### ① 添加 pom 依赖
 
 
 ```xml
@@ -165,7 +165,7 @@ docker restart logstash
 
 
 
-### ② logback-spring.xml 新增appender
+### ② logback-spring.xml 新增 appender
 
 
 ```xml
@@ -182,7 +182,7 @@ docker restart logstash
 
 
 
-### ③ 启动pig 在kibana中查询日志
+### ③ 启动 pig 在 kibana 中查询日志
 
 
 ![](https://cdn.nlark.com/yuque/0/2020/png/283679/1599470402985-aeb1a6bc-079c-43c0-b30e-42ab8d5227b7.png)
@@ -191,7 +191,7 @@ docker restart logstash
 
 
 
-## 扩展:  采集多个模块日志
+## 扩展：采集多个模块日志
 
 
 :::warning

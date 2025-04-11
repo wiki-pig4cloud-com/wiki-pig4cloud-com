@@ -1,5 +1,5 @@
 ---
-title: "开发-快速开始"
+title: "开发 - 快速开始"
 ---
 
 <Warning>
@@ -27,13 +27,13 @@ git clone https://gitee.com/log4j/pig.git -b jdk17
 
 ## ③ 初始化数据库
 <Note>
-- **版本：mysql5.7.8+(支持8)     默认字符集: utf8mb4   默认排序规则: utf8mb4_general_ci**
+- **版本：mysql5.7.8+(支持 8)     默认字符集：utf8mb4   默认排序规则：utf8mb4_general_ci**
 </Note>
 
 ```sql
 -- 核心数据库
 source db/pig.sql;
--- nacos配置
+-- nacos 配置
 source db/pig_config.sql;
 ```
 
@@ -45,8 +45,8 @@ source db/pig_config.sql;
 pig/pig-register/src/main/resources/application.yml 
 db:
   num: 1
-  user: ${MYSQL-USER:root}  #修改:用户名
-  password: ${MYSQL-PWD:root} #修改:密码, 特殊字符使用 '包裹'
+  user: ${MYSQL-USER:root}  #修改：用户名
+  password: ${MYSQL-PWD:root} #修改：密码，特殊字符使用 '包裹'
   url:
     0: jdbc:mysql://${MYSQL-HOST:pig-mysql}:${127.0.0.1:3306}/${MYSQL-DB:pig_config}?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&nullCatalogMeansCurrent=true&allowPublicKeyRetrieval=true
 ```
@@ -67,7 +67,7 @@ db:
 
 ## ⑤ 启动顺序 
 <Note>
-**找到对应模块的类，直接右键Main 启动即可**
+**找到对应模块的类，直接右键 Main 启动即可**
 </Note>
 
 ```java
@@ -88,12 +88,12 @@ db:
 ```
 
 ## ⑥ 部署前端
-### 6.1 检查node版本
+### 6.1 检查 node 版本
 ```shell
-#  检查node版本 = 18
+#  检查 node 版本 = 18
 node -v 
 
-# 若高版本node 可执行n 命令切换至 18 版本
+# 若高版本 node 可执行 n 命令切换至 18 版本
 n 18
 ```
 
@@ -114,18 +114,18 @@ npm run dev
 
 ### 6.5 访问前端
 <Note>
-浏览器访问:  http://localhost:8888
+浏览器访问：http://localhost:8888
 
-默认用户名: admin
+默认用户名：admin
 
-默认密码: 123456
+默认密码：123456
 </Note>
 
 ### 6.6 特别说明
 <Warning>
 1. npm install 过程中可能由于网络关系等，提示报错，请删除
 2. pig-ui 根目录中 node_modules 重新执行 npm install 命令即可
-3. 注意node 版本不要太高， 18 是个不错的版本选择
+3. 注意 node 版本不要太高，18 是个不错的版本选择
 </Warning>
 
 ## ⑦ 打卡上榜

@@ -5,7 +5,7 @@ title: "前后端时间处理"
 # 前后端时间处理
 
 
-pig 项目使用的 Jackson 作为输入输出格式处理， 全局 `PigJavaTimeModule` 定义了 可以自动 **字符串 to 日期时间** 转换的规则。 下文将详细讲解及其其他类型如何转换配置。
+pig 项目使用的 Jackson 作为输入输出格式处理，全局 `PigJavaTimeModule` 定义了 可以自动 **字符串 to 日期时间** 转换的规则。下文将详细讲解及其其他类型如何转换配置。
 
 
 
@@ -35,7 +35,7 @@ public class PigJavaTimeModule extends SimpleModule {
 ## 前端传参 String 后端反序列成 Date 对象
 
 
-pig 的日期时间类型均使用 Java8 的日期时间对象， LocalDateTime、LocalDate、LocalTime。
+pig 的日期时间类型均使用 Java8 的日期时间对象，LocalDateTime、LocalDate、LocalTime。
 
 
 
@@ -52,7 +52,7 @@ pig 的日期时间类型均使用 Java8 的日期时间对象， LocalDateTime�
 ### 个性化字符串 转换
 
 
-+ 方式一： 前端转换 | 若使用 element、avue 等均有此属性对提交的值进行格式化，只要格式化成如上格式即可。
++ 方式一：前端转换 | 若使用 element、avue 等均有此属性对提交的值进行格式化，只要格式化成如上格式即可。
 
 
 
@@ -60,15 +60,15 @@ pig 的日期时间类型均使用 Java8 的日期时间对象， LocalDateTime�
 
 
 
-+ 方式二： 后端转换 | 总有些场景上送的日期参数是没有方法通过前端格式化（比如其他第三方上送的报文）此时需要在后端进行格式化。
++ 方式二：后端转换 | 总有些场景上送的日期参数是没有方法通过前端格式化（比如其他第三方上送的报文）此时需要在后端进行格式化。
 
 
 
 ```java
-// 前端上送 2020年10月10日11时17分31秒
+// 前端上送 2020 年 10 月 10 日 11 时 17 分 31 秒
 @Data
 public class DemoDTO {
-    @DateTimeFormat(pattern = "yyyy年MM月dd日HH时mm分ss秒")
+    @DateTimeFormat(pattern = "yyyy 年 MM 月 dd 日 HH 时 mm 分 ss 秒")
     private LocalDateTime fieldName;
 }
 ```
@@ -93,7 +93,7 @@ public class DemoDTO {
 ```plain
 @Data
 public class DemoDTO {
-    @JsonFormat(pattern = "yyyy年MM月dd日HH时mm分ss秒")
+    @JsonFormat(pattern = "yyyy 年 MM 月 dd 日 HH 时 mm 分 ss 秒")
     private LocalDateTime fieldName;
 }
 ```

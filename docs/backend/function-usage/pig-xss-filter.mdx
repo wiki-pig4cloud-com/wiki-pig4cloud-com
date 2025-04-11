@@ -7,7 +7,7 @@ title: "① XSS 是什么"
 # ① XSS 是什么
 
 
-XSS（Cross Site Scripting）攻击全称跨站脚本攻击，为了不与 CSS(Cascading Style Sheets)名词混淆，故将跨站脚本攻击简称为 XSS，XSS 是一种常见 web 安全漏洞，它允许恶意代码植入到提供给其它用户使用的页面中。
+XSS（Cross Site Scripting）攻击全称跨站脚本攻击，为了不与 CSS(Cascading Style Sheets) 名词混淆，故将跨站脚本攻击简称为 XSS，XSS 是一种常见 web 安全漏洞，它允许恶意代码植入到提供给其它用户使用的页面中。
 
 
 
@@ -146,7 +146,7 @@ curl --location --request POST 'http://localhost:8080/xss' \
 
 
 
-# ③ 接口跳过XSS过滤
+# ③ 接口跳过 XSS 过滤
 
 
 + 可以使用 [**@XssCleanIgnore **](/XssCleanIgnore )** ** 注解对方法和类级别进行忽略。
@@ -173,7 +173,7 @@ public String xss(@RequestBody Map<String,String> body){
 
 
 
-# ④ 扩展: XSS原理分析
+# ④ 扩展：XSS 原理分析
 
 
 ### 常见实现剖析
@@ -233,7 +233,7 @@ jsoup 实现 WHATWG HTML5 规范，并将 HTML 解析为与现代浏览器相同
 
 
 
-[源码地址： https://gitee.com/596392912/mica](https://gitee.com/596392912/mica)  
+[源码地址：https://gitee.com/596392912/mica](https://gitee.com/596392912/mica)  
   
 
 

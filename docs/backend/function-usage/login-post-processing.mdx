@@ -2,11 +2,11 @@
 title: "登录后置处理"
 ---
 
-用户登录成功、失败后，pig 捕获了spring security 发出的对应事件。
+用户登录成功、失败后，pig 捕获了 spring security 发出的对应事件。
 
 
 
-+ 用户登录成功时，发布AuthenticationSuccessEvent事件
++ 用户登录成功时，发布 AuthenticationSuccessEvent 事件
 
 
 
@@ -16,7 +16,7 @@ public class PigAuthenticationSuccessEventHandler extends AuthenticationSuccessE
 	/**
 	 * 处理登录成功方法
 	 * <p>
-	 * 获取到登录的authentication 对象
+	 * 获取到登录的 authentication 对象
 	 *
 	 * @param authentication 登录对象
 	 */
@@ -43,8 +43,8 @@ public class PigAuthenticationFailureEvenHandler extends AuthenticationFailureEv
 	 * 处理登录失败方法
 	 * <p>
 	 *
-	 * @param authenticationException 登录的authentication 对象
-	 * @param authentication          登录的authenticationException 对象
+	 * @param authenticationException 登录的 authentication 对象
+	 * @param authentication          登录的 authenticationException 对象
 	 */
 	@Override
 	public void handle(AuthenticationException authenticationException, Authentication authentication) {

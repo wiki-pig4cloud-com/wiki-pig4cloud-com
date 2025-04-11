@@ -17,7 +17,7 @@ title: "pig 整合多级缓存提高性能"
 
 
 
-+ Caffeine 来自未来的本地内存缓存,性能比如常见的内存缓存实现性能高出不少[详细对比](https://github.com/ben-manes/caffeine/wiki/Benchmarks)。
++ Caffeine 来自未来的本地内存缓存，性能比如常见的内存缓存实现性能高出不少[详细对比](https://github.com/ben-manes/caffeine/wiki/Benchmarks)。
 
 
 
@@ -25,14 +25,14 @@ title: "pig 整合多级缓存提高性能"
 
 
 
-**综合所述：我们需要构建 L1 Caffeine JVM 级别内存 ， L2 Redis 内存。**
+**综合所述：我们需要构建 L1 Caffeine JVM 级别内存，L2 Redis 内存。**
 
 
 
 ## 设计难点
 
 
-目前大部分应用缓存都是基于 Spring Cache 实现,基于注释（annotation）的缓存（cache）技术,存在的问题如下：
+目前大部分应用缓存都是基于 Spring Cache 实现，基于注释（annotation）的缓存（cache）技术，存在的问题如下：
 
 
 

@@ -5,7 +5,7 @@ title: "密文、根密钥不匹配 报错如下"
 ## 说明
 
 
-pig4cloud 采用的是 `jasypt` 配置文件加密方案 。
+pig4cloud 采用的是 `jasypt` 配置文件加密方案。
 
 
 
@@ -34,7 +34,7 @@ pig4cloud 采用的是 `jasypt` 配置文件加密方案 。
 
 
 
-> **<font style="color:#F5222D;">[warning] 根密钥和密文是一套，若密钥更改，则所有密文需要重新加密配置。 且原文内容 不能随意修改</font>**
+> **<font style="color:#F5222D;">[warning] 根密钥和密文是一套，若密钥更改，则所有密文需要重新加密配置。且原文内容 不能随意修改</font>**
 >
 
 
@@ -51,7 +51,7 @@ Failed to bind properties under 'security.oauth2.client.client-id' to java.lang.
 ## 原理解析
 
 
-1. Maven依赖
+1. Maven 依赖
 
 
 
@@ -77,7 +77,7 @@ jasypt:
 
 
 
-3. 使用JAVA 方法调用 （不依赖 spring 容器）
+3. 使用 JAVA 方法调用（不依赖 spring 容器）
 
 
 
@@ -120,8 +120,8 @@ xxx: ENC(密文)
 ## 总结
 
 
-1. Spring Cloud Config 提供了统一的加解密方式，方便使用，但是如果应用配置没有走配置中心，那么加解密过滤是无效的；依赖JCE 对于低版本spring cloud的兼容性不好。
-2. jasypt 功能更为强大，支持的加密方式更多，但是如果多个微服务，需要每个服务模块引入依赖配置，较为麻烦；但是功能强大 、灵活。
+1. Spring Cloud Config 提供了统一的加解密方式，方便使用，但是如果应用配置没有走配置中心，那么加解密过滤是无效的；依赖 JCE 对于低版本 spring cloud 的兼容性不好。
+2. jasypt 功能更为强大，支持的加密方式更多，但是如果多个微服务，需要每个服务模块引入依赖配置，较为麻烦；但是功能强大、灵活。
 3. 个人选择 jasypt
 
 

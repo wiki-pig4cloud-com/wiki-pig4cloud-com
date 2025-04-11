@@ -11,11 +11,11 @@ title: "pig 授权码模式使用（开放平台）"
 ## 1️⃣ 什么是开放平台
 
 
-通过开放自己平台产品服务的各种API接口，让其他第三方开发者在开发应用时根据需求直接调用，例如微信登录、QQ登录、微信支付、微博登录、热门等。
+通过开放自己平台产品服务的各种 API 接口，让其他第三方开发者在开发应用时根据需求直接调用，例如微信登录、QQ 登录、微信支付、微博登录、热门等。
 
 让第三方应用通过开发平台，使得自身海量数据资源得到沉淀（变现）
 
-目前国内主流的网站的的开放平台，都是基于oauth2.0 协议进行做的开放平台
+目前国内主流的网站的的开放平台，都是基于 oauth2.0 协议进行做的开放平台
 
 
 
@@ -36,7 +36,7 @@ title: "pig 授权码模式使用（开放平台）"
 UPDATE `sys_oauth_client_details` SET `authorized_grant_types` = 'password,refresh_token,authorization_code,client_credentials', `web_server_redirect_uri` = 'https://pig4cloud.com'WHERE `client_id` = 'test';
 ```
 
-+ 浏览器访问如下链接， 必须完全复制不要修改任何参数； <font style="color:#DF2A3F;">注意</font>：授权码模式回调地址不能使用localhost
++ 浏览器访问如下链接，必须完全复制不要修改任何参数； <font style="color:#DF2A3F;">注意</font>：授权码模式回调地址不能使用 localhost
 
 
 
@@ -48,7 +48,7 @@ http://localhost:3000/oauth2/authorize?scope=server&client_id=test&response_type
 
 
 
-+ 统一认证界面 （admin/123456）
++ 统一认证界面（admin/123456）
 
 ![](https://cdn.nlark.com/yuque/0/2024/png/283679/1734249521088-b3b4863b-1a9d-43d6-93ca-30650858ecf6.png)
 
@@ -62,7 +62,7 @@ http://localhost:3000/oauth2/authorize?scope=server&client_id=test&response_type
 
 
 
-+ 登录成功带着code回调到目标接口
++ 登录成功带着 code 回调到目标接口
 
 
 
@@ -74,7 +74,7 @@ http://localhost:3000/oauth2/authorize?scope=server&client_id=test&response_type
 
 
 :::warning
-**参考 Postman 调用章节导入脚本: **[https://www.yuque.com/pig4cloud/pig/dzlb0v](https://www.yuque.com/pig4cloud/pig/dzlb0v)
+**参考 Postman 调用章节导入脚本：**[https://www.yuque.com/pig4cloud/pig/dzlb0v](https://www.yuque.com/pig4cloud/pig/dzlb0v)
 
 :::
 
@@ -87,7 +87,7 @@ http://localhost:3000/oauth2/authorize?scope=server&client_id=test&response_type
 ## 4️⃣ 退出统一身份认证
 
 
-浏览器访问： http://localhost:3000/oauth2/logout
+浏览器访问：http://localhost:3000/oauth2/logout
 
 
 

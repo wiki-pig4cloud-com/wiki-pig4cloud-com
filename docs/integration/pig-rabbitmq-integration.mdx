@@ -105,7 +105,7 @@ public class RabbitQueueListener {
 	@RabbitListener(queues = "hello")
 	@RabbitHandler
 	public void onMessage(Message message) {
-		log.info("消费端Payload: " + message.getPayload().toString());
+		log.info("消费端 Payload: " + message.getPayload().toString());
 	}
 }
 ```

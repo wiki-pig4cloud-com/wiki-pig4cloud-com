@@ -1,5 +1,5 @@
 ---
-title: "[单点案例]  jfinal系统接入pig"
+title: "[单点案例]  jfinal 系统接入 pig"
 ---
 
 [此处为语雀卡片，点击链接查看](https://www.yuque.com/docs/14037486#ncCMk)
@@ -42,7 +42,7 @@ title: "[单点案例]  jfinal系统接入pig"
 
         JSONObject parse = JSONUtil.parseObj(body);
         String username = parse.getStr("username");
-        //登录并创建token
+        //登录并创建 token
         User user = userService.findFistByUsername(username);
 
         Ret ret = Ret.ok().set("user_id", user.getId());

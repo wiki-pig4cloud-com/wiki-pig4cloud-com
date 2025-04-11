@@ -35,7 +35,7 @@ import { i18n } from "/@/i18n/index";
 const webTitle = i18n.global.t(router.currentRoute.value.meta.title as any);
 ```
 
-#### setup 里使用 ，t(xxx)
+#### setup 里使用，t(xxx)
 ```plain
 <script lang="ts">
 import { defineComponent } from 'vue';
@@ -54,7 +54,7 @@ export default defineComponent({
 ```
 
 ## 框架其它国际化
-使用方法参考：[国际化-国际化使用](/config/i18n/#_4-%E5%9B%BD%E9%99%85%E5%8C%96%E4%BD%BF%E7%94%A8)。需提前定义多国语言数据 message.xxx.xxx
+使用方法参考：[国际化 - 国际化使用](/config/i18n/#_4-%E5%9B%BD%E9%99%85%E5%8C%96%E4%BD%BF%E7%94%A8)。需提前定义多国语言数据 message.xxx.xxx
 
 ### 1. 菜单
 [/@/layout/navMenu](#/src/layout/navMenu)，取 [/@/router/route.ts](#/src/router/route.ts) 中的 meta.title 字段（message.router.xxx 需提前在 [/@/i18n/lang](#/src/i18n/lang)）中定义

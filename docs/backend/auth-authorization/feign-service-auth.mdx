@@ -1,14 +1,14 @@
 ---
-title: "feign调用及服务间鉴权"
+title: "feign 调用及服务间鉴权"
 ---
 
 ## ⭐️  feign 接口调用使用
 :::info
-**以新创建的demo 模块为例，需要在 spi 配置如下类的全路径**
+**以新创建的 demo 模块为例，需要在 spi 配置如下类的全路径**
 
 :::
 
-+ feign 调用包含 feign-client、 spi 定义 两个部分
++ feign 调用包含 feign-client、spi 定义 两个部分
 
 ```java
 // feign-client
@@ -17,18 +17,18 @@ public interface RemoteDemoService {
 }
 ```
 
-+ **<font style="color:#DF2A3F;">配置feignclient 路径： demo-api/src/main/resources/META-INF/spring/org.springframework.cloud.openfeign.FeignClient.imports</font>**
++ **<font style="color:#DF2A3F;">配置 feignclient 路径：demo-api/src/main/resources/META-INF/spring/org.springframework.cloud.openfeign.FeignClient.imports</font>**
 
 ```java
 com.pig4cloud.pig.demo.api.feign.RemoteDemoService
 ```
 
-## ① 带Token 请求 (<font style="color:#DF2A3F;">不需要携带 FROM_IN header</font>)
+## ① 带 Token 请求 (<font style="color:#DF2A3F;">不需要携带 FROM_IN header</font>)
 
 
-1. 如下图客户端携带token访问A服务。
-2. A服务通过FeginClient 调用B服务获取相关依赖数据。
-3. 所以只要带token 访问A 无论后边链路有多长 ABCD 都可以获取当前用户信息
+1. 如下图客户端携带 token 访问 A 服务。
+2. A 服务通过 FeginClient 调用 B 服务获取相关依赖数据。
+3. 所以只要带 token 访问 A 无论后边链路有多长 ABCD 都可以获取当前用户信息
 4. 权限需要有这些整个链路接口的全部权限才能成功
 
 
@@ -37,7 +37,7 @@ com.pig4cloud.pig.demo.api.feign.RemoteDemoService
 
 
 
-## ② 无Token请求 (<font style="color:#DF2A3F;">需要携带 FROM_IN header</font>)
+## ② 无 Token 请求 (<font style="color:#DF2A3F;">需要携带 FROM_IN header</font>)
 
 
 ![](https://cdn.nlark.com/yuque/0/2020/png/283679/1599314191907-97e3a538-9710-406f-9924-ca88a6312589.png)
@@ -45,13 +45,13 @@ com.pig4cloud.pig.demo.api.feign.RemoteDemoService
 
 
 :::warning
-**<font style="color:#F5222D;">很多情况下，比如定时任务。A服务并没有token 去请求B服务，pig也对这种情况进行了兼容。类似于A对外暴露API，但是又安全限制</font>**
+**<font style="color:#F5222D;">很多情况下，比如定时任务。A 服务并没有 token 去请求 B 服务，pig 也对这种情况进行了兼容。类似于 A 对外暴露 API，但是又安全限制</font>**
 
 :::
 
 
 
-+ FeignClient 需要带一个请求token,FROM_IN 声明是内部调用
++ FeignClient 需要带一个请求 token,FROM_IN 声明是内部调用
 
 
 
@@ -77,7 +77,7 @@ remoteLogService.saveLog(sysLog, SecurityConstants.FROM_IN);
 
 
 
-+ 若代码无法加 `@Inner` 也可以参考API 对外暴露章节对外暴露目标接口
++ 若代码无法加 `@Inner` 也可以参考 API 对外暴露章节对外暴露目标接口
 
 
 
@@ -86,7 +86,7 @@ remoteLogService.saveLog(sysLog, SecurityConstants.FROM_IN);
 ## ③ 核心代码
 
 
-fein 拦截器将本服务的token 通过copyToken的形式传递给下游服务
+fein 拦截器将本服务的 token 通过 copyToken 的形式传递给下游服务
 
 
 

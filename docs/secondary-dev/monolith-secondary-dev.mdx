@@ -4,7 +4,7 @@ title: "进阶 单体版二次开发"
 
 [bilibili](https://player.bilibili.com/player.html?bvid=BV12t411B7e9&p=3&page=3&autoplay=0)
 
-## 一、 创建测试表
+## 一、创建测试表
 ```sql
 -- 创建测试库
 USE pig;
@@ -23,7 +23,7 @@ CREATE TABLE `demo` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_bin ROW_FORMAT=DYNAMIC COMMENT='demo 表';
 ```
 
-## 二. 代码生成
+## 二。代码生成
 :::warning
 **需要启动 pig-boot、pig-ui  服务**
 
@@ -48,8 +48,8 @@ jdbc:mysql://pig-mysql:3306/pig?characterEncoding=utf8&zeroDateTimeBehavior=conv
 :::
 
 + ① 对应 Maven module 名称 **<font style="color:#DF2A3F;background-color:#FBDE28;">admin</font>**<font style="color:#DF2A3F;background-color:#FBDE28;"> （固定值）</font>
-+ ② 对应新增服务端upms-biz模块的路径   (**<font style="color:#DF2A3F;background-color:#FBDE28;">代码放在 upms-biz目录</font>**）
-+ ③ 对应前端UI 的路径
++ ② 对应新增服务端 upms-biz 模块的路径   (**<font style="color:#DF2A3F;background-color:#FBDE28;">代码放在 upms-biz 目录</font>**）
++ ③ 对应前端 UI 的路径
 
 ![](https://cdn.nlark.com/yuque/0/2024/png/283679/1724736679009-e218956c-ef8e-40ae-92eb-22643515ce6e.png)
 

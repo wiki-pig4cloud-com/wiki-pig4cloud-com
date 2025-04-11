@@ -1,18 +1,18 @@
 #!/bin/bash
 
 # Deployment section
-if [ -f "docs/deployment/说明-版本分支.mdx" ]; then
-  mv "docs/deployment/说明-版本分支.mdx" "docs/deployment/version-branch.mdx"
+if [ -f "docs/deployment/说明 - 版本分支.mdx" ]; then
+  mv "docs/deployment/说明 - 版本分支.mdx" "docs/deployment/version-branch.mdx"
   echo "Renamed: docs/deployment/说明-版本分支.mdx -> docs/deployment/version-branch.mdx"
 fi
 
-if [ -f "docs/deployment/开发-快速开始.mdx" ]; then
-  mv "docs/deployment/开发-快速开始.mdx" "docs/deployment/quick-start.mdx"
+if [ -f "docs/deployment/开发 - 快速开始.mdx" ]; then
+  mv "docs/deployment/开发 - 快速开始.mdx" "docs/deployment/quick-start.mdx"
   echo "Renamed: docs/deployment/开发-快速开始.mdx -> docs/deployment/quick-start.mdx"
 fi
 
-if [ -f "docs/deployment/进阶-单体使用.mdx" ]; then
-  mv "docs/deployment/进阶-单体使用.mdx" "docs/deployment/monolith-usage.mdx"
+if [ -f "docs/deployment/进阶 - 单体使用.mdx" ]; then
+  mv "docs/deployment/进阶 - 单体使用.mdx" "docs/deployment/monolith-usage.mdx"
   echo "Renamed: docs/deployment/进阶-单体使用.mdx -> docs/deployment/monolith-usage.mdx"
 fi
 
@@ -37,34 +37,34 @@ if [ -f "docs/secondary-dev/微调微服务配置管理.mdx" ]; then
   echo "Renamed: docs/secondary-dev/微调微服务配置管理.mdx -> docs/secondary-dev/microservice-config-management.mdx"
 fi
 
-if [ -f "docs/secondary-dev/进阶-单体版二次开发.mdx" ]; then
-  mv "docs/secondary-dev/进阶-单体版二次开发.mdx" "docs/secondary-dev/monolith-secondary-dev.mdx"
+if [ -f "docs/secondary-dev/进阶 - 单体版二次开发.mdx" ]; then
+  mv "docs/secondary-dev/进阶 - 单体版二次开发.mdx" "docs/secondary-dev/monolith-secondary-dev.mdx"
   echo "Renamed: docs/secondary-dev/进阶-单体版二次开发.mdx -> docs/secondary-dev/monolith-secondary-dev.mdx"
 fi
 
 # Backend Programming Basics
-if [ -f "docs/backend/programming-basics/lombok使用及技巧.mdx" ]; then
-  mv "docs/backend/programming-basics/lombok使用及技巧.mdx" "docs/backend/programming-basics/lombok-usage.mdx"
+if [ -f "docs/backend/programming-basics/lombok 使用及技巧.mdx" ]; then
+  mv "docs/backend/programming-basics/lombok 使用及技巧.mdx" "docs/backend/programming-basics/lombok-usage.mdx"
   echo "Renamed: docs/backend/programming-basics/lombok使用及技巧.mdx -> docs/backend/programming-basics/lombok-usage.mdx"
 fi
 
-if [ -f "docs/backend/programming-basics/java工具类使用.mdx" ]; then
-  mv "docs/backend/programming-basics/java工具类使用.mdx" "docs/backend/programming-basics/java-util-usage.mdx"
+if [ -f "docs/backend/programming-basics/java 工具类使用.mdx" ]; then
+  mv "docs/backend/programming-basics/java 工具类使用.mdx" "docs/backend/programming-basics/java-util-usage.mdx"
   echo "Renamed: docs/backend/programming-basics/java工具类使用.mdx -> docs/backend/programming-basics/java-util-usage.mdx"
 fi
 
-if [ -f "docs/backend/programming-basics/java8资料汇总.mdx" ]; then
-  mv "docs/backend/programming-basics/java8资料汇总.mdx" "docs/backend/programming-basics/java8-resources.mdx"
+if [ -f "docs/backend/programming-basics/java8 资料汇总.mdx" ]; then
+  mv "docs/backend/programming-basics/java8 资料汇总.mdx" "docs/backend/programming-basics/java8-resources.mdx"
   echo "Renamed: docs/backend/programming-basics/java8资料汇总.mdx -> docs/backend/programming-basics/java8-resources.mdx"
 fi
 
-if [ -f "docs/backend/programming-basics/pig-stream使用及其技巧.mdx" ]; then
-  mv "docs/backend/programming-basics/pig-stream使用及其技巧.mdx" "docs/backend/programming-basics/pig-stream-usage.mdx"
+if [ -f "docs/backend/programming-basics/pig-stream 使用及其技巧.mdx" ]; then
+  mv "docs/backend/programming-basics/pig-stream 使用及其技巧.mdx" "docs/backend/programming-basics/pig-stream-usage.mdx"
   echo "Renamed: docs/backend/programming-basics/pig-stream使用及其技巧.mdx -> docs/backend/programming-basics/pig-stream-usage.mdx"
 fi
 
-if [ -f "docs/backend/programming-basics/pig-lambda使用及其技巧.mdx" ]; then
-  mv "docs/backend/programming-basics/pig-lambda使用及其技巧.mdx" "docs/backend/programming-basics/pig-lambda-usage.mdx"
+if [ -f "docs/backend/programming-basics/pig-lambda 使用及其技巧.mdx" ]; then
+  mv "docs/backend/programming-basics/pig-lambda 使用及其技巧.mdx" "docs/backend/programming-basics/pig-lambda-usage.mdx"
   echo "Renamed: docs/backend/programming-basics/pig-lambda使用及其技巧.mdx -> docs/backend/programming-basics/pig-lambda-usage.mdx"
 fi
 

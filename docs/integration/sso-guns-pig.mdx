@@ -1,5 +1,5 @@
 ---
-title: "[单点案例] guns系统接入pig"
+title: "[单点案例] guns 系统接入 pig"
 ---
 
 
@@ -27,10 +27,10 @@ INSERT INTO `pig`.`sys_oauth_client_details`(`client_id`, `resource_ids`, `clien
 
 
 
-## 新增SSO 登录接口
+## 新增 SSO 登录接口
 
 
-+ LoginController 新增如下端点， 代码中的URL 根据实际地址修改即可
++ LoginController 新增如下端点，代码中的 URL 根据实际地址修改即可
 
 <font style="color:#DF2A3F;">注意</font>：授权码模式下回调地址不能使用`localhost`，可以使用`127.0.0.1`
 
@@ -68,7 +68,7 @@ INSERT INTO `pig`.`sys_oauth_client_details`(`client_id`, `resource_ids`, `clien
 
         String username = parse.getStr("username");
 
-        //登录并创建token
+        //登录并创建 token
         String token = authService.login(username);
 
         return new RedirectView("/");

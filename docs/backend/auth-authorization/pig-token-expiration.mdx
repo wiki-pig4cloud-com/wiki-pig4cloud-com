@@ -1,14 +1,14 @@
 ---
-title: "pig token有效期及个性化"
+title: "pig token 有效期及个性化"
 ---
 
-## ① 默认Token 有效期说明
+## ① 默认 Token 有效期说明
 
 
 ```plain
- // 默认刷新token 的有效期
+ // 默认刷新 token 的有效期
   private int refreshTokenValiditySeconds = 60 * 60 * 24 * 30; // default 30 days.
-  // 默认token 的有效期
+  // 默认 token 的有效期
   private int accessTokenValiditySeconds = 60 * 60 * 12; // default 12 hours.
 ```
 
@@ -16,9 +16,9 @@ title: "pig token有效期及个性化"
 
 ## ② 修改 Token 有效期
 :::info
-每个终端配置为空，取默认的时间设置 刷新token 30天，令牌12小时。
+每个终端配置为空，取默认的时间设置 刷新 token 30 天，令牌 12 小时。
 
-前端使用的客户端是pig，设置令牌失效等。
+前端使用的客户端是 pig，设置令牌失效等。
 
 :::
 
@@ -34,17 +34,17 @@ title: "pig token有效期及个性化"
 
 | 字段名称 | 描述 |
 | --- | --- |
-| client_id	 | 主键，客户端ID |
-| resource_ids | 客户端所能访问的资源id集合，多个资源时用逗号(,)分隔 |
+| client_id	 | 主键，客户端 ID |
+| resource_ids | 客户端所能访问的资源 id 集合，多个资源时用逗号 (,) 分隔 |
 | client_secret | 客户端访问密匙 |
-| scope | 客户端申请的权限范围，可选值包括read,write,trust;若有多个权限范围用逗号(,)分隔 |
-| authorized_grant_types | 客户端支持的授权许可类型(grant_type)，可选值包括authorization_code,password,refresh_token,implicit,client_credentials,若支持多个授权许可类型用逗号(,)分隔 |
-| web_server_redirect_uri | 客户端重定向URI，当grant_type为authorization_code或implicit时, 在Oauth的流程中会使用并检查与数据库内的redirect_uri是否一致 |
-| authorities | 客户端所拥有的Spring Security的权限值,可选, 若有多个权限值,用逗号(,)分隔 |
-| access_token_validity | 设定客户端的access_token的有效时间值(单位:秒)，若不设定值则使用默认的有效时间值(60 * 60 * 12, 12小时) |
-| refresh_token_validity | 设定客户端的refresh_token的有效时间值(单位:秒)，若不设定值则使用默认的有效时间值(60 * 60 * 24 * 30, 30天) |
-| additional_information | 这是一个预留的字段,在Oauth的流程中没有实际的使用,可选,但若设置值,必须是JSON格式的数据 |
-| autoapprove | 设置用户是否自动批准授予权限操作, 默认值为 ‘false’, 可选值包括 ‘true’,‘false’, ‘read’,‘write’. |
+| scope | 客户端申请的权限范围，可选值包括 read,write,trust;若有多个权限范围用逗号 (,) 分隔 |
+| authorized_grant_types | 客户端支持的授权许可类型 (grant_type)，可选值包括 authorization_code,password,refresh_token,implicit,client_credentials，若支持多个授权许可类型用逗号 (,) 分隔 |
+| web_server_redirect_uri | 客户端重定向 URI，当 grant_type 为 authorization_code 或 implicit 时，在 Oauth 的流程中会使用并检查与数据库内的 redirect_uri 是否一致 |
+| authorities | 客户端所拥有的 Spring Security 的权限值，可选，若有多个权限值，用逗号 (,) 分隔 |
+| access_token_validity | 设定客户端的 access_token 的有效时间值 (单位：秒)，若不设定值则使用默认的有效时间值 (60 * 60 * 12, 12 小时) |
+| refresh_token_validity | 设定客户端的 refresh_token 的有效时间值 (单位：秒)，若不设定值则使用默认的有效时间值 (60 * 60 * 24 * 30, 30 天) |
+| additional_information | 这是一个预留的字段，在 Oauth 的流程中没有实际的使用，可选，但若设置值，必须是 JSON 格式的数据 |
+| autoapprove | 设置用户是否自动批准授予权限操作，默认值为‘false’, 可选值包括‘true’,‘false’, ‘read’,‘write’. |
 
 
 ## ❤  问题咨询

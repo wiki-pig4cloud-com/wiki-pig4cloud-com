@@ -139,14 +139,14 @@ public class PigCustomUserDetailsServiceImpl implements PigUserDetailsService {
 	public UserDetails loadUserByUsername(String username) {
 
 		R<TocCustom> result = remoteUserService.custom(username, SecurityConstants.FROM_IN);
-		// 根据 result 构建security 框架需要的 用户对象
+		// 根据 result 构建 security 框架需要的 用户对象
 		TocCustom custom = result.getData();
 		if (custom == null) {
 			throw new UsernameNotFoundException("用户不存在");
 		}
 
         
-		// 构造security用户
+		// 构造 security 用户
 		return new PigUser(custom.getId(), null, custom.getUsername(), "{noop}" + custom.getPassword(), null, true, true,
 				true, true, AuthorityUtils.NO_AUTHORITIES);
 	}
@@ -170,7 +170,7 @@ public class PigCustomUserDetailsServiceImpl implements PigUserDetailsService {
 }
 ```
 
-+ ③ 配置SPI 加载 **CustomUserDetailsService**
++ ③ 配置 SPI 加载 **CustomUserDetailsService**
 
 ![](https://cdn.nlark.com/yuque/0/2022/png/283679/1643514028039-ba3a2ac9-a3f2-473f-b799-c2809e8124a2.png)
 

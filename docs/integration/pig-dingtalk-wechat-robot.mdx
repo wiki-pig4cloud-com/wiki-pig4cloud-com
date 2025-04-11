@@ -1,5 +1,5 @@
 ---
-title: "pig整合钉钉企业微信群机器人实现消息通知中间件"
+title: "pig 整合钉钉企业微信群机器人实现消息通知中间件"
 ---
 
 
@@ -26,7 +26,7 @@ spring:
   dinger:
     project-id: ${spring.application.name}
     dingers:
-      # 使用钉钉机器人, 请根据自己机器人配置信息进行修改
+      # 使用钉钉机器人，请根据自己机器人配置信息进行修改
       dingtalk:
         tokenId: tokenId 
         secret: secret
@@ -43,13 +43,13 @@ public class AppInit implements InitializingBean {
     private DingerSender dingerSender;
     @Override
     public void afterPropertiesSet() throws Exception {
-        // 发送text类型消息
+        // 发送 text 类型消息
         dingerSender.send(
                 MessageSubType.TEXT,
                 DingerRequest.request("Hello World, Hello Dinger")
         );
 
-        // 发送markdown类型消息
+        // 发送 markdown 类型消息
         dingerSender.send(
                 MessageSubType.MARKDOWN,
                 DingerRequest.request("Hello World, Hello Dinger", "启动通知")
@@ -74,11 +74,11 @@ spring:
     # 默认使用企业微信
     default-dinger: wetalk
     dingers:
-      # 使用钉钉机器人, 请根据自己机器人配置信息进行修改
+      # 使用钉钉机器人，请根据自己机器人配置信息进行修改
       dingtalk:
         tokenId: tokenId
         secret: secret
-      # 使用企业微信机器人, 请根据自己机器人配置信息进行修改
+      # 使用企业微信机器人，请根据自己机器人配置信息进行修改
       wetalk:
         token-id: token-id
 ```
@@ -94,7 +94,7 @@ public class AppInit implements InitializingBean {
     private DingerSender dingerSender;
     @Override
     public void afterPropertiesSet() throws Exception {
-        // 指定发送给默认Dinger(详见配置spring.dinger.default-dinger参数值)
+        // 指定发送给默认 Dinger(详见配置 spring.dinger.default-dinger 参数值)
         dingerSender.send(MessageSubType.TEXT, DingerRequest.request("Hello World, Hello Dinger"));
         // 指定发送给钉钉
         dingerSender.send(DingerType.DINGTALK, MessageSubType.MARKDOWN, DingerRequest.request("Hello World, Hello Dinger", "启动通知"));
@@ -109,7 +109,7 @@ public class AppInit implements InitializingBean {
 #### 3. 动态配置机器人
 
 
-场景说明： 对于同一个消息体， 发送给钉钉机器人的同时也需要发送给企业微信机器人。
+场景说明：对于同一个消息体，发送给钉钉机器人的同时也需要发送给企业微信机器人。
 
 
 
@@ -122,11 +122,11 @@ spring:
     # 默认使用钉钉
     default-dinger: dingtalk
     dingers:
-      # 使用钉钉机器人, 请根据自己机器人配置信息进行修改
+      # 使用钉钉机器人，请根据自己机器人配置信息进行修改
       dingtalk:
         tokenId: tokenId
         secret: secret
-      # 使用企业微信机器人, 请根据自己机器人配置信息进行修改
+      # 使用企业微信机器人，请根据自己机器人配置信息进行修改
       wetalk:
         token-id: token-id
 ```
@@ -169,11 +169,11 @@ public class DemoController {
 #### 4. 配置多机器人
 
 
-由于[钉钉](https://gitee.com/link?target=https%3A%2F%2Fding-doc.dingtalk.com%2Fdoc%23%2Fserverapi3%2Fpghqkk)和[企业微信](https://gitee.com/link?target=https%3A%2F%2Fwork.weixin.qq.com%2Fapi%2Fdoc%2F90000%2F90136%2F91770)有消息发送频率限制-每个机器人每分钟最多发送20条，这种限制可能导致消息发送失败的问题，而多机器人配置就是为了解决这种情况的。
+由于[钉钉](https://gitee.com/link?target=https%3A%2F%2Fding-doc.dingtalk.com%2Fdoc%23%2Fserverapi3%2Fpghqkk)和[企业微信](https://gitee.com/link?target=https%3A%2F%2Fwork.weixin.qq.com%2Fapi%2Fdoc%2F90000%2F90136%2F91770)有消息发送频率限制 - 每个机器人每分钟最多发送 20 条，这种限制可能导致消息发送失败的问题，而多机器人配置就是为了解决这种情况的。
 
 
 
-目前提供两种方式多机器人配置支持，大家可以根据实际情况选择合适的配置方式，相对于全局配置方式，Dinger级别是更细粒度的配置方式。
+目前提供两种方式多机器人配置支持，大家可以根据实际情况选择合适的配置方式，相对于全局配置方式，Dinger 级别是更细粒度的配置方式。
 
 
 
@@ -198,9 +198,9 @@ public class DemoApplication {
 
   
 配置机器人信息及多机器人使用算法   
-DingerConfigHandler中支持@Autowire注解来注入bean对象。 
+DingerConfigHandler 中支持@Autowire 注解来注入 bean 对象。 
 
-+  Dinger级别开启多机器人配置 
++  Dinger 级别开启多机器人配置 
 
 ```java
 @SpringBootApplication
@@ -215,21 +215,21 @@ public class DemoApplication {
 ```
 
   
-Dinger层配置 
+Dinger 层配置 
 
 ```java
-// 为UserDinger配置多机器人功能
+// 为 UserDinger 配置多机器人功能
 @MultiHandler(
         @MultiDinger(
             dinger = DingerType.DINGTALK, 
             handler = DingTalkMultiHandler.class)
 )
 public interface UserDinger {
-    @DingerText(value = "恭喜用户${loginName}登录成功!")
+    @DingerText(value = "恭喜用户${loginName}登录成功！")
     DingerResponse success(@Parameter("loginName") String userName);
 
     @DingerMarkdown(
-            value = "#### 用户登录通知\n - 用户Id： ${userId}\n - 用户名： ${userName}",
+            value = "#### 用户登录通知\n - 用户 Id： ${userId}\n - 用户名： ${userName}",
             title = "用户登录反馈"
     )
     DingerResponse failed(long userId, String userName);
@@ -237,15 +237,15 @@ public interface UserDinger {
 ```
 
   
-@Dinger中指定的Dinger类型如果和@MultiHandler中不一致会致使多机器配置失效而选择默认配置发送 
+@Dinger 中指定的 Dinger 类型如果和@MultiHandler 中不一致会致使多机器配置失效而选择默认配置发送 
 
-+  系统默认四种AlgorithmHandler算法 
-    - DefaultHandler： 返回默认使用的机器人账号
-    - DingerHandler： 消息频率限制-每个机器人每分钟最多发送20条算法 
++  系统默认四种 AlgorithmHandler 算法 
+    - DefaultHandler：返回默认使用的机器人账号
+    - DingerHandler：消息频率限制 - 每个机器人每分钟最多发送 20 条算法 
         * 每分钟发送次数可通过启动参数进行更改`-Dmulti.dinger.minute.limit.count=10`
         * eg：`java -Dmulti.dinger.minute.limit.count=10 -jar service.jar`
-    - RandomHandler： 随机选择算法
-    - RoundRobinHandler： 轮询算法
+    - RandomHandler：随机选择算法
+    - RoundRobinHandler：轮询算法
     - 自定义算法
 
 ```java
@@ -275,11 +275,11 @@ public class CustomAlgorithmHandler implements AlgorithmHandler {
 
  
 
-+  启动类引入DingerScan注解 
++  启动类引入 DingerScan 注解 
 
 ```java
 @SpringBootApplication
-// 标识Dinger层扫描路径
+// 标识 Dinger 层扫描路径
 @DingerScan(basePackages = "com.pig4cloud.pig.admin.dinger")
 public class DemoApplication {
     public static void main(String[] args) {
@@ -292,13 +292,13 @@ public class DemoApplication {
 
 
 
-> DingerScan的basePackages属性值注意更改为实际项目中定义的dinger接口层包路径
+> DingerScan 的 basePackages 属性值注意更改为实际项目中定义的 dinger 接口层包路径
 >
 
 
 
 +  定义消息体  
-有两种方式进行Dinger消息体定义，分别是注解方式和XML配置方式，两种方式任选一种使用即可 。 
+有两种方式进行 Dinger 消息体定义，分别是注解方式和 XML 配置方式，两种方式任选一种使用即可。 
     -  注解方式  
 修改配置文件 
 
@@ -307,35 +307,35 @@ spring:
   dinger:
     project-id: ${spring.application.name}
     dingers:
-      # 使用钉钉机器人, 请根据自己机器人配置信息进行修改
+      # 使用钉钉机器人，请根据自己机器人配置信息进行修改
       dingtalk:
         tokenId: tokenId
         secret: secret
 ```
 
   
-Dinger接口类  
+Dinger 接口类  
 
 ```java
 public interface UserDinger {
-    // `@`群里指定成员
-    @DingerText(value = "恭喜用户${userName}登录成功!", phones = "13520200906")
+    // `@` 群里指定成员
+    @DingerText(value = "恭喜用户${userName}登录成功！", phones = "13520200906")
     DingerResponse success(String userName);
 
     @DingerMarkdown(
-            value = "#### 用户登录通知\n - 用户Id： ${userId}\n - 用户名： ${userName}",
+            value = "#### 用户登录通知\n - 用户 Id： ${userId}\n - 用户名： ${userName}",
             title = "用户登录反馈"
     )
     DingerResponse failed(long userId, String userName);
 
-    // `@`群里全部成员
-    @DingerText(value = "恭喜用户${loginName}登录成功!", atAll = true)
+    // `@` 群里全部成员
+    @DingerText(value = "恭喜用户${loginName}登录成功！", atAll = true)
     DingerResponse login(@Parameter("loginName") String userName);
 
 
-    // wetalk不支持markdown格式的`@`功能
+    // wetalk 不支持 markdown 格式的 `@` 功能
     @DingerMarkdown(
-            value = "#### 注销登录 @13520200906 @13520200908 \n - 用户Id： ${uId}\n - 用户名： ${loginName}",
+            value = "#### 注销登录 @13520200906 @13520200908 \n - 用户 Id： ${uId}\n - 用户名： ${loginName}",
             title = "用户登录反馈",
             phones = {"13520200906", "13520200908"}
     )
@@ -343,7 +343,7 @@ public interface UserDinger {
 }
 ```
 
-    -  xml配置  
+    -  xml 配置  
 修改配置文件 
 
 ```yaml
@@ -351,16 +351,16 @@ spring:
   dinger:
     project-id: ${spring.application.name}
     dingers:
-      # 使用钉钉机器人, 请根据自己机器人配置信息进行修改
+      # 使用钉钉机器人，请根据自己机器人配置信息进行修改
       dingtalk:
         tokenId: tokenId
         secret: secret
-	# 使用xml配置方式时， 必填        
+	# 使用 xml 配置方式时，必填        
     dinger-locations: classpath*:dinger/*.xml
 ```
 
   
-Dinger接口类 
+Dinger 接口类 
 
 ```java
 public interface UserDinger {
@@ -375,7 +375,7 @@ public interface UserDinger {
 ```
 
   
-Dinger消息XML定义   
+Dinger 消息 XML 定义   
 
 ```xml
 <message id="success" type="TEXT">
@@ -478,7 +478,7 @@ public class DemoController {
 
 
 #### 6. 支持的消息类型
-| 消息类型/Dinger类型 | DingTalk(钉钉) | WeTalk(企业微信) |
+| 消息类型/Dinger 类型 | DingTalk(钉钉) | WeTalk(企业微信) |
 | --- | --- | --- |
 | TEXT | √ | √ |
 | MARKDOWN | √ | √ |
@@ -488,7 +488,7 @@ public class DemoController {
 
 
 
-**图文、link方式使用**
+**图文、link 方式使用**
 
 
 
@@ -499,7 +499,7 @@ spring:
   dinger:
     project-id: ${spring.application.name}
     default-dinger: dingtalk
-    dinger-locations: classpath*:dinger/*.xml # xml方式下必须配置
+    dinger-locations: classpath*:dinger/*.xml # xml 方式下必须配置
     dingers:
       dingtalk:
         tokenId: tokenId
@@ -510,7 +510,7 @@ spring:
 
  
 
-+  启动类引入DingerScan注解 
++  启动类引入 DingerScan 注解 
 
 ```java
 @SpringBootApplication
@@ -524,7 +524,7 @@ public class DemoApplication {
 
  
 
-+  定义Dinger 
++  定义 Dinger 
     -  注解方式 
 
 ```java
@@ -533,7 +533,7 @@ public interface UserDinger {
     @DingerImageText
     DingerResponse imageText(List<ImageTextDeo> images);
 
-    // link类型, 只支持Dingtalk
+    // link 类型，只支持 Dingtalk
     @DingerLink
     DingerResponse link(LinkDeo link);
 
@@ -542,8 +542,8 @@ public interface UserDinger {
 
  
 
-    -  xml方式  
-xml方式**必须**配置`dinger-locations`配置项 
+    -  xml 方式  
+xml 方式**必须**配置`dinger-locations`配置项 
 
 ```java
 public interface UserDinger {
@@ -574,7 +574,7 @@ public class AppInit implements InitializingBean {
         // 发送图文类型消息
         userDinger.imageText(images);
 
-        // 发送link类型消息， 只支持钉钉
+        // 发送 link 类型消息，只支持钉钉
         userDinger.link(
                 LinkDeo.instance(
                         "pig",
@@ -605,13 +605,13 @@ public class AppInit implements InitializingBean {
     private DingerSender dingerSender;
     @Override
     public void afterPropertiesSet() throws Exception {
-        // 发送text类型消息
+        // 发送 text 类型消息
         dingerSender.send(
                 MessageSubType.TEXT,
                 DingerRequest.request("Hello World, Hello Dinger")
         );
 
-        // 发送markdown类型消息
+        // 发送 markdown 类型消息
         dingerSender.send(
                 MessageSubType.MARKDOWN,
                 DingerRequest.request("Hello World, Hello Dinger", "启动通知")
@@ -630,7 +630,7 @@ b. 其他扩展配置
 @Configuration
 @Slf4j
 public class MyDingerConfiguration {
-    // 自定义异步回调函数-用于异步发送时
+    // 自定义异步回调函数 - 用于异步发送时
     @Bean
     public DingerAsyncCallback dingerAsyncCallback() {
         return (dingerId, result) -> {
@@ -639,7 +639,7 @@ public class MyDingerConfiguration {
     }
 
     
-    // 自定义DingerId生成器， dingerId为每次调用返回体中的logid值
+    // 自定义 DingerId 生成器，dingerId 为每次调用返回体中的 logid 值
     @Bean
     public DingerIdGenerator dingerIdGenerator() {
         return () -> UUID.randomUUID().toString();
@@ -668,7 +668,7 @@ public class MyDingerConfiguration {
     }
     
     
-    // 自定义restTemplate客户端
+    // 自定义 restTemplate 客户端
     @Bean
     public RestTemplate dingerRestTemplate() {
         SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
@@ -710,18 +710,18 @@ public class MyDingerConfiguration extends DingerConfigurerAdapter {
 #### 8.  注解说明
 | 注解 | 功能描述 | 使用说明 |
 | --- | --- | --- |
-| [@DingerScan ](/DingerScan ) | 标识Dinger层扫描路径 | 在SpringBoot启动类中定义使用 |
-| [@Dinger ](/Dinger ) | 指定当前XXXDinger使用的机器人类型 | 在XXXDinger.java接口类上 |
-| [@DingerClose ](/DingerClose ) | 用于关闭 XXXDinger.java 或者指定其中的一个至多个方法 | XXXDinger.java接口层(接口类或接口方法上均可) - 作用于Dinger类上，关闭Dinger类中所有方法通知； - 作用于方法上， 关闭当前方法通知； |
-| [@AsyncExecute ](/AsyncExecute ) | 用于 XXXDinger.java 层(注解和XML)级别异步发送 | 在XXXDinger.java接口类上 |
-| [@DingerConfiguration ](/DingerConfiguration ) | 用于 XXXDinger.java 层(注解和XML)级别机器人信息配置 | XXXDinger.java接口类上 |
-| [@DingerText ](/DingerText ) | 注解方式定义Text消息体 | XXXDinger.java接口层接口方法上 |
-| [@DingerMarkdown ](/DingerMarkdown ) | 注解方式定义Markdown消息体 | XXXDinger.java接口层接口方法上 |
-| [@DingerImageText ](/DingerImageText ) | 注解方式定义图文类型消息体 | XXXDinger.java接口层接口方法上 |
-| [@DingerLink ](/DingerLink ) | 注解方式定义Link类型消息体 | XXXDinger.java接口层接口方法上 |
-| [@Parameter ](/Parameter ) | 如果消息体中使用的`参数变量和方法定义的参数名称不一致`<br/>，可使用该注解进行个性化设置参数变量名称 | XXXDinger.java接口层接口方法参数上 |
-| [@EnableMultiDinger ](/EnableMultiDinger ) | 启动多钉钉机器人配置 | 在SpringBoot启动类中定义使用 |
-| [@MultiHandler ](/MultiHandler ) | 为Dinger层指定对应的多机器人处理器 | XXXDinger.java接口类上 |
+| [@DingerScan ](/DingerScan ) | 标识 Dinger 层扫描路径 | 在 SpringBoot 启动类中定义使用 |
+| [@Dinger ](/Dinger ) | 指定当前 XXXDinger 使用的机器人类型 | 在 XXXDinger.java 接口类上 |
+| [@DingerClose ](/DingerClose ) | 用于关闭 XXXDinger.java 或者指定其中的一个至多个方法 | XXXDinger.java 接口层 (接口类或接口方法上均可) - 作用于 Dinger 类上，关闭 Dinger 类中所有方法通知； - 作用于方法上，关闭当前方法通知； |
+| [@AsyncExecute ](/AsyncExecute ) | 用于 XXXDinger.java 层 (注解和 XML) 级别异步发送 | 在 XXXDinger.java 接口类上 |
+| [@DingerConfiguration ](/DingerConfiguration ) | 用于 XXXDinger.java 层 (注解和 XML) 级别机器人信息配置 | XXXDinger.java 接口类上 |
+| [@DingerText ](/DingerText ) | 注解方式定义 Text 消息体 | XXXDinger.java 接口层接口方法上 |
+| [@DingerMarkdown ](/DingerMarkdown ) | 注解方式定义 Markdown 消息体 | XXXDinger.java 接口层接口方法上 |
+| [@DingerImageText ](/DingerImageText ) | 注解方式定义图文类型消息体 | XXXDinger.java 接口层接口方法上 |
+| [@DingerLink ](/DingerLink ) | 注解方式定义 Link 类型消息体 | XXXDinger.java 接口层接口方法上 |
+| [@Parameter ](/Parameter ) | 如果消息体中使用的`参数变量和方法定义的参数名称不一致`<br/>，可使用该注解进行个性化设置参数变量名称 | XXXDinger.java 接口层接口方法参数上 |
+| [@EnableMultiDinger ](/EnableMultiDinger ) | 启动多钉钉机器人配置 | 在 SpringBoot 启动类中定义使用 |
+| [@MultiHandler ](/MultiHandler ) | 为 Dinger 层指定对应的多机器人处理器 | XXXDinger.java 接口类上 |
 
 
 ## ❤  问题咨询

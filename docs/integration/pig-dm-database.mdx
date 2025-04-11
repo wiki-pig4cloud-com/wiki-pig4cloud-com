@@ -25,7 +25,7 @@ docker run -p 5236:5236 registry.cn-hangzhou.aliyuncs.com/dockerhub_mirror/dm:8-
 
 [SQLark-信创数据库开发，用百灵](https://www.sqlark.com/)
 
-虽然安装达梦会自动安装 DTS (达梦自身的迁移工具)和图形化管理工具，但是之前的 UI 和操作性太差了并不支持 MacOS；目前达梦又搞了 SQLark ，笔者用起来挺好的，并且整合了数据迁移工具。
+虽然安装达梦会自动安装 DTS (达梦自身的迁移工具) 和图形化管理工具，但是之前的 UI 和操作性太差了并不支持 MacOS；目前达梦又搞了 SQLark，笔者用起来挺好的，并且整合了数据迁移工具。
 
 ![](https://cdn.nlark.com/yuque/0/2024/png/283679/1732329067575-d3756054-0f9a-48c9-b444-1345bc14d516.png)
 
@@ -33,8 +33,8 @@ docker run -p 5236:5236 registry.cn-hangzhou.aliyuncs.com/dockerhub_mirror/dm:8-
 1. 先创建达梦数据库链接
 2. 点击 SQLark 的数据迁移
 3. 创建迁移评估
-4. 链接源数据库 （MYSQL）
-5. 选择待迁移的数据库 （pig/pig_config）, <font style="color:#DF2A3F;">迁移成功会自动创建 PIG/PIG_CONFIG 的达梦数据库</font>
+4. 链接源数据库（MYSQL）
+5. 选择待迁移的数据库（pig/pig_config）, <font style="color:#DF2A3F;">迁移成功会自动创建 PIG/PIG_CONFIG 的达梦数据库</font>
 6. 注意关闭检查
 7. 注意迁移进度，由于 quartz 的数据结构外键 不适配达梦，有点不兼容可以忽略
 
@@ -77,7 +77,7 @@ db:
     config:
       driver-class-name: dm.jdbc.driver.DmDriver
 
-# 配置数据库： dameng  （属性默认 mysql注意修改dameng）
+# 配置数据库：dameng（属性默认 mysql 注意修改 dameng）
 spring:
   sql:
     init:
@@ -85,7 +85,7 @@ spring:
 ```
 
 ### 3.2 应用微服务增加达梦
-+ pig-upms-biz、pig-codegen 、pig-quartz 所有链接数据库的模块增加达梦驱动
++ pig-upms-biz、pig-codegen、pig-quartz 所有链接数据库的模块增加达梦驱动
 
 ```xml
 <!--达梦数据库驱动-->
@@ -96,7 +96,7 @@ spring:
 </dependency>
 ```
 
-+ 修改 nacos/pig-upms-biz-dev.yml 、pig-codegen-dev.yml、pig-quartz-dev.yml  **JdbcURL**
++ 修改 nacos/pig-upms-biz-dev.yml、pig-codegen-dev.yml、pig-quartz-dev.yml  **JdbcURL**
 
 ```yaml
 spring:

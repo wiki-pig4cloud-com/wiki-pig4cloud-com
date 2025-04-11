@@ -9,9 +9,9 @@ annot deserialize; nested exception is org.springframework.core.serializer.suppo
     , local class serialVersionUID = 530","data":"unauthorized"}
 ```
 
-报错原因: 之前运行过旧版本 pig 升级后依赖版本数据结构发生变化导致旧数据无法序列化
+报错原因：之前运行过旧版本 pig 升级后依赖版本数据结构发生变化导致旧数据无法序列化
 
-解决方案：清空redis旧数据
+解决方案：清空 redis 旧数据
 
 ```shell
 ./redis-cli
@@ -19,7 +19,7 @@ annot deserialize; nested exception is org.springframework.core.serializer.suppo
 OK
 ```
 
-### 3. 根pom pig-cloud-dependencies-parent 源码在哪里？
+### 3. 根 pom pig-cloud-dependencies-parent 源码在哪里？
 
 ![](https://cdn.nlark.com/yuque/0/2020/png/283679/1600327316832-beb4876b-558e-487c-9049-a9d2abacd1cf.png)
 
@@ -31,7 +31,7 @@ OK
 
 源码地址： [https://github.com/alibaba/nacos](https://github.com/alibaba/nacos) 未做任何封装。
 
-为什么要内置 nacos console 模块是为了统一环境，方便开发中使用，生产环境还是直接使用官方打好的Nacos Server。 
+为什么要内置 nacos console 模块是为了统一环境，方便开发中使用，生产环境还是直接使用官方打好的 Nacos Server。 
 
 ### 5. 前端启动失败提示 Node Sass could not find a binding
 ```shell

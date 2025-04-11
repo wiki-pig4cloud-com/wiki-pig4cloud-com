@@ -1,5 +1,5 @@
 ---
-title: "PIG OSS文件上传"
+title: "PIG OSS 文件上传"
 ---
 
 [bilibili](https://player.bilibili.com/player.html?bvid=BV12t411B7e9&p=7&page=7)
@@ -11,7 +11,7 @@ title: "PIG OSS文件上传"
 
 **<font style="color:#F5222D;">PIG 提供的文件上传功能是基于分布式对象存储服务</font>**。它兼容亚马逊 S3 云存储服务接口，非常适合于存储大容量非结构化的数据，例如图片、视频、日志文件、备份数据和容器/虚拟机镜像等，而一个对象文件可以是任意大小，从几 kb 到最大 5T 不等。(本人公司大规模生产使用，数据量 TB 级别)
 
-#### 下载部署minio
+#### 下载部署 minio
 
 
 ```bash
@@ -37,7 +37,7 @@ docker run -p 9000:9000 --name minio1 \
 
 
 
-#### 创建 Bucket （存储空间）
+#### 创建 Bucket（存储空间）
 
 
 ![](https://minio.pigx.vip/oss/1631164105.png)
@@ -55,8 +55,8 @@ file:
   oss:
     enable: true
     endpoint: http://IP:9000
-    access-key: xxx # 上文创建的AK
-    secret-key: xxx # 上文创建的SK
+    access-key: xxx # 上文创建的 AK
+    secret-key: xxx # 上文创建的 SK
 ```
 
 

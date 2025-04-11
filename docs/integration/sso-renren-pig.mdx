@@ -1,5 +1,5 @@
 ---
-title: "[单点案例] renren系统接入pig"
+title: "[单点案例] renren 系统接入 pig"
 ---
 
 ## 整体效果
@@ -45,11 +45,11 @@ oauth2:
     client-secret: renren
     target-uri: http://localhost:${server.port}/renren-security  #登录后跳转到首页的地址
     logout-uri: http://localhost:${server.port}/renren-security   #退出后跳转的地址
-    sso-server-uri: http://192.168.0.33:3000      #pig认证中心的地址
+    sso-server-uri: http://192.168.0.33:3000      #pig 认证中心的地址
     scope: server
 ```
 
-## 新增配置OAuth2Realm
+## 新增配置 OAuth2Realm
 
 
 + renren-admin/io.renren.modules.sys.shiro

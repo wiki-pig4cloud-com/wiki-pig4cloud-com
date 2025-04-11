@@ -2,12 +2,12 @@
 title: "网关路由配置"
 ---
 
-Pig 3.0 采用的是spring官方的网关组件，通过异步背压的高性能网关。路由配置是整个微服务中最为核心的功能
+Pig 3.0 采用的是 spring 官方的网关组件，通过异步背压的高性能网关。路由配置是整个微服务中最为核心的功能
 
 ### ① 配置路由解释
 
 <Warning>
-访问 nacos /pig-gateway-dev.yml 我们以UPMS 的路由为例子，注意注释
+访问 nacos /pig-gateway-dev.yml 我们以 UPMS 的路由为例子，注意注释
 </Warning>
 
 ```yaml
@@ -16,7 +16,7 @@ spring:
     gateway:
       routes:
       #UPMS 模块
-      - id: pig-upms      # 唯一的服务ID
+      - id: pig-upms      # 唯一的服务 ID
         uri: lb://pig-upms # 注册中心的服务名称，实现负载均衡
         predicates:
         - Path=/admin/**  #所有业务的请求前缀，会在② 中自动去除
@@ -24,7 +24,7 @@ spring:
 
 ### ② 全局的路由过滤器
 
-PigRequestGlobalFilter,对全部的微服务提供了安全过滤（这个后边会讲）和全局StripPrefix=1配置，**意味着你在使用Pig的时候，网关转发到业务模块时候会自动截取前缀，不用再每个微服务路由配置了StripPrefixFilter**
+PigRequestGlobalFilter，对全部的微服务提供了安全过滤（这个后边会讲）和全局 StripPrefix=1 配置，**意味着你在使用 Pig 的时候，网关转发到业务模块时候会自动截取前缀，不用再每个微服务路由配置了 StripPrefixFilter**
 
 ```java
 public class PigRequestGlobalFilter implements GlobalFilter, Ordered {
@@ -32,12 +32,12 @@ public class PigRequestGlobalFilter implements GlobalFilter, Ordered {
 
 	@Override
 	public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-		// 1. 清洗请求头中from 参数
+		// 1. 清洗请求头中 from 参数
 		ServerHttpRequest request = exchange.getRequest().mutate()
 			.headers(httpHeaders -> httpHeaders.remove(SecurityConstants.FROM))
 			.build();
 
-		// 2. 重写StripPrefix
+		// 2. 重写 StripPrefix
 		addOriginalRequestUrl(exchange, request.getURI());
 		String rawPath = request.getURI().getRawPath();
 		String newPath = "/" + Arrays.stream(StringUtils.tokenizeToStringArray(rawPath, "/"))

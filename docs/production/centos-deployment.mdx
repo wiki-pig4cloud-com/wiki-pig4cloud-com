@@ -8,7 +8,7 @@ title: "最后的参数为主机名"
 ### ① 购买 ECS
 
 
- 特别说明: 开发环境、测试环境强烈建议选择【ECS 按量付费】[👉🏻 《阿里云服务器 ECS 按量付费和包年包月有什么区别？》](https://developer.aliyun.com/article/1178762?source=5176.11533457&userCode=ueyxv2qf)
+ 特别说明：开发环境、测试环境强烈建议选择【ECS 按量付费】[👉🏻 《阿里云服务器 ECS 按量付费和包年包月有什么区别？》](https://developer.aliyun.com/article/1178762?source=5176.11533457&userCode=ueyxv2qf)
 
 
 
@@ -62,7 +62,7 @@ yum install -y mysql mysql-server
 vim /etc/my.cnf
 lower_case_table_names=1
 
-# 重启mysql
+# 重启 mysql
 systemctl restart mysqld
 
 # 查看默认密码
@@ -216,16 +216,16 @@ server {
     server_name localhost;
 
     gzip on;
-    gzip_static on;     # 需要http_gzip_static_module 模块
+    gzip_static on;     # 需要 http_gzip_static_module 模块
     gzip_min_length 1k;
     gzip_comp_level 4;
     gzip_proxied any;
     gzip_types text/plain text/xml text/css;
     gzip_vary on;
-    gzip_http_version   1.0; #兼容多层nginx 反代
+    gzip_http_version   1.0; #兼容多层 nginx 反代
     gzip_disable "MSIE [1-6]\.(?!.*SV1)";
 
-    # 打包好的dist目录文件，放置到这个目录下
+    # 打包好的 dist 目录文件，放置到这个目录下
     root /data/pig-ui;
     
     # 注意维护新增微服务，gateway 路由前缀
@@ -264,9 +264,9 @@ server {
 
 
 
-+ 9999 网关 （如需访问swagger 需要）
-+ 5001 监控 （如需访问monitor 需要）
-+ 5020 监控 （如需访问monitor 需要）
++ 9999 网关（如需访问 swagger 需要）
++ 5001 监控（如需访问 monitor 需要）
++ 5020 监控（如需访问 monitor 需要）
 
 :::
 

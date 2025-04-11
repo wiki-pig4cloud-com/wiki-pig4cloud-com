@@ -6,7 +6,7 @@ title: "数据源"
 
 ## 
 :::warning
-## 本文适配 SpringBoot 3.x ，PIG JDK17版本
+## 本文适配 SpringBoot 3.x，PIG JDK17 版本
 :::
 
 ## 目标
@@ -17,7 +17,7 @@ title: "数据源"
 
 
 :::success
-**实现效果:  日志表根据 请求方法的不同 拆分为 GET、POST、PUT、DELETE 数据库**
+**实现效果：日志表根据 请求方法的不同 拆分为 GET、POST、PUT、DELETE 数据库**
 
 :::
 
@@ -42,11 +42,11 @@ CREATE TABLE `sys_log_GET` (
                            `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
                            `type` char(1) DEFAULT '1' COMMENT '日志类型',
                            `title` varchar(255) DEFAULT '' COMMENT '日志标题',
-                           `service_id` varchar(32) DEFAULT NULL COMMENT '服务ID',
+                           `service_id` varchar(32) DEFAULT NULL COMMENT '服务 ID',
                             `log_type` varchar(32) DEFAULT NULL COMMENT '日志类型',
-                           `remote_addr` varchar(255) DEFAULT NULL COMMENT '操作IP地址',
+                           `remote_addr` varchar(255) DEFAULT NULL COMMENT '操作 IP 地址',
                            `user_agent` varchar(1000) DEFAULT NULL COMMENT '用户代理',
-                           `request_uri` varchar(255) DEFAULT NULL COMMENT '请求URI',
+                           `request_uri` varchar(255) DEFAULT NULL COMMENT '请求 URI',
                            `method` varchar(10) DEFAULT NULL COMMENT '操作方式',
                            `params` text COMMENT '操作提交的数据',
                            `time` mediumtext COMMENT '执行时间',
@@ -67,11 +67,11 @@ CREATE TABLE `sys_log_POST` (
                            `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
                            `type` char(1) DEFAULT '1' COMMENT '日志类型',
                            `title` varchar(255) DEFAULT '' COMMENT '日志标题',
-                           `service_id` varchar(32) DEFAULT NULL COMMENT '服务ID',
+                           `service_id` varchar(32) DEFAULT NULL COMMENT '服务 ID',
                             `log_type` varchar(32) DEFAULT NULL COMMENT '日志类型',
-                           `remote_addr` varchar(255) DEFAULT NULL COMMENT '操作IP地址',
+                           `remote_addr` varchar(255) DEFAULT NULL COMMENT '操作 IP 地址',
                            `user_agent` varchar(1000) DEFAULT NULL COMMENT '用户代理',
-                           `request_uri` varchar(255) DEFAULT NULL COMMENT '请求URI',
+                           `request_uri` varchar(255) DEFAULT NULL COMMENT '请求 URI',
                            `method` varchar(10) DEFAULT NULL COMMENT '操作方式',
                            `params` text COMMENT '操作提交的数据',
                            `time` mediumtext COMMENT '执行时间',
@@ -93,11 +93,11 @@ CREATE TABLE `sys_log_PUT` (
                            `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
                            `type` char(1) DEFAULT '1' COMMENT '日志类型',
                            `title` varchar(255) DEFAULT '' COMMENT '日志标题',
-                           `service_id` varchar(32) DEFAULT NULL COMMENT '服务ID',
+                           `service_id` varchar(32) DEFAULT NULL COMMENT '服务 ID',
                               `log_type` varchar(32) DEFAULT NULL COMMENT '日志类型',
-                           `remote_addr` varchar(255) DEFAULT NULL COMMENT '操作IP地址',
+                           `remote_addr` varchar(255) DEFAULT NULL COMMENT '操作 IP 地址',
                            `user_agent` varchar(1000) DEFAULT NULL COMMENT '用户代理',
-                           `request_uri` varchar(255) DEFAULT NULL COMMENT '请求URI',
+                           `request_uri` varchar(255) DEFAULT NULL COMMENT '请求 URI',
                            `method` varchar(10) DEFAULT NULL COMMENT '操作方式',
                            `params` text COMMENT '操作提交的数据',
                            `time` mediumtext COMMENT '执行时间',
@@ -118,11 +118,11 @@ CREATE TABLE `sys_log_DELETE` (
                            `id` bigint NOT NULL AUTO_INCREMENT COMMENT '编号',
                            `type` char(1) DEFAULT '1' COMMENT '日志类型',
                            `title` varchar(255) DEFAULT '' COMMENT '日志标题',
-                           `service_id` varchar(32) DEFAULT NULL COMMENT '服务ID',
+                           `service_id` varchar(32) DEFAULT NULL COMMENT '服务 ID',
                               `log_type` varchar(32) DEFAULT NULL COMMENT '日志类型',
-                           `remote_addr` varchar(255) DEFAULT NULL COMMENT '操作IP地址',
+                           `remote_addr` varchar(255) DEFAULT NULL COMMENT '操作 IP 地址',
                            `user_agent` varchar(1000) DEFAULT NULL COMMENT '用户代理',
-                           `request_uri` varchar(255) DEFAULT NULL COMMENT '请求URI',
+                           `request_uri` varchar(255) DEFAULT NULL COMMENT '请求 URI',
                            `method` varchar(10) DEFAULT NULL COMMENT '操作方式',
                            `params` text COMMENT '操作提交的数据',
                            `time` mediumtext COMMENT '执行时间',

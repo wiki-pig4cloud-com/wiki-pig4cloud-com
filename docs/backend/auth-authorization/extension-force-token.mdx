@@ -1,5 +1,5 @@
 ---
-title: "扩展-暴力生成Token"
+title: "扩展 - 暴力生成 Token"
 ---
 
 ## 业务背景
@@ -7,7 +7,7 @@ title: "扩展-暴力生成Token"
 + 在实际业务中，通常在用户注册完成后需要直接生成 Token，方便用户在注册后即刻登录。此时可以通过定制化的 Token 生成逻辑，根据业务规则灵活地生成 Token，以满足业务流程需求。
 + <Warning>当然这种方式过于暴力，绕过了 Spring Security 认证服务器的各种校验，所以在使用时需要谨慎</Warning>
 
-![别给我讲什么 FilterChain、 Provider、UserDetails](https://cdn.nlark.com/yuque/0/2024/png/283679/1730361988944-f5096ea3-2917-4fd9-a7d4-503f2855a193.png)
+![别给我讲什么 FilterChain、Provider、UserDetails](https://cdn.nlark.com/yuque/0/2024/png/283679/1730361988944-f5096ea3-2917-4fd9-a7d4-503f2855a193.png)
 
 ## 手动生成 Token 流程图
 ![](https://minio.pigx.top/oss/202305/1683870985.jpeg)
@@ -61,7 +61,7 @@ public R generateToken(@RequestBody UserTokenDTO userTokenDTO) {
             .build();
 
 
-    // 构建用户信息 , 这里只拼接了  UserTokenDTO 中的 username 和 authorities ，其他字段写死，可以自行场地；
+    // 构建用户信息 , 这里只拼接了  UserTokenDTO 中的 username 和 authorities，其他字段写死，可以自行场地；
     PigUser pigUser = new PigUser(1L, 1L, userTokenDTO.getUsername(), StrUtil.EMPTY, StrUtil.EMPTY
             , true, true, true, true, userTokenDTO.getAuthorities()
             .stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
@@ -140,7 +140,7 @@ RegisteredClient registeredClient = authenticationTokenR.getData().getRegistered
 ## 校验令牌微调
 通过如上代码，我们已经实现了 token 的方法；接下来我们<Warning>需要对校验令牌的逻辑进行微调，以便资源服务器能够识别咱这个暴力 token。</Warning>
 
-+ PigCustomOpaqueTokenIntrospector 调整，如果是自定义签发的token，直接返回用户信息
++ PigCustomOpaqueTokenIntrospector 调整，如果是自定义签发的 token，直接返回用户信息
 
 ```java
 if (SecurityConstants.FROM.equals(oldAuthorization.getRegisteredClientId())){

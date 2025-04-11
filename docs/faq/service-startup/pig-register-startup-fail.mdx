@@ -1,36 +1,51 @@
 ---
-title: "pig register 启动报错失败"
+title: "Pig Register 启动报错解决方案"
 ---
 
-## **  **
-pig-register 就是 nacos 并未做任何封装，以下问题你使用 nacos.zip 启动也会遇到。
+## 问题说明
+Pig Register 是基于 Nacos 的服务注册中心，未做额外封装。以下问题在使用原生 Nacos 时也会遇到。
 
-### ①  db-load-error 
+### 1. 数据库加载错误 (DB Load Error)
 
+<Warning>
+如果遇到数据库加载错误，请按照以下步骤进行排查：
+</Warning>
+
+1. 检查 hosts 配置
+   - 确认 pig-mysql 是否有效
+   - 使用 ping 命令逐条验证 hosts 配置
+
+2. 检查网络环境
+   - 关闭本地 VPN 或代理软件
+   - 这些软件可能会影响本地 hosts 解析
+
+3. 检查数据库配置
+   - 验证 pig-register/application.yml 中的配置信息
+   - 确认 username、password、port 等配置是否正确
+
+### 2. Web 登录问题
+
+<Note>
+如果遇到登录问题，请检查以下内容：
+</Note>
+
+1. 默认登录凭证
+   - 用户名：nacos
+   - 密码：nacos
+
+2. 数据库初始化检查
+   - 确认 pig_config 数据库是否正确初始化
+   - 验证是否包含完整的 12 张表
+   - 确保数据库版本为 5.7.8 或更高版本
+
+<Card title="数据库版本要求" icon="info">
+请确保使用 MySQL 5.7.8 或更高版本，否则可能会遇到兼容性问题。
+</Card>
 
 ![](https://cdn.nlark.com/yuque/0/2022/png/283679/1648777087693-688edcbe-4362-4ad1-bb27-dfaaebdd6d08.png)
 
-
-
-+ 解决方案 
-    - 检查 hosts 配置确定 pig-mysql 是否有效，逐条 ping 确认
-    - 检查本地是否开启了 VPN、翻墙软件，此类软件会影响本地 hosts 解析请关闭。
-    - 检查 pig-register/application.yml 里面的数据库配置是否有效，username password port 等信息
-
 ![](https://cdn.nlark.com/yuque/0/2022/png/283679/1648777217607-7319ed0c-dd49-4182-9688-458ea4adde35.png)
-
-
-
-### ②  web 登录用户名密码错误
-
-
-
-
-+  使用  nacos/nacos 登录提示密码错误
-+ 检查  pig_config 数据库是否正确初始化 共计 12 张表，数据库版本 必须是用 5.7.8+
-
-
 
 ![](https://cdn.nlark.com/yuque/0/2022/png/283679/1648777455611-e34fa242-a210-4bb9-942c-28c2f90a231f.png)
 
-### ![](https://cdn.nlark.com/yuque/0/2022/png/283679/1648777531676-f3ded6c0-511d-4c11-98a7-2001838c6c7c.png)
+![](https://cdn.nlark.com/yuque/0/2022/png/283679/1648777531676-f3ded6c0-511d-4c11-98a7-2001838c6c7c.png)

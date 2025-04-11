@@ -2,30 +2,25 @@
 title: "网关机器被挖矿服务不可用"
 ---
 
-## 
-## <font style="color:rgb(89, 89, 89);">漏洞说明</font>
-<font style="color:rgb(89, 89, 89);">Spring Cloud Gateway 远程代码执行漏洞（CVE-2022-22947）发生在 Spring Cloud Gateway 应用程序的 actuator 端点，其在启用、公开和不安全的情况下容易受到代码注入的攻击。攻击者可通过该漏洞恶意创建允许在远程主机上执行任意远程执行的请求。</font>
+## 漏洞说明
 
-<font style="color:rgb(89, 89, 89);"></font>
+Spring Cloud Gateway 远程代码执行漏洞（CVE-2022-22947）发生在 Spring Cloud Gateway 应用程序的 actuator 端点，其在启用、公开和不安全的情况下容易受到代码注入的攻击。攻击者可通过该漏洞恶意创建允许在远程主机上执行任意远程执行的请求。
 
-+ <font style="color:rgb(89, 89, 89);">2022-03-04 本团队第一时间 发布 </font>**<font style="color:rgb(71, 193, 168);"> </font>**[**<font style="color:rgb(71, 193, 168);">《关于 SCG 远程执行漏洞情况说明》</font>**](https://mp.weixin.qq.com/s?__biz=MzI3NDM2OTQxNg==&mid=2247484316&idx=1&sn=d38c21e3b5e7a9d87a768a395d899613&chksm=eb145d7bdc63d46d3b49190da843070d8c29ed1ad22e1273e48ee1c20d479664591a43f36e74&token=103617071&lang=zh_CN#rd)<font style="color:rgb(89, 89, 89);">，目前还有用户陆续中招，</font>**<font style="color:rgb(89, 89, 89);">请放下手头工作，排查 排查</font>**<font style="color:rgb(89, 89, 89);">。</font>
+2022-03-04 本团队第一时间发布 [**《关于 SCG 远程执行漏洞情况说明》**](https://mp.weixin.qq.com/s?__biz=MzI3NDM2OTQxNg==&mid=2247484316&idx=1&sn=d38c21e3b5e7a9d87a768a395d899613&chksm=eb145d7bdc63d46d3b49190da843070d8c29ed1ad22e1273e48ee1c20d479664591a43f36e74&token=103617071&lang=zh_CN#rd)，目前还有用户陆续中招，**请放下手头工作，排查 排查**。
 
-## <font style="color:rgb(89, 89, 89);">排查加固</font>
+## 排查加固
 
+**我方提供的部署文档均严格按 linux 运维最小化标准，已屏蔽 actuator 端点、对外部署只开放 80,443 对外暴露。**
 
-+ **<font style="color:rgb(71, 193, 168);">我方提供的部署文档均严格按 linux 运维最小化标准，已屏蔽 actuator 端点、对外部署只开放 80,443 对外暴露。</font>**
+![nginx configuration](https://cdn.nlark.com/yuque/0/2022/png/283679/1648800517035-d3831694-0973-47ef-b577-2f07d18ca04f.png)
 
-![](https://cdn.nlark.com/yuque/0/2022/png/283679/1648800517035-d3831694-0973-47ef-b577-2f07d18ca04f.png)
+**请检查 您的对外 nginx 是否如 图片配置屏蔽端点。**
 
-+ **<font style="color:rgb(71, 193, 168);">请检查 您的对外 nginx 是否如 图片配置屏蔽端点。</font>**
-+ **<font style="color:rgb(71, 193, 168);">请检查 您的 ECS 安全组、防火墙是否只开放了 80、443 等必要端口，</font>****<font style="color:#E8323C;">切勿放开 9999 网关端口</font>**
-
-
+**请检查 您的 ECS 安全组、防火墙是否只开放了 80、443 等必要端口，切勿放开 9999 网关端口**
 
 ## 中毒建议
 
-
-+ 目前针对挖矿病毒并未有实际有效的消杀方式，无法彻底关闭相关挖矿程序。
-+ 若您的机器已经中毒，网关服务器已经无法使用。<font style="color:#E8323C;">请单独再购买一台 其他的 ecs，先把网关服务启动然后域名重新解析避免业务中断。</font>
-+ <font style="color:rgba(0, 0, 0, 0.87);">原有网关机器重装，注意防火墙等重新设置。</font>
+- 目前针对挖矿病毒并未有实际有效的消杀方式，无法彻底关闭相关挖矿程序。
+- 若您的机器已经中毒，网关服务器已经无法使用。请单独再购买一台 其他的 ecs，先把网关服务启动然后域名重新解析避免业务中断。
+- 原有网关机器重装，注意防火墙等重新设置。
 

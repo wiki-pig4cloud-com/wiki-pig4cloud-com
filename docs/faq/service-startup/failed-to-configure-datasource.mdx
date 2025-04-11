@@ -37,10 +37,10 @@ Process finished with exit code 1
 此报错正常情况下是由于配置文件加载错误导致，虽然 nacos 对应的微服务已经配置配置文件，但是由于 **nacos 加载的规则不能正确加载或者不能正确解析。**
 </Warning>
 
-DEBUG NacosConfigDataLoader 源代码： ① 、②
+## 调试步骤
 
-- ①  获取到 nacos 配置文件结果
-- ②  配置文件解析异常内容
+1. 获取到 nacos 配置文件结果
+2. 检查配置文件解析异常内容
 
 ![NacosConfigDataLoader 调试截图](https://minio.pigx.vip/oss/1661770586.png)
 

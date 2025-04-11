@@ -205,28 +205,6 @@
               "docs/常见问题/pig-auth报错Cannot-deserialize",
               "docs/常见问题/main方法启动失败-提示yml语法错误"
             ]
-          },
-          {
-            "group": "博客",
-            "pages": [
-              "docs/博客/Higress平替Spring-Cloud-Gateway",
-              "docs/博客/白嫖-敏捷开发体系"
-            ]
-          },
-          {
-            "group": "旧版本归档",
-            "pages": [
-              "docs/旧版本归档/旧-swagger文档接入使用",
-              "docs/旧版本归档/前端文档说明/OAuth-2.0单元测试扩展使用",
-              "docs/旧版本归档/整合UReport2完成报表设计功能",
-              "docs/旧版本归档/旧版本整合shardingsphere5.1分库分表",
-              "docs/旧版本归档/前端图标引入",
-              "docs/旧版本归档/按钮权限控制",
-              "docs/旧版本归档/开发环境准备",
-              "docs/旧版本归档/服务端代码部署",
-              "docs/旧版本归档/前端代码部署",
-              "docs/旧版本归档/完成微服务增删改查副本"
-            ]
           }
         ]
       }

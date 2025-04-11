@@ -1,16 +1,13 @@
-
-
-
+---
+title: "Linux-部署应用"
+---
 
 ## 基础环境搭建
 ### ① 购买 ECS
 
+特别说明: 开发环境、测试环境强烈建议选择【ECS 按量付费】[👉🏻 《阿里云服务器 ECS 按量付费和包年包月有什么区别？》](https://developer.aliyun.com/article/1178762?source=5176.11533457&userCode=ueyxv2qf)
 
- 特别说明: 开发环境、测试环境强烈建议选择【ECS 按量付费】[👉🏻 《阿里云服务器 ECS 按量付费和包年包月有什么区别？》](https://developer.aliyun.com/article/1178762?source=5176.11533457&userCode=ueyxv2qf)
-
-
-
-+ [👉🏻 建议直接访问阿里云 ECS 官网进行购买，无需关注官方活动，因为官方活动并不一定会更便宜。【选择按量付费】](https://www.aliyun.com/product/ecs?source=5176.11533457&userCode=ueyxv2qf)
+- [👉🏻 建议直接访问阿里云 ECS 官网进行购买，无需关注官方活动，因为官方活动并不一定会更便宜。【选择按量付费】](https://www.aliyun.com/product/ecs?source=5176.11533457&userCode=ueyxv2qf)
 
 | 自定义购买 | 配置 |
 | --- | --- |
@@ -22,9 +19,7 @@
 | 带宽计费模式 | 按使用流量 |
 | 带宽峰值 | 100Mbps |
 
-
 ### ② 初始化 CentOS7
-
 
 ```shell
 curl -O http://vip.pigx.top/os7init.sh 
@@ -32,10 +27,7 @@ curl -O http://vip.pigx.top/os7init.sh
 sh os7init.sh pig4cloud
 ```
 
-
-
 ### ③ 安装 JDK
-
 
 ```shell
 wget https://cdn.azul.com/zulu/bin/zulu17.44.15-ca-jdk17.0.8-linux.x86_64.rpm
@@ -47,10 +39,7 @@ java -version
 yum install -y fontconfig mkfontscale
 ```
 
-
-
 ### ④ 安装 Mysql 8
-
 
 ```shell
 wget http://vip.pigx.top/mysql80-community-release-el7-11.noarch.rpm -O mysql80-community-release-el7-7.noarch.rpm
@@ -84,8 +73,6 @@ update user set host = '%' where user = 'root';
 FLUSH PRIVILEGES;
 ```
 
-
-
 ### ⑤ 安装 Redis
 ```shell
 yum install redis
@@ -93,10 +80,7 @@ yum install redis
 systemctl restart redis
 ```
 
-
-
 ### ⑥ 安装 NGINX
-
 
 ```shell
 vim /etc/yum.repos.d/nginx.repo
@@ -118,8 +102,6 @@ gpgkey=https://nginx.org/keys/nginx_signing.key
 module_hotfixes=true
 ```
 
-
-
 ```shell
 yum install -y yum-utils
 yum-config-manager --enable nginx-mainline
@@ -128,13 +110,9 @@ yum install -y nginx
 
 ## 部署应用代码
 
-
 ### 准备源码包
 
-
-+ <font style="background-color:#FBDE28;">注意根据不同架构选择，打包命令</font>
-
-
+- **注意根据不同架构选择，打包命令**
 
 ```shell
 # 微服务版本打包
@@ -144,20 +122,13 @@ mvn clean install -Pcloud
 mvn clean install -Pboot
 ```
 
-
-
-+ pig-ui 前端 编译 dist
-
-
+- pig-ui 前端 编译 dist
 
 ```shell
 npm run build
 ```
 
-
-
 ### 初始化数据库
-
 
 ```shell
 mysql -uroot -proot
@@ -168,10 +139,7 @@ source db/pig.sql;
 source db/pig_config.sql;
 ```
 
-
-
 ### 启动服务端
-
 
 ```shell
 # 微服务版本启动命令
@@ -186,10 +154,7 @@ nohup java -Dfile.encoding=utf-8 -jar pig-upms-biz.jar > /dev/null 2>&1 &
 nohup java -Dfile.encoding=utf-8 -jar pig-boot.jar > /dev/null 2>&1 &
 ```
 
-
-
 ### 部署前端
-
 
 ```shell
 mkdir -p /data/pig-ui && cp -r dist/* /data/pig-ui
@@ -197,7 +162,9 @@ mkdir -p /data/pig-ui && cp -r dist/* /data/pig-ui
 cd /etc/nginx/conf.d && rm -f default.conf
 
 vim pig.conf
+```
 
+```nginx
 server {
     listen 80;
     server_name localhost;
@@ -235,35 +202,21 @@ server {
     if ($request_uri ~ "/actuator"){
         return 403;
     }
-    
 }
 ```
 
-
-
 ## ECS 安全组
 
+<Warning>
+**注意配置安全组，服务相关的端口对外暴露**
 
-:::color3
-**注意配置安全组，服务相关的端口对外暴露  **
-
-+ 80/443    (生产模式只需要开启此关口)
-
-
-
-+ 9999 网关 （如需访问swagger 需要）
-+ 5001 监控 （如需访问monitor 需要）
-+ 5020 监控 （如需访问monitor 需要）
-
-:::
-
-
+- 80/443    (生产模式只需要开启此关口)
+- 9999 网关 （如需访问swagger 需要）
+- 5001 监控 （如需访问monitor 需要）
+- 5020 监控 （如需访问monitor 需要）
+</Warning>
 
 ![](https://cdn.nlark.com/yuque/0/2020/png/283679/1600526129960-ccee8fcd-1db8-4597-a9ab-411b0ea84f67.png)
-
-
-
-
 
 ## ❤  问题咨询
 ![](https://cdn.nlark.com/yuque/0/2022/gif/283679/1662563973685-c22e9831-db66-42b5-973f-886d25d1e0e7.gif)

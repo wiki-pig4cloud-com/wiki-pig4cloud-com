@@ -1,9 +1,11 @@
+---
+title: "K8S-部署应用"
+---
+
 [bilibili](https://player.bilibili.com/player.html?bvid=BV12t411B7e9&p=38&page=38&autoplay=0)
 
-# 准备<font style="color:rgb(23, 28, 52);">KubeSphere</font>环境
-[KubeSphere](https://kubesphere.io/)<font style="color:rgb(54, 67, 92);"> 是在 </font>[Kubernetes](https://kubernetes.io/)<font style="color:rgb(54, 67, 92);"> 之上构建的面向云原生应用的</font>**<font style="color:rgb(54, 67, 92);">分布式操作系统</font>**<font style="color:rgb(54, 67, 92);">，完全开源，支持多云与多集群管理，提供全栈的 IT 自动化运维能力，简化企业的 DevOps 工作流。它的架构可以非常方便地使第三方应用与云原生生态组件进行即插即用 (plug-and-play) 的集成</font>
-
-<font style="color:rgb(54, 67, 92);"></font>
+# 准备KubeSphere环境
+[KubeSphere](https://kubesphere.io/) 是在 [Kubernetes](https://kubernetes.io/) 之上构建的面向云原生应用的**分布式操作系统**，完全开源，支持多云与多集群管理，提供全栈的 IT 自动化运维能力，简化企业的 DevOps 工作流。它的架构可以非常方便地使第三方应用与云原生生态组件进行即插即用 (plug-and-play) 的集成
 
 ```shell
 export KKZONE=cn

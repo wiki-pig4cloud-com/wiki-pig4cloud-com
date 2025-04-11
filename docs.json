@@ -14,19 +14,18 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "Getting Started",
+        "tab": "快速入门",
         "groups": [
           {
-            "group": "Quick Start",
+            "group": "快速开始",
             "pages": [
-              "introduction",
               "docs/preface",
               "docs/preface/development-participation/development-participation",
               "docs/preface/learning-materials/learning-materials"
             ]
           },
           {
-            "group": "Deployment",
+            "group": "部署指南",
             "pages": [
               "docs/deployment/version-branch",
               "docs/deployment/quick-start",
@@ -36,7 +35,7 @@
             ]
           },
           {
-            "group": "Secondary Development",
+            "group": "二次开发",
             "pages": [
               "docs/dev/create-microservice-skeleton",
               "docs/dev/microservice-config-management",
@@ -44,7 +43,7 @@
             ]
           },
           {
-            "group": "Backend Development - Programming Basics",
+            "group": "后端开发 - 编程基础",
             "pages": [
               "docs/backend/programming-basics/lombok-usage",
               "docs/backend/programming-basics/java-util-usage",
@@ -54,7 +53,7 @@
             ]
           },
           {
-            "group": "Backend Development - Microservice Basics",
+            "group": "后端开发 - 微服务基础",
             "pages": [
               "docs/backend/microservice-basics/nacos-config-center",
               "docs/backend/microservice-basics/nacos-server-implementation",
@@ -64,7 +63,7 @@
             ]
           },
           {
-            "group": "Backend Development - Gateway Features",
+            "group": "后端开发 - 网关功能",
             "pages": [
               "docs/backend/gateway-features/gateway-routing",
               "docs/backend/gateway-features/gateway-cors",
@@ -73,7 +72,7 @@
             ]
           },
           {
-            "group": "Backend Development - Auth & Authorization",
+            "group": "后端开发 - 认证授权",
             "pages": [
               "docs/backend/auth-authorization/token-jwt-oauth2-session",
               "docs/backend/auth-authorization/pig-token-authentication",
@@ -91,7 +90,7 @@
             ]
           },
           {
-            "group": "Backend Development - Functions",
+            "group": "后端开发 - 功能使用",
             "pages": [
               "docs/backend/function-usage/swagger-integration",
               "docs/backend/function-usage/swagger-api-debugging",
@@ -118,7 +117,7 @@
             ]
           },
           {
-            "group": "Frontend Development",
+            "group": "前端开发",
             "pages": [
               "docs/frontend/browser-compatibility",
               "docs/frontend/font-icon-config",
@@ -139,7 +138,7 @@
             ]
           },
           {
-            "group": "Production Deployment",
+            "group": "生产部署",
             "pages": [
               "docs/production/https-frontend-deployment",
               "docs/production/centos-deployment",
@@ -147,7 +146,7 @@
             ]
           },
           {
-            "group": "Integration Capabilities",
+            "group": "集成能力",
             "pages": [
               "docs/integration/pig-dm-database",
               "docs/integration/pig-shardingsphere-integration",
@@ -180,10 +179,10 @@
         ]
       },
       {
-        "tab": "FAQ",
+        "tab": "常见问题",
         "groups": [
           {
-            "group": "Frequently Asked Questions",
+            "group": "常见问题",
             "pages": [
               "docs/faq",
               "docs/faq/asking-guidelines/question-guidelines",
@@ -222,7 +221,7 @@
   "navbar": {
     "links": [
       {
-        "label": "Official Website",
+        "label": "官方网站",
         "href": "https://pig4cloud.com"
       }
     ]

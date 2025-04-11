@@ -1,7 +1,7 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Pig4Cloud Wiki",
+  "name": "PIG 技术指南V3",
   "colors": {
     "primary": "#16A34A",
     "light": "#07C983",
@@ -153,14 +153,6 @@
             ]
           },
           {
-            "group": "生产部署",
-            "pages": [
-              "docs/production/https-frontend-deployment",
-              "docs/production/centos-deployment",
-              "docs/production/rainbond-deployment"
-            ]
-          },
-          {
             "group": "集成能力",
             "pages": [
               "docs/integration/pig-dm-database",
@@ -187,7 +179,9 @@
               "docs/integration/sso-jeesite-pig",
               "docs/integration/pig-register-nacos-dm",
               "docs/integration/pig-register-nacos-oracle",
-              "docs/integration/pig-register-nacos-kingbase"
+              "docs/integration/pig-register-nacos-kingbase",
+              "docs/production/https-frontend-deployment",
+              "docs/production/rainbond-deployment"
             ]
           }
         ]
@@ -232,10 +226,6 @@
         ]
       }
     ]
-  },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
   },
   "navbar": {
     "primary": {

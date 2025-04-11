@@ -28,3 +28,12 @@ docs/后端开发/网关功能/网关路由配置.mdx
 docs/后端开发/网关功能/网关配置跨域.mdx
 docs/后端开发/网关功能/网关限流使用.mdx
 docs/后端开发/网关功能/网关超时及异常处理.mdx
+docs/后端开发/功能使用/sentinel 流量控制台使用.mdx
+docs/后端开发/功能使用/pig OSS文件上传.mdx
+docs/后端开发/功能使用/EnablePigFeignClients 注解解析【原理】.mdx
+docs/后端开发/功能使用/SysLog 注解使用.mdx
+docs/后端开发/功能使用/knife4j 接口文档调试.mdx
+docs/后端开发/认证授权/token、jwt、oauth2、session.mdx
+docs/后端开发/认证授权/【扩展】暴力生成 token.mdx
+docs/后端开发/认证授权/服务中获取当前用户.mdx
+docs/后端开发/认证授权/接口对外直接暴露.mdx

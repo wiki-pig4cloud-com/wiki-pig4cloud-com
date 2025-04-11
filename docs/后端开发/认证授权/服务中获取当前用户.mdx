@@ -1,9 +1,10 @@
+---
+title: "服务中获取当前用户"
+---
+
 ## 获取当前用户
 
-
 直接在业务方法中获取 `SecurityUtils.getUser()`
-
-
 
 ```java
 public PigUser getUser(Authentication authentication) {
@@ -15,8 +16,6 @@ public PigUser getUser(Authentication authentication) {
 }
 ```
 
-
-
 ## 前端获取当前用户
 ```typescript
 import { useUserInfo } from '/@/stores/userInfo';
@@ -26,14 +25,10 @@ const user = useUserInfo().userInfos.user
 
 ## 特别说明
 
-
-:::warning
+<Warning>
 必须是带`token` 请求的方法才可以获取到当前用户信息，若是直接对外暴露的接口则无法获取
+</Warning>
 
-:::
-
-
-
-## ❤  问题咨询
+## 问题咨询
 ![](https://cdn.nlark.com/yuque/0/2022/gif/283679/1662563973685-c22e9831-db66-42b5-973f-886d25d1e0e7.gif)
 

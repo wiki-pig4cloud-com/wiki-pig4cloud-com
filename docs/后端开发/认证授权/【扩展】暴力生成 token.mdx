@@ -1,7 +1,11 @@
+---
+title: "扩展-暴力生成Token"
+---
+
 ## 业务背景
-+ 本文主要介绍如何自定义 Token 生成逻辑，**<font style="color:#DF2A3F;">不依赖于 OAuth2 协议的严格参数要求</font>**。比如只提供用户名，即可生成指定用户的 Token，使业务流程更加灵活、简便。
++ 本文主要介绍如何自定义 Token 生成逻辑，<Warning>不依赖于 OAuth2 协议的严格参数要求</Warning>。比如只提供用户名，即可生成指定用户的 Token，使业务流程更加灵活、简便。
 + 在实际业务中，通常在用户注册完成后需要直接生成 Token，方便用户在注册后即刻登录。此时可以通过定制化的 Token 生成逻辑，根据业务规则灵活地生成 Token，以满足业务流程需求。
-+ **<font style="color:#DF2A3F;background-color:#FBDE28;">当然这种方式过于暴力，绕过了 Spring Security 认证服务器的各种校验，所以在使用时需要谨慎</font>**。
++ <Warning>当然这种方式过于暴力，绕过了 Spring Security 认证服务器的各种校验，所以在使用时需要谨慎</Warning>
 
 ![别给我讲什么 FilterChain、 Provider、UserDetails](https://cdn.nlark.com/yuque/0/2024/png/283679/1730361988944-f5096ea3-2917-4fd9-a7d4-503f2855a193.png)
 
@@ -134,7 +138,7 @@ RegisteredClient registeredClient = authenticationTokenR.getData().getRegistered
 ```
 
 ## 校验令牌微调
-通过如上代码，我们已经实现了 token 的方法；接下来我们<font style="color:#DF2A3F;">需要对校验令牌的逻辑进行微调，以便资源服务器能够识别咱这个暴力 token。</font>
+通过如上代码，我们已经实现了 token 的方法；接下来我们<Warning>需要对校验令牌的逻辑进行微调，以便资源服务器能够识别咱这个暴力 token。</Warning>
 
 + PigCustomOpaqueTokenIntrospector 调整，如果是自定义签发的token，直接返回用户信息
 

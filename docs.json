@@ -14,10 +14,10 @@
   "navigation": {
     "tabs": [
       {
-        "tab": "文档",
+        "tab": "入门文档",
         "groups": [
           {
-            "group": "入门指南",
+            "group": "快速开始",
             "pages": [
               "introduction",
               "docs/前言",
@@ -176,7 +176,12 @@
               "docs/整合能力/pig-register-nacos支持oracle存储",
               "docs/整合能力/pig-register-nacos支持人大金仓存储"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "tab": "常见问题",
+        "groups": [
           {
             "group": "常见问题",
             "pages": [

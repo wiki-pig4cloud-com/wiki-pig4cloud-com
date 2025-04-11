@@ -2,13 +2,17 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "PIG 技术指南V3",
+  "banner": {
+    "content": "🚀 PIG AI 大模型平台已上线! [点击了解一下？](https://ai.pig4cloud.com)",
+    "dismissible": true
+  },
+  "background": {
+    "decoration": "windows"
+  },
   "colors": {
     "primary": "#16A34A",
     "light": "#07C983",
     "dark": "#15803D"
-  },
-  "background": {
-    "decoration": "windows"
   },
   "favicon": "/favicon.svg",
   "navigation": {

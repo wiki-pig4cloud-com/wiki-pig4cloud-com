@@ -1,0 +1,32 @@
+## **<font style="color:#F5222D;">  </font>**
+<font style="color:#F5222D;">pig-register 就是 nacos 并未做任何封装，以下问题你使用 nacos.zip 启动也会遇到。</font>
+
+### ①  db-load-error 
+
+
+![](https://cdn.nlark.com/yuque/0/2022/png/283679/1648777087693-688edcbe-4362-4ad1-bb27-dfaaebdd6d08.png)
+
+
+
++ 解决方案 
+    - 检查 hosts 配置确定 pig-mysql 是否有效，逐条 ping 确认
+    - 检查本地是否开启了 VPN 、翻墙软件，此类软件会影响本地 hosts 解析请关闭。
+    - 检查 pig-register/application.yml 里面的数据库配置是否有效,username password port 等信息
+
+![](https://cdn.nlark.com/yuque/0/2022/png/283679/1648777217607-7319ed0c-dd49-4182-9688-458ea4adde35.png)
+
+
+
+### ②  web 登录用户名密码错误
+
+
+
+
++  使用  nacos/nacos 登录提示密码错误
++ 检查  pig_config 数据库是否正确初始化 共计 12张表 ，数据库版本 必须是用 5.7.8+
+
+
+
+![](https://cdn.nlark.com/yuque/0/2022/png/283679/1648777455611-e34fa242-a210-4bb9-942c-28c2f90a231f.png)
+
+### ![](https://cdn.nlark.com/yuque/0/2022/png/283679/1648777531676-f3ded6c0-511d-4c11-98a7-2001838c6c7c.png)

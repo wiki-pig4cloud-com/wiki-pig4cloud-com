@@ -1,0 +1,279 @@
+
+
+## 基础环境搭建
+### ① 购买 ECS
+
+
+ 特别说明: 开发环境、测试环境强烈建议选择【ECS 按量付费】[👉🏻 《阿里云服务器 ECS 按量付费和包年包月有什么区别？》](https://developer.aliyun.com/article/1178762?source=5176.11533457&userCode=ueyxv2qf)
+
+
+
++ [👉🏻 建议直接访问阿里云 ECS 官网进行购买，无需关注官方活动，因为官方活动并不一定会更便宜。【选择按量付费】](https://www.aliyun.com/product/ecs?source=5176.11533457&userCode=ueyxv2qf)
+
+| 自定义购买 | 配置 |
+| --- | --- |
+| 付费类型 | 按量付费 |
+| 实例 | 2vCPU/16GiB/Intel 处理器 |
+| 镜像 | CentOS 7.9 64 位 |
+| 系统盘 | 100GB |
+| 公网 IP | 分配 |
+| 带宽计费模式 | 按使用流量 |
+| 带宽峰值 | 100Mbps |
+
+
+### ② 初始化 CentOS7
+
+
+```shell
+# 最后的参数为主机名
+curl http://vip.pigx.top/os7init.sh | sh -s -- pig4cloud
+```
+
+
+
+### ③ 安装 JDK
+
+
+```shell
+wget https://cdn.azul.com/zulu/bin/zulu17.44.15-ca-jdk17.0.8-linux.x86_64.rpm
+
+rpm -ivh zulu17.44.15-ca-jdk17.0.8-linux.x86_64.rpm
+
+java -version
+```
+
+
+
+### ④ 安装 Mysql 8
+
+
+```shell
+wget http://vip.pigx.top/mysql80-community-release-el7-11.noarch.rpm -O mysql80-community-release-el7-7.noarch.rpm
+
+rpm -ivh mysql80-community-release-el7-7.noarch.rpm
+
+yum install -y mysql mysql-server
+
+# 修改配置文件
+vim /etc/my.cnf
+lower_case_table_names=1
+
+# 重启mysql
+systemctl restart mysqld
+
+# 查看默认密码
+grep password /var/log/mysqld.log
+
+# mysql client 链接 mysql
+mysql -uroot -p
+
+alter user 'root'@'localhost' identified by 'ZxcRoot123!@#';
+set global validate_password.check_user_name=0;
+set global validate_password.policy=0;
+set global validate_password.length=1;
+alter user 'root'@'localhost' identified by 'root';
+
+# 修改为允许远程访问
+use mysql;
+update user set host = '%' where user = 'root';
+FLUSH PRIVILEGES;
+```
+
+
+
+### ⑤ 安装 Redis
+```shell
+yum install redis
+
+systemctl restart redis
+```
+
+
+
+### ⑥ 安装 NGINX
+
+
+```shell
+vim /etc/yum.repos.d/nginx.repo
+
+[nginx-stable]
+name=nginx stable repo
+baseurl=http://nginx.org/packages/centos/$releasever/$basearch/
+gpgcheck=1
+enabled=1
+gpgkey=https://nginx.org/keys/nginx_signing.key
+module_hotfixes=true
+
+[nginx-mainline]
+name=nginx mainline repo
+baseurl=http://nginx.org/packages/mainline/centos/$releasever/$basearch/
+gpgcheck=1
+enabled=0
+gpgkey=https://nginx.org/keys/nginx_signing.key
+module_hotfixes=true
+```
+
+
+
+```shell
+yum install -y yum-utils
+yum-config-manager --enable nginx-mainline
+yum install -y nginx
+```
+
+### ⑦ 配置 hosts
+
+
+```shell
+vim /etc/hosts
+
+127.0.0.1   pig-mysql
+127.0.0.1   pig-redis
+127.0.0.1   pig-gateway
+127.0.0.1   pig-register
+127.0.0.1   pig-sentinel
+127.0.0.1   pig-job
+
+source /etc/hosts
+```
+
+
+
+## 部署应用代码
+
+
+### 准备源码包
+
+
++ pig 服务端 编译 jar
+
+
+
+```shell
+mvn clean install
+```
+
+
+
++ pig-ui 前端 编译 dist
+
+
+
+```shell
+npm run build
+```
+
+
+
+### 初始化数据库
+
+
+```shell
+mysql -uroot -proot
+
+-- 核心数据库
+source db/pig.sql;
+-- nacos配置
+source db/pig_config.sql;
+-- 代码生成模块脚本
+source db/pig_codegen.sql;
+-- 定时任务模块脚本
+source db/pig_job.sql;
+```
+
+
+
+### 启动服务端
+
+
+```shell
+nohup java -Dfile.encoding=utf-8 -jar pig-register.jar > /dev/null 2>&1 &
+
+nohup java -Dfile.encoding=utf-8 -jar pig-monitor.jar > /dev/null 2>&1 &
+nohup java -Dfile.encoding=utf-8 -jar pig-gateway.jar > /dev/null 2>&1 &
+nohup java -Dfile.encoding=utf-8 -jar pig-auth.jar > /dev/null 2>&1 &
+nohup java -Dfile.encoding=utf-8 -jar pig-upms-biz.jar > /dev/null 2>&1 &
+```
+
+
+
+### 部署前端
+
+
+```shell
+mkdir -p /data/pig-ui && cp -r dist/* /data/pig-ui
+
+cd /etc/nginx/conf.d && rm -f default.conf
+
+vim pig.conf
+
+server {
+    listen 80;
+    server_name localhost;
+
+    gzip on;
+    gzip_static on;     # 需要http_gzip_static_module 模块
+    gzip_min_length 1k;
+    gzip_comp_level 4;
+    gzip_proxied any;
+    gzip_types text/plain text/xml text/css;
+    gzip_vary on;
+    gzip_http_version   1.0; #兼容多层nginx 反代
+    gzip_disable "MSIE [1-6]\.(?!.*SV1)";
+
+    # 打包好的dist目录文件，放置到这个目录下
+    root /data/pig-ui;
+    
+    # 注意维护新增微服务，gateway 路由前缀
+    location ^~/api/ {
+        proxy_pass http://127.0.0.1:9999/; #注意/后缀
+        proxy_connect_timeout 60s;
+        proxy_read_timeout 120s;
+        proxy_send_timeout 120s;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto http;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $http_host;
+        proxy_set_header from "";
+    }
+    
+    # 屏蔽所有敏感路径，不用改代码
+    location ~* ^/(actuator|swagger-ui|v3/api-docs|swagger-resources|webjars|doc.html) {
+        return 403; # 禁止访问
+    }
+    
+}
+```
+
+
+
+## ECS 安全组
+
+
+:::color3
+**注意配置安全组，服务相关的端口对外暴露  **
+
++ 80/443    (生产模式只需要开启此关口)
+
+
+
++ 9999 网关 （如需访问swagger 需要）
++ 5001 监控 （如需访问monitor 需要）
++ 5020 监控 （如需访问monitor 需要）
+
+:::
+
+
+
+![](https://cdn.nlark.com/yuque/0/2020/png/283679/1600526129960-ccee8fcd-1db8-4597-a9ab-411b0ea84f67.png)
+
+
+
+
+
+## ❤  问题咨询
+![](https://cdn.nlark.com/yuque/0/2022/gif/283679/1662563973685-c22e9831-db66-42b5-973f-886d25d1e0e7.gif)
+

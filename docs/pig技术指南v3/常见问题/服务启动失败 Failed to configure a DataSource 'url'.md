@@ -1,0 +1,45 @@
+## 报错信息
+```shell
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Failed to configure a DataSource: 'url' attribute is not specified and no embedded datasource could be configured.
+
+Reason: Failed to determine a suitable driver class
+
+
+Action:
+
+Consider the following:
+	If you want an embedded database (H2, HSQL or Derby), please put it on the classpath.
+	If you have database settings to be loaded from a particular profile you may need to activate it (no profiles are currently active).
+
+
+Process finished with exit code 1
+
+```
+
+## 解决方案
++ Nacos 没有配置对应服务的数据库连接信息
++ 微服务无法连接读取nacos配置信息 (host没配置，本地vpn影响解析等原因)
+
+## 其他原因
+:::warning
+此报错正常情况下是由于配置文件加载错误导致，虽然 nacos 对应的微服务已经配置配置文件，但是由于 **nacos 加载的规则不能正确加载或者不能正确解析。**
+
+:::
+
+
+
+DEBUG NacosConfigDataLoader 源代码： ① 、②
+
++ ①  获取到 nacos 配置文件结果
++ ②  配置文件解析异常内容
+
+
+
+![](https://minio.pigx.vip/oss/1661770586.png)
+

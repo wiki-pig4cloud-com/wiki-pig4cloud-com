@@ -1,0 +1,238 @@
+[bilibili](https://player.bilibili.com/player.html?bvid=BV12t411B7e9&p=11&page=11)
+
+# ① XSS 是什么
+
+
+XSS（Cross Site Scripting）攻击全称跨站脚本攻击，为了不与 CSS(Cascading Style Sheets)名词混淆，故将跨站脚本攻击简称为 XSS，XSS 是一种常见 web 安全漏洞，它允许恶意代码植入到提供给其它用户使用的页面中。
+
+
+
+## xss 攻击流程
+
+
+![](https://cdn.nlark.com/yuque/0/2020/png/283679/1606891811047-7aaff61b-af73-44cf-96ef-ae110cf0f6d4.png)
+
+
+
+## 简单 xss 攻击示例
+
+
++ 若网站某个表单没做相关的处理，用户提交相关恶意代码，浏览器会执行相关的代码。
+
+
+
+![](https://cdn.nlark.com/yuque/0/2020/png/283679/1606891810812-bcc24e40-d9fe-4b1a-9a45-df5dff996762.png)
+
+
+
+# ② 解决方案
+
+
+## XSS 过滤说明
+
+
++ 对表单绑定的字符串类型进行 xss 处理。
++ 对 json 字符串数据进行 xss 处理。
++ 提供路由和控制器方法级别的放行规则。
+
+## 使用 xss 过滤
+
+
+:::info
+**在新增的微服务 pom.xml 中添加如下依赖即可**
+
+:::
+
+
+
+```xml
+<!--xss 过滤-->
+<dependency>
+    <groupId>com.pig4cloud</groupId>
+    <artifactId>pig-common-xss</artifactId>
+</dependency>
+```
+
+
+
+## 测试 XSS 过滤
+
+
+### 测试 GET 参数过滤
+
+
++ 创建目标接口，模拟 get 提交
+
+
+
+```java
+@GetMapping("/xss")
+public String xss(String params){
+  return params;
+}
+```
+
+
+
++ 返回为空
+
+
+
+```shell
+⋊> ~ curl --location --request GET 'http://localhost:8080/xss?params=%3Cscript%3Ealert(%27xxx%27)%3C/script%3E'
+```
+
+
+
+### 测试 POST form 参数过滤
+
+
++ 创建目标接口，模拟 post form 提交
+
+
+
+```java
+@PostMapping("/xss")
+public String xss(String params){
+  return params;
+}
+```
+
+
+
++ 返回为空
+
+
+
+```shell
+curl --location --request POST 'http://localhost:8080/xss' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'params=<script>alert('\''xxx'\'')</script>'
+```
+
+
+
+### 测试 POST body 参数过滤
+
+
++ 创建目标接口，模拟 post body 提交
+
+
+
+```java
+@PostMapping("/xss")
+public String xss(@RequestBody Map<String,String> body){
+    return body.get("params");
+}
+```
+
+
+
++ 返回为空
+
+
+
+```shell
+curl --location --request POST 'http://localhost:8080/xss' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "params":"<script>alert('\''XXX'\'')</script>"
+}'
+```
+
+
+
+# ③ 接口跳过XSS过滤
+
+
++ 可以使用 [**@XssCleanIgnore **](/XssCleanIgnore )** ** 注解对方法和类级别进行忽略。
+
+
+
+```java
+@XssCleanIgnore
+@PostMapping("/xss")
+public String xss(@RequestBody Map<String,String> body){
+  return body.get("params");
+}
+```
+
+
+
++ 跳过 JSON body 某个字段属性
+
+```java
+@XssCleanIgnore({ "字段名称" })
+```
+
+![](https://cdn.nlark.com/yuque/0/2022/png/283679/1665629225415-f9483902-9e46-4ca6-95c6-6e32edad660b.png)
+
+
+
+# ④ 扩展: XSS原理分析
+
+
+### 常见实现剖析
+
+
++ 目前网上大多数的方案如下图，新增 XssFilter 拦截用户提交的参数，进行相关的转义和黑名单排除，完成相关的业务逻辑。**在整个过程中最核心的是通过包装用户的原始请求，创建新的 requestwrapper 保证请求流在后边的流程可以重复读**。
+
+
+
+![](https://cdn.nlark.com/yuque/0/2020/png/283679/1606891810830-349315ae-aad9-4f0a-8435-387b91ef4fd8.png)
+
+
+
+## xss 实现
+
+
+### 1. 自定义 WebDataBinder 编辑器支持 form 过滤
+
+
+Spring WebDataBinder 的作用是从 web request 中把 web 请求里的`parameters`绑定到对应的`JavaBean`上，在 Controller 方法中的参数类型可以是基本类型，也可以是封装后的普通 Java 类型。若这个普通的 Java 类型没有声明任何注解，则意味着它的每一个属性都需要到 Request 中去查找对应的请求参数，而 WebDataBinder 则可以帮助我们实现从 Request 中取出请求参数并绑定到 JavaBean 中。SpringMVC 在绑定的过程中提供了用户自定义编辑绑定的接口，注入即可在参数绑定 JavaBean 过程中执行过滤。
+
+
+
+![](https://cdn.nlark.com/yuque/0/2020/png/283679/1606891810860-b0841689-823c-4bd2-bd54-a73fc7d02029.png)
+
+
+
+### 2. 自定义 JsonDeserializer 反序列化支持 Json 过滤
+
+
+在 Spring Boot 中默认是使用 Jackson 进行序列化和反序列化 JSON 数据的，那么除了可以用默认的之外，我们也可以编写自己的 JsonSerializer 和 JsonDeserializer 类，来进行自定义操作。用户提交 JSON 报文会通过 Jackson 的 JsonDeserializer 绑定到 JavaBean 中。我们只需要自定义 JsonDeserializer 即可完成在绑定 JavaBean 中执行过滤。
+
+
+
+![](https://cdn.nlark.com/yuque/0/2020/png/283679/1606891810821-5519dd09-d83e-47ea-9f2e-c983fdc56792.png)
+
+
+
+### 3.核心过滤逻辑
+
+
+在 xss 中并未采取上文所述通过自己手写黑名单或者转义方式的实现方案，而是直接实现 Jsoup 这个工具类。
+
+jsoup 实现 WHATWG HTML5 规范，并将 HTML 解析为与现代浏览器相同的 DOM。
+
+
+
++ 从 URL，文件或字符串中刮取和解析 HTML
++ 使用 DOM 遍历或 CSS 选择器查找和提取数据
++ 操纵 HTML 元素，属性和文本
++ 清除用户提交的内容以防止安全白名单，以防止 XSS 攻击
++ 输出整洁的 HTML
+
+
+
+![](https://cdn.nlark.com/yuque/0/2020/png/283679/1606891810886-8074c9e7-607b-4412-b02c-e471e35e0422.png)
+
+
+
+[源码地址： https://gitee.com/596392912/mica](https://gitee.com/596392912/mica)  
+  
+
+
+## ❤  问题咨询
+![](https://cdn.nlark.com/yuque/0/2022/gif/283679/1662563973685-c22e9831-db66-42b5-973f-886d25d1e0e7.gif)
+

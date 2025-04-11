@@ -1,0 +1,66 @@
+## 下载 SkyWalking
+
+
+SkyWalking 个人建议直接下载官方编译好的，[下载地址](http://skywalking.apache.org/downloads/)
+
+
+
+## 启动 SkyWalking
+
+
+```shell
+
+sudo bin/startup.sh
+```
+
+
+
++ <font style="color:#F5222D;">http://ip:8080</font>
+
+## 关闭 SkyWalking
+
+
+```shell
+
+ps -ef | grep sky | awk '{print $2}' | sudo xargs kill -9
+```
+
+
+
+## Java Agent
+
+
+所有服务都加agent
+
+
+
++ java -jar 启动增加参数
+
+```shell
+
+nohup java -Xms512m -Xmx3500m -javaagent:skywalking-agent.jar \
+			-Dskywalking.agent.service_name=pig-upms \
+      -Dskywalking.collector.backend_service=ip:11800 \
+      -jar pig-upms-biz.jar \
+      -Djava.security.egd=file:/dev/./urandom 2>&1 &
+
+```
+
+
+
++ 本地 IDEA 添加参数形式
+
+![](https://cdn.nlark.com/yuque/0/2020/png/283679/1599470275127-f41885b1-eb26-4512-9a20-528630234da1.png)
+
+
+
+## 问题 Redis/ Spring Cloud Gateway 监控不到
+
+
+![](https://cdn.nlark.com/yuque/0/2020/png/283679/1599470275202-57509b4d-d1ff-47bf-9c3a-41648ab88ff2.png)
+
+
+
+## ❤  问题咨询
+![](https://cdn.nlark.com/yuque/0/2022/gif/283679/1662563973685-c22e9831-db66-42b5-973f-886d25d1e0e7.gif)
+

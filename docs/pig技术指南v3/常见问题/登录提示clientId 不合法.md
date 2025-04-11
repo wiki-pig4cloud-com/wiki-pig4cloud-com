@@ -1,0 +1,12 @@
+![](https://cdn.nlark.com/yuque/0/2022/png/283679/1663059509999-578396a5-d536-4c29-9969-a76ee40cc877.png)
+
+
+
+## 解决方案
++ 检查 upms (admin) 模块报错日志
++ 检查 **nacos/pig-upms-biz-dev.yml **配置文件
+
+
+
+![](https://cdn.nlark.com/yuque/0/2022/png/283679/1663059680544-54915e79-3d1d-4909-ab8e-8870617a225c.png)
+

@@ -1,0 +1,78 @@
+[bilibili](https://player.bilibili.com/player.html?bvid=BV12t411B7e9&p=36&page=36&autoplay=0)
+
+# websocket简介
+WebSocket 协议在2008年诞生，2011年成为国际标准。所有浏览器都已经支持了。
+
+它的最大特点就是，服务器可以主动向客户端推送信息，客户端也可以主动向服务器发送信息，是真正的双向平等对话，属于[服务器推送技术](https://en.wikipedia.org/wiki/Push_technology)的一种。
+
+![](https://cdn.nlark.com/yuque/0/2022/png/283679/1668404250586-a165fd51-9378-4d71-bfab-a5b9d038bd30.png)
+
+
+
+# 上手使用
+## ① 添加依赖
+```xml
+<dependency>
+  <groupId>com.pig4cloud.plugin</groupId>
+  <artifactId>websocket-spring-boot-starter</artifactId>
+  <version>3.0.0</version>
+</dependency>
+```
+
+## ② 测试使用
+:::warning
+ 👉 使用 [websocket 在线测试工具调试](https://wstool.js.org/)
+
+:::
+
+![](https://cdn.nlark.com/yuque/0/2023/png/283679/1698816912994-3c28de13-39de-404a-b399-be537303484d.png)
+
+
+
++ 服务地址:  
+
+```shell
+# 例如链接upms模块的ws接口 ws://127.0.0.1:9999/admin/ws/info?access_token=xxxx 
+ws://127.0.0.1:9999/路由前缀/ws/info?access_token=token
+```
+
+# 进阶使用
+## ① 服务端推送消息
+```java
+// 在服务端需要发送 ws 给客户端发送出，直接使用如下工具类发送
+WebSocketMessageSender.send(sessionKey,message)
+```
+
+:::warning
+默认sessionKey为客户端登录的用户名，比如给admin 用户发送就是   
+  
+WebSocketMessageSender.send("admin","hello world")
+
+:::
+
+## ② 个性化客户端消息处理
++ 默认直接输出客户端请求的消息
+
+![](https://cdn.nlark.com/yuque/0/2022/png/283679/1668405374784-cef210f4-f49e-4f0d-928e-29fa947862e0.png)
+
+
+
++ 注入 Spring PlanTextMessageHandler  实现即可
+
+```java
+@Service
+public class CustomPlanTextMessageHandler implements PlanTextMessageHandler {
+
+	/**
+	 * 普通文本消息处理
+	 * @param session 当前接收消息的session
+	 * @param message 文本消息
+	 */
+	@Override
+	public void handle(WebSocketSession session, String message) {
+		log.info("sessionId {} ,msg {}", session.getId(), message);
+	}
+
+}
+```
+

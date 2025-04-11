@@ -1,0 +1,38 @@
+[bilibili](https://player.bilibili.com/player.html?bvid=bv1x541117Lr)
+
+## <font style="color:rgb(102, 102, 102);">什么是 ACR</font>
+[阿里云容器镜像服务ACR（Alibaba Cloud Container Registry）是面向容器镜像、Helm Chart等符合OCI标准的云原生制品安全托管及高效分发平台。ACR企业版支持全球同步加速、大规模和大镜像分发加速、多代码源构建加速等全链路加速能力，与容器服务ACK无缝集成，帮助企业降低交付复杂度，打造云原生应用一站式解决方案。](https://help.aliyun.com/document_detail/257112.html?source=5176.11533457&userCode=ueyxv2qf)
+
+**<font style="color:#E8323C;">针对个人实例免费！！！</font>**
+
+## 获取 <font style="color:rgb(102, 102, 102);">ACR参数</font>
+### ① 选择个人
+![](https://cdn.nlark.com/yuque/0/2022/png/283679/1650588516188-f706d7c3-e059-4162-865a-dd31a8e7c6a5.png)
+
++ 设置固定![](https://minio.pigx.vip/oss/1650588618.png)
+
+
+
+### ② 创建仓库空间
+![](https://cdn.nlark.com/yuque/0/2022/png/283679/1650588878820-280810a6-013d-4c2d-8c2e-2d838edcde5c.png)
+
+
+
+### ③ 获取仓库地址
+![](https://cdn.nlark.com/yuque/0/2022/png/283679/1650588851516-ed8aaab6-67d8-43d6-a950-b6556400b861.png)
+
+## PIG 配置
+
+
+### ① maven 配置
++ vim pig/pom.xml
+
+![](https://cdn.nlark.com/yuque/0/2022/png/283679/1650588973084-05f3aedb-7aee-48a7-8e94-42ffa587de32.png)
+
+### ② 构建镜像并推送
++ cd pig/pig-register
+
+```shell
+mvn docker:build && mvn docker:push
+```
+

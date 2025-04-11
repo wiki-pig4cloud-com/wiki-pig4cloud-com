@@ -1,0 +1,95 @@
+
+
+## 效果展示
+[此处为语雀卡片，点击链接查看](https://www.yuque.com/docs/14034117#Q3J63)
+
+## 版本说明
++ pig 2.10
++ guns vip 1.0
+
+
+
+## pig 客户端表
+
+
+```sql
+INSERT INTO `pig`.`sys_oauth_client_details`(`client_id`, `resource_ids`, `client_secret`, `scope`, `authorized_grant_types`, `web_server_redirect_uri`, `authorities`, `access_token_validity`, `refresh_token_validity`, `additional_information`, `autoapprove`) VALUES ('guns', NULL, 'guns', 'server', 'refresh_token,authorization_code', 'http://localhost:8087/sso/code', NULL, 43200, 2592001, NULL, 'true');
+```
+
+## 调整 WebSecurityConfig 
+
+
+![](https://cdn.nlark.com/yuque/0/2020/png/283679/1601971834824-77b3b26a-0484-4e9c-95a7-19f1314634a0.png)
+
+
+
+## 新增SSO 登录接口
+
+
++ LoginController 新增如下端点， 代码中的URL 根据实际地址修改即可
+
+<font style="color:#DF2A3F;">注意</font>：授权码模式下回调地址不能使用`localhost`，可以使用`127.0.0.1`
+
+
+
+```java
+    @SneakyThrows
+    @RequestMapping(value = "/sso/login", method = RequestMethod.GET)
+    public RedirectView loginSso(HttpServletRequest request, HttpServletResponse response) {
+        String url = String.format("%s?response_type=code&scope=%s&client_id=%s&state=%s&redirect_uri=%s",
+                "http://localhost:3000/oauth/authorize",
+                "server",
+                "guns",
+                "guns",
+                URLEncoder.encode("http://127.0.0.1:8087/sso/code", "UTF-8"));
+        return new RedirectView(url);
+    }
+
+    @SneakyThrows
+    @ResponseBody
+    @RequestMapping(value = "/sso/code", method = RequestMethod.GET)
+    public RedirectView loginCode(HttpServletRequest request, HttpServletResponse response) {
+
+        String code = super.getPara("code");
+        String template = "http://localhost:3000/oauth/token?grant_type=authorization_code&scope=%s&code=%s&redirect_uri=%s";
+
+        final String url = String.format(template, "server", code, URLEncoder.encode(request.getRequestURL().toString(), "UTF-8"));
+
+        String body = HttpRequest.get(url)
+                .basicAuth("guns", "guns")
+                .execute()
+                .body();
+
+        JSONObject parse = JSONUtil.parseObj(body);
+
+        String username = parse.getStr("username");
+
+        //登录并创建token
+        String token = authService.login(username);
+
+        return new RedirectView("/");
+    }
+```
+
+## 前端使用
+```shell
+http://localhost:8087/sso/login
+```
+
+
+
+## 退出修改
++ LoginController.java
+
+```java
+@RequestMapping(value = "/logout")
+@ResponseBody
+public void logOut(HttpServletResponse response) {
+    authService.logout();
+    response.sendRedirect("http://localhost:3000/logout?redirect_url="+ URLEncoder.encode("http://localhost:8087"));
+}
+```
+
+## ❤  问题咨询
+![](https://cdn.nlark.com/yuque/0/2022/gif/283679/1662563973685-c22e9831-db66-42b5-973f-886d25d1e0e7.gif)
+

@@ -1,0 +1,29 @@
+
+
+## 报错信息
+
+
+```java
+annot deserialize; nested exception is org.springframework.core.serializer.support.SerializationFailedException: Failed to deserialize payload. Is the byte array a result of corresponding serialization for DefaultDeserializer?; nested exception is java.io.InvalidClassException: org.springframework.security.core.userdetails.User; local class incompatible: stream classdesc serialVersionUID = 540
+    , local class serialVersionUID = 530","data":"unauthorized"}
+```
+
+
+
+
+
+## 解决方案
+报错原因: 之前运行过旧版本 pig  升级后 依赖版本数据结构发生变化导致旧数据无法序列化
+
+
+
+解决方案： 清空redis 旧数据
+
+
+
+```shell
+./redis-cli                                                11:12:12
+127.0.0.1:6379> FLUSHALL
+OK
+```
+

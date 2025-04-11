@@ -1,0 +1,10 @@
+![](https://cdn.nlark.com/yuque/0/2022/png/283679/1660044285514-90ccef21-2478-4212-80f5-9885f7b5ac7c.png)
+
+## 网关无法启动，提示 空指针
++ 确定 nacos 已经正确启动，访问配置列表 配置文件都能够正确显示
++ 确定 hosts规则正确配置，且能够正确解析（关闭本地VPN 等软件）
++ 检查是否更新了 pig_config.sql 最新的数据库脚本 [https://github.com/pig-mesh/pig/blob/master/db/pig_config.sql](https://github.com/pig-mesh/pig/blob/master/db/pig_config.sql)
++ ![](https://cdn.nlark.com/yuque/0/2022/png/283679/1661309013678-d29206e3-a46f-4e62-b40b-c40d050983e0.png)
+
+![](https://minio.pigx.vip/oss/1660044505.png)
+

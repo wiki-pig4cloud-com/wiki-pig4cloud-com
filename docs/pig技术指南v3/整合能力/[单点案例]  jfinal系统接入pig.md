@@ -1,0 +1,72 @@
+[此处为语雀卡片，点击链接查看](https://www.yuque.com/docs/14037486#ncCMk)
+
+
+
+## 环境说明
+
+
++ pig 2.10
++ jpress 3.0
+
+## 代码新增
++ _AdminController 新增 SSO 端点
+
+<font style="color:#DF2A3F;">注意</font>：授权码模式下回调地址不能使用`localhost`，可以使用`127.0.0.1`
+
+```java
+    @Clear(PermissionInterceptor.class)
+    public void sso(String code) {
+
+        if (StrUtil.isBlank(code)){
+            String url = String.format("%s?response_type=code&scope=%s&client_id=%s&state=%s&redirect_uri=%s",
+                    "http://192.168.0.33:3000/oauth/authorize",
+                    "server",
+                    "jfinal",
+                    "jfinal",
+                    URLEncoder.encode("http://127.0.0.1:8080/admin/sso"));
+            redirect(url);
+            return;
+        }
+
+        String template = "http://192.168.0.33:3000/oauth/token?grant_type=authorization_code&scope=%s&code=%s&redirect_uri=%s";
+        final String url = String.format(template, "server", code, URLEncoder.encode("http://127.0.0.1:8080/admin/sso"));
+
+        String body = HttpRequest.get(url)
+                .basicAuth("jfinal", "jfinal")
+                .execute()
+                .body();
+
+        JSONObject parse = JSONUtil.parseObj(body);
+        String username = parse.getStr("username");
+        //登录并创建token
+        User user = userService.findFistByUsername(username);
+
+        Ret ret = Ret.ok().set("user_id", user.getId());
+
+        if (ret.isOk()) {
+            SessionUtils.record(user.getId());
+            CookieUtil.put(this, JPressConsts.COOKIE_UID, user.getId());
+        }
+        redirect("/admin");
+    }
+```
+
++ AdminInterceptor 暴露此端点
+
+![](https://cdn.nlark.com/yuque/0/2020/png/283679/1601984935397-5ae2cde1-1f39-46c5-a92f-4340a9b3eb29.png)
+
+## 前端使用
+
+
+```shell
+http://127.0.0.1:8080/admin/sso
+```
+
+## 退出功能
+![](https://cdn.nlark.com/yuque/0/2020/png/283679/1601985032140-9cc9d4b9-10f8-4fd2-9733-3d7e72aa17c6.png)
+
+
+
+## ❤  问题咨询
+![](https://cdn.nlark.com/yuque/0/2022/gif/283679/1662563973685-c22e9831-db66-42b5-973f-886d25d1e0e7.gif)
+

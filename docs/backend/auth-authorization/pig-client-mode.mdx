@@ -6,7 +6,7 @@ title: "客户端模式使用"
 
 客户端模式（Client Credentials Grant）指客户端以自己的名义，而不是以用户的名义，向"服务提供商"进行认证。严格地说，客户端模式并不属于 OAuth 框架所要解决的问题。在这种模式中，用户直接向客户端注册，客户端以自己的名义要求"服务提供商"提供服务，其实不存在授权问题。
 
-![客户端模式流程](https://cdn.nlark.com/yuque/0/2021/jpeg/283679/1615215714410-b8e303f5-d9ad-4245-b317-feef8a9acc7e.jpeg)
+![客户端模式流程](/images/1615215714410-b8e303f5-d9ad-4245-b317-feef8a9acc7e.jpeg)
 
 - A）客户端向认证服务器进行身份认证，并要求一个访问令牌。
 - B）认证服务器确认无误后，向客户端提供访问令牌。
@@ -23,11 +23,11 @@ INSERT INTO `pig`.`sys_oauth_client_details`(`id`,`client_id`, `resource_ids`, `
 v3.8+ 版本需要设置客户端跳过验证码
 </Warning>
 
-![客户端配置](https://cdn.nlark.com/yuque/0/2024/png/283679/1729387271907-4150125f-39b2-49f4-bbd2-77e7492c82d2.png)
+![客户端配置](/images/1729387271907-4150125f-39b2-49f4-bbd2-77e7492c82d2.png)
 
 ### 参考 [apifox 调用服务接口](https://www.yuque.com/pig4cloud/pig/dzlb0v) 导入 apifox 脚本直接调试即可
 
-![API调用](https://cdn.nlark.com/yuque/0/2022/png/283679/1663141370963-89a9a223-e227-49c6-8b3b-6f3353e57931.png)
+![API调用](/images/1663141370963-89a9a223-e227-49c6-8b3b-6f3353e57931.png)
 
 返回报文
 

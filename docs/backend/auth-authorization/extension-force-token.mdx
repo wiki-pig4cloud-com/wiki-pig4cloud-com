@@ -8,7 +8,7 @@ title: "扩展 - 暴力生成 Token"
 - 在实际业务中，通常在用户注册完成后需要直接生成 Token，方便用户在注册后即刻登录。此时可以通过定制化的 Token 生成逻辑，根据业务规则灵活地生成 Token，以满足业务流程需求。
 - <Warning>当然这种方式过于暴力，绕过了 Spring Security 认证服务器的各种校验，所以在使用时需要谨慎</Warning>
 
-![认证流程](https://cdn.nlark.com/yuque/0/2024/png/283679/1730361988944-f5096ea3-2917-4fd9-a7d4-503f2855a193.png)
+![认证流程](/images/1730361988944-f5096ea3-2917-4fd9-a7d4-503f2855a193.png)
 
 ## 手动生成 Token 流程图
 
@@ -151,7 +151,7 @@ if (SecurityConstants.FROM.equals(oldAuthorization.getRegisteredClientId())){
 }
 ```
 
-![Token校验](https://cdn.nlark.com/yuque/0/2024/png/283679/1730361982619-55fb5a98-468e-4ba5-9b75-0f77a7a0cbe0.png)
+![Token校验](/images/1730361982619-55fb5a98-468e-4ba5-9b75-0f77a7a0cbe0.png)
 
 ## 问题咨询
 

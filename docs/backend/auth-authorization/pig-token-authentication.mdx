@@ -2,7 +2,7 @@
 title: "Token 生成认证详解"
 ---
 
-![认证流程](https://cdn.nlark.com/yuque/0/2022/png/283679/1655009689863-67ed08c2-cf22-449a-9d75-fc6831c17e8c.png)
+![认证流程](/images/1655009689863-67ed08c2-cf22-449a-9d75-fc6831c17e8c.png)
 
 ```powershell
 POST /auth/oauth2/token?grant_type=password&scope=server HTTP/1.1
@@ -57,11 +57,11 @@ password明文：123456
 
 ## 客户端认证处理
 
-![客户端认证](https://cdn.nlark.com/yuque/0/2022/png/283679/1655008151609-259b5111-2af6-4652-9667-de8c3271c67e.png)
+![客户端认证](/images/1655008151609-259b5111-2af6-4652-9667-de8c3271c67e.png)
 
 如上图在登录请求中会携带 Basic base64(clientId:clientSecret)，那么首先**OAuth2ClientAuthenticationFilter 会通过调用 RegisteredClientRepository (数据库存储) 来判断传入的客户端是否正确**
 
-![客户端认证流程](https://cdn.nlark.com/yuque/0/2022/png/283679/1655008257496-fc950ccb-525d-42d6-bebf-575202042472.png)
+![客户端认证流程](/images/1655008257496-fc950ccb-525d-42d6-bebf-575202042472.png)
 
 ## 正式接收登录请求
 
@@ -69,7 +69,7 @@ password明文：123456
 **OAuth2TokenEndpointFilter** 会接收通过上文 **OAuth2ClientAuthenticationFilter 客户端认证的请求**
 </Warning>
 
-![登录请求处理](https://cdn.nlark.com/yuque/0/2022/png/283679/1655008604032-0907b2ab-6cd8-4c51-9794-9176a105f0f7.png)
+![登录请求处理](/images/1655008604032-0907b2ab-6cd8-4c51-9794-9176a105f0f7.png)
 
 ## 组装认证对象
 
@@ -77,7 +77,7 @@ password明文：123456
 **AuthenticationConverter** 会根据请求中的参数和授权类型组装成对应的授权认证对象
 </Warning>
 
-![认证对象组装](https://cdn.nlark.com/yuque/0/2022/png/283679/1655009149085-435ed4ec-fa3a-405c-afcf-aa8389a70673.png)
+![认证对象组装](/images/1655009149085-435ed4ec-fa3a-405c-afcf-aa8389a70673.png)
 
 ## 登录认证对象
 
@@ -87,23 +87,23 @@ public class XXXAuthenticationToken extends OAuth2ResourceOwnerBaseAuthenticatio
 }
 ```
 
-![认证对象](https://cdn.nlark.com/yuque/0/2022/png/283679/1655009498004-55ff0b5b-ccd4-4df8-afd0-971844375546.png)
+![认证对象](/images/1655009498004-55ff0b5b-ccd4-4df8-afd0-971844375546.png)
 
 ## 授权认证调用
 
-![授权认证](https://cdn.nlark.com/yuque/0/2022/png/283679/1655010008256-24f23104-de2a-4f0a-a275-f3d043456f6f.png)
+![授权认证](/images/1655010008256-24f23104-de2a-4f0a-a275-f3d043456f6f.png)
 
 ## 核心认证逻辑
 
-![核心认证](https://cdn.nlark.com/yuque/0/2022/png/283679/1655010229277-15676ade-f60d-4344-884d-4038b1e469dc.png)
+![核心认证](/images/1655010229277-15676ade-f60d-4344-884d-4038b1e469dc.png)
 
 ### 多用户体系匹配 UserDetailsService
 
-![用户体系匹配](https://cdn.nlark.com/yuque/0/2022/png/283679/1655010271235-ab36132e-9809-4c54-b345-9d3eeb3522e6.png)
+![用户体系匹配](/images/1655010271235-ab36132e-9809-4c54-b345-9d3eeb3522e6.png)
 
 ### 密码匹配校验
 
-![密码校验](https://cdn.nlark.com/yuque/0/2022/png/283679/1655010332384-c12b9906-c1c4-4bb4-9884-23681eeed841.png)
+![密码校验](/images/1655010332384-c12b9906-c1c4-4bb4-9884-23681eeed841.png)
 
 ### 用户状态校验
 
@@ -118,13 +118,13 @@ public class XXXAuthenticationToken extends OAuth2ResourceOwnerBaseAuthenticatio
 - 简单：认证中心直接查询 DB **并组装成 **UserDetails
 </Warning>
 
-![用户查询](https://cdn.nlark.com/yuque/0/2022/png/283679/1655010519353-b93f1831-22f0-4c9e-80cb-75c514c87949.png)
+![用户查询](/images/1655010519353-b93f1831-22f0-4c9e-80cb-75c514c87949.png)
 
 ## 密码校验逻辑
 
-![密码校验](https://cdn.nlark.com/yuque/0/2022/png/283679/1655010719145-1bdf7f3d-e099-48eb-9efa-dcca983b4d1b.png)
+![密码校验](/images/1655010719145-1bdf7f3d-e099-48eb-9efa-dcca983b4d1b.png)
 
-![密码校验流程](https://cdn.nlark.com/yuque/0/2022/png/283679/1655010844595-0631d528-a839-4018-95c2-9d45aa0ad6d1.png)
+![密码校验流程](/images/1655010844595-0631d528-a839-4018-95c2-9d45aa0ad6d1.png)
 
 <Warning>
 默认支持加密方式如下：  
@@ -160,7 +160,7 @@ return new UserDetails(user.getUsername(),"{bcrypt}"+"数据库存储的密文")
 基于 SpringEvent 事件处理，可以在这里做更多的处理 日志、个性化等处理逻辑
 </Warning>
 
-![事件处理](https://cdn.nlark.com/yuque/0/2022/png/283679/1655011452193-a994951e-e12a-43a4-aa18-295038ae04fc.png)
+![事件处理](/images/1655011452193-a994951e-e12a-43a4-aa18-295038ae04fc.png)
 
 ## 请求结果输出 Token
 

@@ -2,7 +2,7 @@
 title: "Gateway 业务网关作用"
 ---
 
-![网关架构图](https://cdn.nlark.com/yuque/0/2020/png/283679/1600614719839-1430dc83-f862-401f-a10e-0673f3c3427f.png)
+![网关架构图](/images/1600614719839-1430dc83-f862-401f-a10e-0673f3c3427f.png)
 
 如上图所示，面对互联网复杂的业务系统，基本可以将 API 网关分成两类：流量网关和业务网关。
 
@@ -34,7 +34,7 @@ spring cloud gateway 作为业务网关的一种，整个作用原理如下图�
 
 客户端向 Spring Cloud Gateway 发出请求，如果请求与网关程序定义的路由匹配，则将其发送到网关 Web 处理程序，此处理程序运行特定的请求过滤器链。过滤器之间用虚线分开的原因是过滤器可能会在发送代理请求之前或之后执行逻辑。所有 "pre" 过滤器逻辑先执行，然后执行代理请求，代理请求完成后，执行 "post" 过滤器逻辑。
 
-![Spring Cloud Gateway 工作原理](https://cdn.nlark.com/yuque/0/2020/png/283679/1600614323118-6f2d5472-dea6-4410-a306-2eaa7615e75e.png)
+![Spring Cloud Gateway 工作原理](/images/1600614323118-6f2d5472-dea6-4410-a306-2eaa7615e75e.png)
 
 <Card title="参考资料" icon="link" href="https://www.jianshu.com/p/a2f292221b5c">
   了解更多关于 Spring Cloud Gateway 的信息

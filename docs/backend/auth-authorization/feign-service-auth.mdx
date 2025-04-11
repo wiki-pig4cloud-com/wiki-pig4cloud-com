@@ -32,11 +32,11 @@ com.pig4cloud.pig.demo.api.feign.RemoteDemoService
 3. 所以只要带 token 访问 A 无论后边链路有多长 ABCD 都可以获取当前用户信息
 4. 权限需要有这些整个链路接口的全部权限才能成功
 
-![带Token请求流程](https://cdn.nlark.com/yuque/0/2020/png/283679/1599314191979-fea7b81a-4a6b-41f2-8a0c-139a2f9691c0.png)
+![带Token请求流程](/images/1599314191979-fea7b81a-4a6b-41f2-8a0c-139a2f9691c0.png)
 
 ## 无 Token 请求
 
-![无Token请求流程](https://cdn.nlark.com/yuque/0/2020/png/283679/1599314191907-97e3a538-9710-406f-9924-ca88a6312589.png)
+![无Token请求流程](/images/1599314191907-97e3a538-9710-406f-9924-ca88a6312589.png)
 
 <Warning>
 很多情况下，比如定时任务。A 服务并没有 token 去请求 B 服务，pig 也对这种情况进行了兼容。类似于 A 对外暴露 API，但是又安全限制
@@ -48,7 +48,7 @@ FeignClient 需要带一个请求 token,FROM_IN 声明是内部调用
 remoteLogService.saveLog(sysLog, SecurityConstants.FROM_IN);
 ```
 
-![内部调用示例](https://cdn.nlark.com/yuque/0/2022/png/283679/1660454269266-cb6f54bd-a707-4484-a1b1-d863f61193d6.png)
+![内部调用示例](/images/1660454269266-cb6f54bd-a707-4484-a1b1-d863f61193d6.png)
 
 目标接口对内外调用进行限制添加 `@Inner` 注解，这样就避免接口对外暴露的安全问题。只能通过内部调用才能使用，浏览器不能直接访问该接口
 

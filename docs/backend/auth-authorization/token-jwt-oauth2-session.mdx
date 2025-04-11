@@ -38,7 +38,7 @@ title: "Token JWT OAuth2 Session 详解"
 session 是另一种记录服务器和客户端会话状态的机制：
 - **session 是基于 cookie 实现的**，session 存储在服务器端，sessionId 会被存储到客户端的 cookie 中
 
-![Session 认证流程](https://cdn.nlark.com/yuque/0/2020/png/283679/1600661881081-fdd06668-5bd6-4764-b9c0-538c977acabd.png)
+![Session 认证流程](/images/1600661881081-fdd06668-5bd6-4764-b9c0-538c977acabd.png)
 
 session 认证流程：
 1. 用户第一次请求服务器的时候，服务器根据用户提交的相关信息，创建对应的 Session
@@ -67,7 +67,7 @@ session 认证流程：
   - 安全
   - 支持跨程序调用
 
-![Token 身份验证流程](https://cdn.nlark.com/yuque/0/2020/png/283679/1600662334884-cec8f829-ba3e-4387-bb89-0e0801befb35.png)
+![Token 身份验证流程](/images/1600662334884-cec8f829-ba3e-4387-bb89-0e0801befb35.png)
 
 token 的身份验证流程：
 1. 客户端使用用户名跟密码请求登录
@@ -86,7 +86,7 @@ token 的身份验证流程：
 - 另外一种 token——refresh token
 - refresh token 是专用于刷新 access token 的 token。如果没有 refresh token，也可以刷新 access token，但每次刷新都要用户输入登录用户名与密码，会很麻烦。有了 refresh token，可以减少这个麻烦，客户端直接用 refresh token 去更新 access token，无需用户进行额外的操作。
 
-![Refresh Token 流程](https://cdn.nlark.com/yuque/0/2020/png/283679/1600662399200-b7bf2318-1f45-4f73-86ac-95cd26dc352b.png)
+![Refresh Token 流程](/images/1600662399200-b7bf2318-1f45-4f73-86ac-95cd26dc352b.png)
 
 - Access Token 的有效期比较短，当 Access Token 由于过期而失效时，使用 Refresh Token 就可以获取到新的 Token，如果 Refresh Token 也失效了，用户就只能重新登录了。
 - Refresh Token 及过期时间是存储在服务器的数据库中，只有在申请新的 Access Token 时才会验证，不会对业务接口响应时间造成影响，也不需要向 Session 一样一直保持在内存中以应对大量的请求。
@@ -108,7 +108,7 @@ token 的身份验证流程：
 - JWT 是为了在网络应用环境间传递声明而执行的一种基于 JSON 的开放标准（RFC 7519）。JWT 的声明一般被用来在身份提供者和服务提供者间传递被认证的用户身份信息，以便于从资源服务器获取资源。比如用在用户登录上。
 - 可以使用 HMAC 算法或者是 RSA 的公/私秘钥对 JWT 进行签名。因为数字签名的存在，这些传递的信息是可信的。
 
-![JWT 认证流程](https://cdn.nlark.com/yuque/0/2020/png/283679/1600662532283-95525dfe-0840-4b89-b769-d9a10ee07817.png)
+![JWT 认证流程](/images/1600662532283-95525dfe-0840-4b89-b769-d9a10ee07817.png)
 
 JWT 认证流程：
 1. 用户输入用户名/密码登录，服务端认证成功后，会返回给客户端一个 JWT
@@ -178,7 +178,7 @@ http://www.example.com/user?token=xxx
 
 ## 常见的加密算法
 
-![加密算法](https://cdn.nlark.com/yuque/0/2020/png/283679/1600662781325-2ca7e964-ec81-4f42-9b37-477c4fc29e3a.png)
+![加密算法](/images/1600662781325-2ca7e964-ec81-4f42-9b37-477c4fc29e3a.png)
 
 - 哈希算法 (Hash Algorithm) 又称散列算法、散列函数、哈希函数，是一种从任何一种数据中创建小的数字"指纹"的方法。哈希算法将数据重新打乱混合，重新创建一个哈希值。
 - 哈希算法主要用来保障数据真实性 (即完整性)，即发信人将原始消息和哈希值一起发送，收信人通过相同的哈希函数来校验原始数据是否真实。

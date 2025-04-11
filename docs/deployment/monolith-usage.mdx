@@ -5,7 +5,7 @@ title: "进阶 - 单体使用"
 [此处为语雀卡片，点击链接查看](https://www.yuque.com/docs/147533675#IrzMX)
 
 ## 架构设计
-![](https://cdn.nlark.com/yuque/0/2023/png/283679/1700533656634-26d87aae-31eb-44ce-a2e6-fc33e8184887.png)
+![](/images/1700533656634-26d87aae-31eb-44ce-a2e6-fc33e8184887.png)
 
 - 单体架构：该解决方案是一个单体架构，可以在一个进程中运行。相对于分布式系统而言，单体架构更加简单易用，对于中小企业而言，减少复杂度可以降低开发和维护成本。
 - 合理的分包设计：该解决方案进行了**合理的分包设计**，将业务逻辑、数据访问、工具类等模块分开，提高了代码的可读性和可维护性，同时也为后期将系统拆分为微服务做好了准备。
@@ -34,16 +34,16 @@ pig
 ### ④ 加载 pig-boot 模块
 - 切换 Maven profils 至 boot 
 
-![](https://cdn.nlark.com/yuque/0/2024/png/283679/1713334205920-02749b6a-3a0a-4dee-acec-e3df113266e1.png)
+![](/images/1713334205920-02749b6a-3a0a-4dee-acec-e3df113266e1.png)
 
 ### ③ 运行 upms 模块
 - 修改 **pig-boot/application-dev.yml**，redis、mysql 链接信息
 
-![](https://cdn.nlark.com/yuque/0/2024/png/283679/1712644523061-baa7c014-3a28-4b75-bf2a-d57149db8b46.png)
+![](/images/1712644523061-baa7c014-3a28-4b75-bf2a-d57149db8b46.png)
 
 - **PigBootApplication.java main 方法启动服务即可**
 
-![](https://cdn.nlark.com/yuque/0/2024/png/283679/1712644593758-49f0f659-d8c1-4277-a131-5bba3fa3f334.png)
+![](/images/1712644593758-49f0f659-d8c1-4277-a131-5bba3fa3f334.png)
 
 ## 二、运行前端
 ```shell
@@ -81,7 +81,7 @@ npm run dev
 ### ① 加快启动速度
 由于单体架构的特性，需要在 JVM 启动之前加载所有模块，这会导致启动速度缓慢。**根据实际业务情况，可以屏蔽以下相关的依赖。**
 
-![](https://cdn.nlark.com/yuque/0/2024/png/283679/1713335024964-cbefd3ba-4d5f-44ec-8158-d33a5cc57ed0.png)
+![](/images/1713335024964-cbefd3ba-4d5f-44ec-8158-d33a5cc57ed0.png)
 
 ### ② swagger 调试
 和微服务版本请求地址不同的是
@@ -91,5 +91,5 @@ npm run dev
 
 调试参数参考文档： [https://www.yuque.com/pig4cloud/pig/bmgpca](https://www.yuque.com/pig4cloud/pig/bmgpca)
 
-![](https://cdn.nlark.com/yuque/0/2023/png/283679/1700527095040-b7284663-dc53-4c11-a0c2-7b59c1cd2a08.png)
+![](/images/1700527095040-b7284663-dc53-4c11-a0c2-7b59c1cd2a08.png)
 

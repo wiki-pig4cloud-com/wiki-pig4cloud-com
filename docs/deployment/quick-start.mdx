@@ -41,7 +41,7 @@ git clone https://gitee.com/log4j/pig.git -b jdk17
 - **默认排序规则：utf8mb4_general_ci**
 </Note>
 
-```sql
+```sql SQL脚本在后端代码 db/*.sql
 -- 核心数据库
 source db/pig.sql;
 -- nacos 配置
@@ -55,8 +55,7 @@ source db/pig_config.sql;
 **找到源代码目录 pig-register，修改数据库连接信息，然后通过 Main 方法启动。**
 </Note>
 
-```yaml
-pig/pig-register/src/main/resources/application.yml 
+```yaml 修改pig/pig-register/src/main/resources/application.yml 
 db:
   num: 1
   user: ${MYSQL-USER:root}  #修改：用户名
@@ -142,7 +141,5 @@ npm run dev
 </Warning>
 
 ## 社区支持
-<Card title="加入社区" icon="link" href="#">
 ![广告党太多，无备注不通过](/images/1728703600955-45cedb6b-0f2a-4949-ac17-a51239a503c3.png)
-</Card>
 

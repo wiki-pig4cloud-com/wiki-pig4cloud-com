@@ -2,23 +2,26 @@
 title: "前端数据状态管理"
 ---
 
+<Note>
+框架中数据状态使用 vuex Module 模块化进行管理，您可能需要了解 [vuex 核心概念 Module](https://next.vuex.vuejs.org/zh/guide/modules)
+</Note>
 
-## 
-:::color3
-  
-框架中数据状态使用 vuex Module 模块化进行管理，您可能需要了解 [vuex 核心概念 Module](https:_next.vuex.vuejs.org_zh_guide_modules)
+## Pinia 状态管理
 
-:::
+<Card title="代码位置" icon="code">
+  `/src/stores`
+</Card>
 
-## pinia
-代码位置：[/src/stores](#)
-
-相关文档：[pinia 官网](https://pinia.vuejs.org/)
-
-相关文档：[vuex 3.x 官网](https://v3.vuex.vuejs.org/zh/)
+<Card title="相关文档" icon="link">
+  - [Pinia 官网](https://pinia.vuejs.org/)
+  - [Vuex 3.x 官网](https://v3.vuex.vuejs.org/zh/)
+</Card>
 
 ## 全局引入
-页面模块已做全局自动引入，代码位置：/@/store/index.ts。[import.meta.globEager](https://vitejs.cn/guide/features.html#glob-import)
+
+<Note>
+页面模块已做全局自动引入，代码位置：`/@/store/index.ts`。使用 [import.meta.globEager](https://vitejs.cn/guide/features.html#glob-import) 实现自动导入。
+</Note>
 
 ```javascript
 const modulesFiles = import.meta.globEager("./modules/*.ts");
@@ -40,80 +43,91 @@ const modules = pathList.reduce(
 ```
 
 ## 定义接口
-### 1. interface 定义
-/@/store/interface/index.ts，如：路由缓存列表 KeepAliveNamesState
 
-```javascript
+### Interface 定义
+
+在 `/@/store/interface/index.ts` 中定义接口，例如路由缓存列表 `KeepAliveNamesState`：
+
+```typescript
 // 路由缓存列表
 export interface KeepAliveNamesState {
   keepAliveNames: Array<string>;
 }
 ```
 
-### 2. interface 使用
-在 /@/store/modules/ 新增 keepAliveNames.ts，界面写入如下代码：注意需要开启 namespaced: true 文件名称即模块名称。([vuex Module 命名空间](https://next.vuex.vuejs.org/zh/guide/modules.html#%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4))
+### Interface 使用
 
-```vue
+在 `/@/store/modules/` 目录下创建 `keepAliveNames.ts`，写入如下代码：
+
+<Note>
+注意需要开启 `namespaced: true`，文件名称即模块名称。参考 [vuex Module 命名空间](https://next.vuex.vuejs.org/zh/guide/modules.html#%E5%91%BD%E5%90%8D%E7%A9%BA%E9%97%B4)
+</Note>
+
+```typescript
 import { Module } from "vuex";
-  // 此处加上 `.ts` 后缀报错，具体原因不详
-  import { KeepAliveNamesState, RootStateTypes } from "/@/store/interface/index";
+import { KeepAliveNamesState, RootStateTypes } from "/@/store/interface/index";
 
-  const keepAliveNamesModule: Module<KeepAliveNamesState, RootStateTypes> = {
-    namespaced: true,
-    state: {
-      keepAliveNames: [],
+const keepAliveNamesModule: Module<KeepAliveNamesState, RootStateTypes> = {
+  namespaced: true,
+  state: {
+    keepAliveNames: [],
+  },
+  mutations: {
+    // 设置路由缓存（name 字段）
+    getCacheKeepAlive(state: any, data: Array<string>) {
+      state.keepAliveNames = data;
     },
-    mutations: {
-      // 设置路由缓存（name 字段）
-      getCacheKeepAlive(state: any, data: Array<string>) {
-        state.keepAliveNames = data;
-      },
+  },
+  actions: {
+    // 设置路由缓存（name 字段）
+    async setCacheKeepAlive({ commit }, data: Array<string>) {
+      commit("getCacheKeepAlive", data);
     },
-    actions: {
-      // 设置路由缓存（name 字段）
-      async setCacheKeepAlive({ commit }, data: Array<string>) {
-        commit("getCacheKeepAlive", data);
-      },
-    },
-  };
+  },
+};
 
-  export default keepAliveNamesModule;
+export default keepAliveNamesModule;
 ```
 
 ## 定义模块
-如上所示，我们在 /@/store/modules/ 下新增了 keepAliveNames.ts 文件，并定义了方法 mutations、actions
+
+如上所示，我们在 `/@/store/modules/` 下新增了 `keepAliveNames.ts` 文件，并定义了方法 `mutations`、`actions`。
 
 ## 使用模块
-### 1. 在 .ts 中使用
-```vue
+
+### 在 TypeScript 文件中使用
+
+```typescript
 import { store } from "/@/store/index.ts";
 
-  // dispatch
-  store.dispatch("keepAliveNames/setCacheKeepAlive", cacheList);
+// dispatch
+store.dispatch("keepAliveNames/setCacheKeepAlive", cacheList);
 
-  // 或者 commit
-  // store.commit("keepAliveNames/getCacheKeepAlive", cacheList);
+// 或者 commit
+// store.commit("keepAliveNames/getCacheKeepAlive", cacheList);
 ```
 
-### 2. 在 .vue 中使用
-```html
+### 在 Vue 组件中使用
+
+```vue
 <template>
   <div v-if="getThemeConfig.isLockScreen">在 .vue 中使用</div>
 </template>
 
 <script lang="ts">
-  import { computed, defineComponent } from "vue";
-  import { useStore } from "/@/store/index";
-  export default defineComponent({
-    name: "app",
-    setup() {
-      const store = useStore();
-      // 获取布局配置信息
-      const getThemeConfig = computed(() => {
-        return store.state.themeConfig.themeConfig;
-      });
-    },
-  });
+import { computed, defineComponent } from "vue";
+import { useStore } from "/@/store/index";
+
+export default defineComponent({
+  name: "app",
+  setup() {
+    const store = useStore();
+    // 获取布局配置信息
+    const getThemeConfig = computed(() => {
+      return store.state.themeConfig.themeConfig;
+    });
+  },
+});
 </script>
 ```
 

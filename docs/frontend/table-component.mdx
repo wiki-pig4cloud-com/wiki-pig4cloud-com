@@ -2,9 +2,11 @@
 title: "前端表格组件"
 ---
 
+## useTable 函数介绍
 
-## 1. useTable 函数是什么
-官方对自定义 hook 定义：在 Vue 应用的概念中，“组合式函数” (Composables) 是一个利用 Vue 组合式 API 来封装和复用有状态逻辑的函数。Hooks 在前端领域并没有明确定义，借用知乎大佬的定义：在 JS 里是 callback，事件驱动，集成定义一些可复用的方法。
+<Note>
+官方对自定义 hook 定义：在 Vue 应用的概念中，"组合式函数" (Composables) 是一个利用 Vue 组合式 API 来封装和复用有状态逻辑的函数。Hooks 在前端领域并没有明确定义，借用知乎大佬的定义：在 JS 里是 callback，事件驱动，集成定义一些可复用的方法。
+</Note>
 
 **useTable 函数的名称就能清晰地表达其作用，它是集成了前端 element-plus 表格的一些通用函数。**
 
@@ -17,9 +19,9 @@ title: "前端表格组件"
 | sortChangeHandle(column: any) | 排序方式改变时触发的事件处理函数。根据 column 的内容，修改 state.descs 和 state.ascs 中的排序字段，并再次调用 query() 方法进行查询 |
 | downBlobFile(url: string, query: any, fileName: string) | 用于下载文件的方法。接收三个参数：文件下载地址 url、请求参数 query 和文件名 fileName。调用了 other.downBlobFile() 方法来执行文件下载。返回一个 Promise 对象，用于异步处理结果 |
 
+## 页面中使用
 
-## 2. 页面中如何使用
-```plain
+```javascript
 // 使用 useTable 自动生成表格一些通用方法
 const {
   getDataList,
@@ -30,47 +32,49 @@ const {
 } = useTable(state);
 ```
 
-## 3. useTable 初始化 state 如何构建
-如果你想通过 useTable 生成一些通用的表格方法，那么就需要向它提供一些初始值，比如查询的 URL 和分页大小等参数。
+## useTable 初始化 state 构建
 
-```plain
+<Note>
+如果你想通过 useTable 生成一些通用的表格方法，那么就需要向它提供一些初始值，比如查询的 URL 和分页大小等参数。
+</Note>
+
+```javascript
 const state: BasicTableProps = reactive<BasicTableProps>({
-	queryForm: {
-	},
-	pageList: pageList,
+  queryForm: {},
+  pageList: pageList,
 });
 ```
 
-+ 完整的 BasicTable 定义属性如下
+### BasicTable 完整属性定义
 
-```plain
+```typescript
 export interface BasicTableProps {
-	// 是否在创建页面时即调用数据列表接口，默认为 true
-	createdIsNeed?: boolean;
-	// 是否需要分页，默认为 true
-	isPage?: boolean;
-	// 查询条件表单对象，类型为 any
-	queryForm?: any;
-	// 数据列表数组
-	dataList?: any[];
-	// 分页属性对象
-	pagination?: Pagination;
-	// 数据列表，loading 状态标志，默认为 false
-	dataListLoading?: boolean;
-	// 数据列表多选项数组
-	dataListSelections?: any[];
-	// 数据列表查询接口 api 方法，接收任意数量参数，返回 Promise
-	pageList?: (...arg: any) => Promise<any>;
-	// loading 标志，默认为 false
-	loading?: Boolean;
-	// 多选结果数组
-	selectObjs?: any[];
-	// 排序字段数组
-	descs?: string[];
-	// 排序方式数组
-	ascs?: string[];
-	// props 属性对象，类型为 any
-	props?: any;
+  // 是否在创建页面时即调用数据列表接口，默认为 true
+  createdIsNeed?: boolean;
+  // 是否需要分页，默认为 true
+  isPage?: boolean;
+  // 查询条件表单对象，类型为 any
+  queryForm?: any;
+  // 数据列表数组
+  dataList?: any[];
+  // 分页属性对象
+  pagination?: Pagination;
+  // 数据列表，loading 状态标志，默认为 false
+  dataListLoading?: boolean;
+  // 数据列表多选项数组
+  dataListSelections?: any[];
+  // 数据列表查询接口 api 方法，接收任意数量参数，返回 Promise
+  pageList?: (...arg: any) => Promise<any>;
+  // loading 标志，默认为 false
+  loading?: Boolean;
+  // 多选结果数组
+  selectObjs?: any[];
+  // 排序字段数组
+  descs?: string[];
+  // 排序方式数组
+  ascs?: string[];
+  // props 属性对象，类型为 any
+  props?: any;
 }
 ```
 

@@ -2,16 +2,20 @@
 title: "前端字典功能"
 ---
 
-## 1. useDict 函数
-+ 字典类型对应 sys_dict 表中字典数据
+## useDict 函数
 
-```javascript
+<Note>
+字典类型对应 `sys_dict` 表中字典数据。
+</Note>
+
+```typescript
 import { useDict } from '/@/hooks/dict';
 
-const { 字典类型A, 字典类型B } = useDict('字典类型 A'，'字典类型 B');
+const { 字典类型A, 字典类型B } = useDict('字典类型 A', '字典类型 B');
 ```
 
-## 2. 页面使用 dict-tag
+## 页面使用 dict-tag
+
 ```html
 <el-table-column>
   <template #default="scope">

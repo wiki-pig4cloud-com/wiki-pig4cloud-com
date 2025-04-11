@@ -2,9 +2,11 @@
 title: "前端表格工具栏组件"
 ---
 
-
 ## 分页组件使用
-+ 工具栏组件一般和表格组件一起使用，只需要回调 useTable hook 中的函数即可
+
+<Note>
+工具栏组件一般和表格组件一起使用，只需要回调 useTable hook 中的函数即可。
+</Note>
 
 ```html
 <right-toolbar
@@ -15,11 +17,12 @@ title: "前端表格工具栏组件"
 />
 ```
 
-```javascript
+```typescript
 const { getDataList } = useTable(state);
 ```
 
-## 卡槽扩展
+## 插槽扩展
+
 ```html
 <query-tree>
   <template #default="{ node, data }"> </template>
@@ -27,11 +30,12 @@ const { getDataList } = useTable(state);
 ```
 
 ## 属性说明
+
 | 属性 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
-| showSearch | Boolean | true | 是否显示搜索框。 |
-| export | String or Boolean | 当设置为 true 的显示，如设置为权限字符串则根据当前用户权限动态控制 | 是否导出下载按钮。 |
-| search | Boolean | true | 是否显示搜索框。 |
-| gutter | Number | 10 | 列表项之间的间距。 |
+| showSearch | Boolean | true | 是否显示搜索框 |
+| export | String \| Boolean | - | 当设置为 true 时显示，如设置为权限字符串则根据当前用户权限动态控制 |
+| search | Boolean | true | 是否显示搜索框 |
+| gutter | Number | 10 | 列表项之间的间距 |
 
 

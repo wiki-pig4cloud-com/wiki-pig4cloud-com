@@ -98,7 +98,7 @@
               "docs/backend/function-usage/knife4j-api-debugging",
               "docs/backend/function-usage/postman-api-usage",
               "docs/backend/function-usage/quartz-job-usage",
-              "docs/backend/function-usage/captcha-config",
+              "docs/backend/function-usage/captcha-configuration",
               "docs/backend/function-usage/config-file-encryption",
               "docs/backend/function-usage/redis-cache-usage",
               "docs/backend/function-usage/pig-xss-filter",

@@ -2,13 +2,13 @@
 title: "前端字体图标配置"
 ---
 
+## ElementPlus 图标
 
+<Note>
+使用 element plus 的图标，可访问 [ElementPlus 图标文档](https://element-plus.org/zh-CN/component/icon.html) 复制粘贴
+</Note>
 
-
-## 一、ElementPlus 图标
-使用 element plus 的图标，可去 [https://element-plus.org/zh-CN/component/icon.html](https:_element-plus.org_zh-cn_component_icon) 复制粘贴
-
-<el-icon></el-icon> 包裹着
+使用 `<el-icon>` 包裹图标：
 
 ```html
 <el-input
@@ -24,9 +24,13 @@ title: "前端字体图标配置"
 </el-input>
 ```
 
-## 二、在线图表
-### 1. 设置在线链接
-代码位置：[/@/utils/setIconfont.ts](#/src/utils/setIconfont.ts)
+## 在线图表
+
+### 设置在线链接
+
+<Card title="代码位置" icon="code">
+  `/@/utils/setIconfont.ts`
+</Card>
 
 ```javascript
 // `/@/utils/setIconfont.ts` cssCdnUrlList 方法中添加在线链接
@@ -37,7 +41,8 @@ const cssCdnUrlList: Array<string> = [
 ];
 ```
 
-### 2. App.vue 中引入
+### App.vue 中引入
+
 ```javascript
 import setIntroduction from "/@/utils/setIconfont";
 
@@ -48,9 +53,12 @@ onBeforeMount(() => {
 });
 ```
 
-### 3. 界面中使用
-+ iconfont：需要添加 iconfont 前缀，如：iconfont xitongshezhi
-+ font-awesome：需要添加 fa 前缀，如：fa xitongshezhi
+### 界面中使用
+
+<Note>
+- iconfont：需要添加 iconfont 前缀，如：iconfont xitongshezhi
+- font-awesome：需要添加 fa 前缀，如：fa xitongshezhi
+</Note>
 
 ```html
 <!-- 项目使用 -->
@@ -62,20 +70,25 @@ onBeforeMount(() => {
 <!-- <SvgIcon name="fa xitongshezhi"></SvgIcon> -->
 ```
 
-## 三、本地图标
+## 本地图标
+
 支持下载 svg，放在前端的 icons 目录
 
-![](https://minio.pigx.top/oss/202306/1685929608.png)
+<Card title="本地图标目录结构" icon="folder">
+  ![本地图标目录](https://minio.pigx.top/oss/202306/1685929608.png)
+</Card>
 
-前端可通过 local-文件名的形式加载
+前端可通过 local-文件名的形式加载：
 
 ```html
 <SvgIcon name="local-gitee" :size="30" />
 ```
 
-## <SvgIcon/> 标签使用
-### 2. 局部注册 & 全局注册 svg 组件
-+ 局部注册
+## SvgIcon 组件使用
+
+### 局部注册 & 全局注册 svg 组件
+
+#### 局部注册
 
 ```html
 <!-- 页面上使用 -->
@@ -86,9 +99,11 @@ onBeforeMount(() => {
 </script>
 ```
 
-+ 全局注册（框架中使用全局注册）
+#### 全局注册
 
-[/@/utils/other.ts](#/src/utils/other.ts) 中的 elSvg 方法
+<Card title="代码位置" icon="code">
+  `/@/utils/other.ts` 中的 elSvg 方法
+</Card>
 
 ```javascript
 // 全局注册
@@ -98,11 +113,12 @@ app.component("SvgIcon", SvgIcon);
 // 页面上使用
 <SvgIcon :name="item.meta.icon" />
 
-  // 或者
-  <SvgIcon name="ele-Aim" :size="14" color="#333333"/>
+// 或者
+<SvgIcon name="ele-Aim" :size="14" color="#333333"/>
 ```
 
 ## 自定义引入本地图标
+
 ```html
 <!-- 项目使用 -->
 <i class="iconfont xitongshezhi"></i>

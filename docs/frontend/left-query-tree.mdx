@@ -2,15 +2,18 @@
 title: "前端左侧查询树"
 ---
 
+<Card title="组件预览" icon="image">
+  ![左侧查询树预览](https://minio.pigx.top/oss/202304/1681633931.png)
+</Card>
 
-![](https://minio.pigx.top/oss/202304/1681633931.png)
+## 基本用法
 
 ```html
 <query-tree :query="state.queryList" @node-click="handleNodeClick">
 </query-tree>
 ```
 
-```plain
+```typescript
 const QueryTree = defineAsyncComponent(
   () => import("/@/components/QueryTree/index.vue")
 );
@@ -26,7 +29,8 @@ const state = reactive({
 const handleNodeClick = (e: any) => {};
 ```
 
-## 卡槽扩展
+## 插槽扩展
+
 ```html
 <query-tree>
   <template #default="{ node, data }"> </template>
@@ -34,11 +38,12 @@ const handleNodeClick = (e: any) => {};
 ```
 
 ## 属性说明
+
 | 属性 | 类型 | 默认值 | 说明 |
 | --- | --- | --- | --- |
-| props | Object | { label: 'name', children: 'children', value: 'id' } | 树形结构的属性配置。 |
-| placeholder | String | '' | 输入框的占位符。 |
-| loading | Boolean | false | 是否显示加载状态。 |
-| query | Function | | 包含查询方法的函数，必须返回 Promise 类型的数据，并在组件中被调用。 |
+| props | Object | { label: 'name', children: 'children', value: 'id' } | 树形结构的属性配置 |
+| placeholder | String | '' | 输入框的占位符 |
+| loading | Boolean | false | 是否显示加载状态 |
+| query | Function | - | 包含查询方法的函数，必须返回 Promise 类型的数据，并在组件中被调用 |
 
 

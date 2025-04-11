@@ -1,22 +1,64 @@
 ---
-title: "pig 全局异常处理"
+title: "Pig 全局异常处理"
 ---
 
-![](https://cdn.nlark.com/yuque/0/2021/png/283679/1609989943240-6c850e2f-b790-4ae7-806a-d4fd6113d80b.png)
-
-
+<Note>
+SpringBoot 提供 `@RestControllerAdvice` 注解，使用该注解表示开启了全局异常的捕获，我们只需在自定义一个方法使用 `@ExceptionHandler` 注解然后定义捕获异常的类型即可对这些捕获的异常进行统一的处理。
+</Note>
 
 ## GlobalBizExceptionHandler
 
+### 关键配置说明
 
-<font style="color:#000000;">SpringBoot 提供 </font>`RestControllerAdvice`<font style="color:#000000;">的注解，使用该注解表示开启了全局异常的捕获，我们只需在自定义一个方法使用</font>`ExceptionHandler`<font style="color:#000000;">注解然后定义捕获异常的类型即可对这些捕获的异常进行统一的处理。</font>
+1. 使用 `@RestControllerAdvice` 注解开启全局异常捕获
+2. 使用 `@ExceptionHandler` 注解处理具体的异常类型
+3. 使用 `Tracer.trace(e)` 把异常信息交给 sentinel 进行记录，作为熔断等的重要指标
 
-<font style="color:#000000;"></font>
+<Warning>
+确保正确配置 `Tracer.trace(e)` 非常重要，这是实现熔断等功能的必要指标。
+</Warning>
 
-+ 如上图 ①  使用 ``@RestControllerAdvice`` 
-+ 如上图 ②  使用 `@ExceptionHandler`  说明处理具体的异常类型
-+ 如上图 ③ 使用 `Tracer.trace(e);`   把异常信息交给 sentinel 进行记录作为熔断等的重要指标，非常重要
+## 配置示例
 
-## ❤  问题咨询
-![](https://cdn.nlark.com/yuque/0/2022/gif/283679/1662563973685-c22e9831-db66-42b5-973f-886d25d1e0e7.gif)
+1. 使用 `@RestControllerAdvice` 注解开启全局异常捕获
+2. 使用 `@ExceptionHandler` 注解处理具体的异常类型
+3. 使用 `Tracer.trace(e)` 把异常信息交给 sentinel 进行记录，作为熔断等的重要指标
+
+<Tabs>
+  <Tab title="异常处理示例">
+    ```java
+    @RestControllerAdvice
+    public class GlobalBizExceptionHandler {
+        @ExceptionHandler(Exception.class)
+        public R handleException(Exception e) {
+            Tracer.trace(e);
+            return R.failed(e.getMessage());
+        }
+    }
+    ```
+  </Tab>
+  <Tab title="使用说明">
+    1. 确保正确配置 `Tracer.trace(e)` 作为熔断指标
+    2. 根据业务需求自定义异常处理逻辑
+    3. 合理使用 `@ExceptionHandler` 处理不同类型的异常
+  </Tab>
+</Tabs>
+
+![异常处理流程图](https://cdn.nlark.com/yuque/0/2021/png/283679/1609989943240-6c850e2f-b790-4ae7-806a-d4fd6113d80b.png)
+
+## 配置要点
+
+SpringBoot 提供 `@RestControllerAdvice` 注解，使用该注解表示开启了全局异常的捕获，我们只需在自定义一个方法使用 `@ExceptionHandler` 注解然后定义捕获异常的类型即可对这些捕获的异常进行统一的处理。
+
+主要配置步骤：
+
+1. 使用 `@RestControllerAdvice` 开启全局异常捕获
+2. 使用 `@ExceptionHandler` 处理具体的异常类型
+3. 使用 `Tracer.trace(e)` 把异常信息交给 sentinel 进行记录，作为熔断等的重要指标
+
+## 问题咨询
+
+<Card title="获取帮助" icon="help" href="/support">
+  如果您在使用过程中遇到任何问题，请点击此处获取帮助。
+</Card>
 

@@ -2,11 +2,19 @@
 title: "前端权限管理"
 ---
 
-## 1. 组件方式
-组件位置：[/@/components/auth](#/src/components/auth)，您可能需要了解 [插槽 slot](https:_v3.cn.vuejs.org_guide_component-slots)
+## 组件方式
 
-#### 单个权限验证（:value="xxx"）
-+ 组件代码，注意看 some 高亮处判断，根据需求适当时候需要自行修改
+<Card title="组件位置" icon="code">
+  `/@/components/auth`
+</Card>
+
+<Note>
+您可能需要了解 [Vue 插槽 slot](https://v3.cn.vuejs.org/guide/component-slots)
+</Note>
+
+### 单个权限验证
+
+使用 `:value="xxx"` 属性进行单个权限验证：
 
 ```html
 <template>
@@ -37,11 +45,10 @@ title: "前端权限管理"
 </script>
 ```
 
-+ 页面中使用
+页面中使用：
 
 ```html
 <template>
-  <!-- 使用 -->
   <Auth :value="'btn.add'" />
 </template>
 
@@ -51,10 +58,12 @@ title: "前端权限管理"
 </script>
 ```
 
-#### 多个权限验证，满足一个则显示（:value="[xxx,xxx]"）
+### 多个权限验证（满足一个则显示）
+
+使用 `:value="[xxx,xxx]"` 属性进行多个权限验证：
+
 ```html
 <template>
-  <!-- 使用 -->
   <Auths :value="['btn.addsss', 'btn.edit', 'btn.delsss', 'btn.linksss']" />
 </template>
 
@@ -71,10 +80,12 @@ title: "前端权限管理"
 </script>
 ```
 
-#### 多个权限验证，全部满足则显示（:value="[xxx,xxx]"）
+### 多个权限验证（全部满足则显示）
+
+使用 `:value="[xxx,xxx]"` 属性进行多个权限验证：
+
 ```html
 <template>
-  <!-- 使用 -->
   <AuthAll :value="['btn.add', 'btn.edit', 'btn.del', 'btn.link']" />
 </template>
 
@@ -91,10 +102,20 @@ title: "前端权限管理"
 </script>
 ```
 
-### 2. 指令方式
-指令位置：[/@/directive/authDirective.ts](#/src/directive)，您可能需要了解 [自定义指令 directive](https:_v3.cn.vuejs.org_guide_custom-directive)
+## 指令方式
 
-#### 单个权限验证（v-auth="xxx"）
+<Card title="指令位置" icon="code">
+  `/@/directive/authDirective.ts`
+</Card>
+
+<Note>
+您可能需要了解 [Vue 自定义指令 directive](https://v3.cn.vuejs.org/guide/custom-directive)
+</Note>
+
+### 单个权限验证
+
+使用 `v-auth="xxx"` 指令进行单个权限验证：
+
 ```html
 <div v-auth="'btn.add'">
   <el-button>新增</el-button>
@@ -113,7 +134,10 @@ title: "前端权限管理"
 </div>
 ```
 
-#### 多个权限验证，满足一个则显示（v-auths="[xxx,xxx]"）
+### 多个权限验证（满足一个则显示）
+
+使用 `v-auths="[xxx,xxx]"` 指令进行多个权限验证：
+
 ```html
 <div v-auths="['btn.addsss', 'btn.edit', 'btn.delsss', 'btn.linksss']">
   <el-button>新增</el-button>
@@ -124,7 +148,10 @@ title: "前端权限管理"
 </div>
 ```
 
-#### 多个权限验证，全部满足则显示（v-auth-all="[xxx,xxx]"）
+### 多个权限验证（全部满足则显示）
+
+使用 `v-auth-all="[xxx,xxx]"` 指令进行多个权限验证：
+
 ```html
 <div v-auth-all="['btn.add', 'btn.edit', 'btn.del', 'btn.link']">
   <el-button>新增</el-button>
@@ -135,8 +162,13 @@ title: "前端权限管理"
 </div>
 ```
 
-### 3. 函数方式
-方法位置：[/@/utils/authFunction.ts](#/src/utils/authFunction.ts)，用于方法中的判断，使用方法如下
+## 函数方式
+
+<Card title="方法位置" icon="code">
+  `/@/utils/authFunction.ts`
+</Card>
+
+用于方法中的权限判断，使用方法如下：
 
 ```vue
 <script lang="ts" setup>
@@ -148,14 +180,16 @@ title: "前端权限管理"
     if (!auth('btn.add')) ElMessage.error('抱歉，您没有权限！');
     else ElMessage.success('恭喜，您有权限！');
   };
+  
   // 多个权限验证，满足一个则为 true
   const onAuthsClick = () => {
     if (!auths(['btn.add', 'btn.edit'])) ElMessage.error('抱歉，您没有权限！');
     else ElMessage.success('恭喜，您有权限！');
   };
+  
   // 多个权限验证，全部满足则为 true
   const onAuthAllClick = () => {
-    if (!authAll(['btn.add', 'btn.edit')) ElMessage.error('抱歉，您没有权限！');
+    if (!authAll(['btn.add', 'btn.edit'])) ElMessage.error('抱歉，您没有权限！');
     else ElMessage.success('恭喜，您有权限！');
   };
 </script>

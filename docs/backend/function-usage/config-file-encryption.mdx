@@ -1,43 +1,30 @@
 ---
-title: "密文、根密钥不匹配 报错如下"
+title: "配置文件加密方案"
 ---
 
 ## 说明
 
-
 pig4cloud 采用的是 `jasypt` 配置文件加密方案。
 
+<Note>
+所有的敏感信息均使用 ENC(密文) 形式进行配置
+</Note>
 
-
-> [success] 所有的敏感信息 均使用 ENC(密文) 形式进行配置
->
-
-
-
-+ 配置根密钥
-
-
+### 配置根密钥
 
 ![](https://cdn.nlark.com/yuque/0/2020/png/283679/1599314749289-bfaea97c-0123-4935-b918-1d4b195d72ad.png)
 
+### 在线加密工具
 
-
-+ 访问 [enc.pig4cloud.com](https://enc.pig4cloud.com) 在线加密
-
-
+访问 [enc.pig4cloud.com](https://enc.pig4cloud.com) 进行在线加密
 
 ![](https://cdn.nlark.com/yuque/0/2020/png/283679/1604763068210-d9be1a2b-dd26-489c-a286-ebbbda3939dc.png)
 
+### 特别说明
 
-
-+ 特别说明
-
-
-
-> **<font style="color:#F5222D;">[warning] 根密钥和密文是一套，若密钥更改，则所有密文需要重新加密配置。且原文内容 不能随意修改</font>**
->
-
-
+<Warning>
+根密钥和密文是一套，若密钥更改，则所有密文需要重新加密配置。且原文内容不能随意修改
+</Warning>
 
 ```shell
 # 密文、根密钥不匹配 报错如下 
@@ -50,10 +37,7 @@ Failed to bind properties under 'security.oauth2.client.client-id' to java.lang.
 
 ## 原理解析
 
-
-1. Maven 依赖
-
-
+### 1. Maven 依赖
 
 ```xml
 <dependency>
@@ -63,11 +47,7 @@ Failed to bind properties under 'security.oauth2.client.client-id' to java.lang.
 </dependency>
 ```
 
-
-
-2. 配置
-
-
+### 2. 配置
 
 ```yaml
 jasypt:
@@ -75,33 +55,25 @@ jasypt:
     password: foo #根密码
 ```
 
-
-
-3. 使用 JAVA 方法调用（不依赖 spring 容器）
-
-
+### 3. 使用 JAVA 方法调用（不依赖 spring 容器）
 
 ```java
-   /**
-     * jasypt.encryptor.password 对应 配置中心 application-dev.yml 中的密码
-     */
-    @Test
-    public void testEnvironmentProperties() {
-        System.setProperty(JASYPT_ENCRYPTOR_PASSWORD, "lengleng");
-        StringEncryptor stringEncryptor = new DefaultLazyEncryptor(new StandardEnvironment());
+/**
+ * jasypt.encryptor.password 对应 配置中心 application-dev.yml 中的密码
+ */
+@Test
+public void testEnvironmentProperties() {
+    System.setProperty(JASYPT_ENCRYPTOR_PASSWORD, "lengleng");
+    StringEncryptor stringEncryptor = new DefaultLazyEncryptor(new StandardEnvironment());
 
-        //加密方法
-        System.out.println(stringEncryptor.encrypt("123456"));
-        //解密方法
-        System.out.println(stringEncryptor.decrypt("saRv7ZnXsNAfsl3AL9OpCQ=="));
-    }
+    //加密方法
+    System.out.println(stringEncryptor.encrypt("123456"));
+    //解密方法
+    System.out.println(stringEncryptor.decrypt("saRv7ZnXsNAfsl3AL9OpCQ=="));
+}
 ```
 
-
-
-4 配置文件中使用密文
-
-
+### 4. 配置文件中使用密文
 
 ```yaml
 spring:
@@ -111,21 +83,17 @@ spring:
 xxx: ENC(密文)
 ```
 
+### 5. 其他配置参考
 
-
-5  [其他非对称等高级配置参考](https://github.com/ulisesbocchio/jasypt-spring-boot)
-
-
+[其他非对称等高级配置参考](https://github.com/ulisesbocchio/jasypt-spring-boot)
 
 ## 总结
-
 
 1. Spring Cloud Config 提供了统一的加解密方式，方便使用，但是如果应用配置没有走配置中心，那么加解密过滤是无效的；依赖 JCE 对于低版本 spring cloud 的兼容性不好。
 2. jasypt 功能更为强大，支持的加密方式更多，但是如果多个微服务，需要每个服务模块引入依赖配置，较为麻烦；但是功能强大、灵活。
 3. 个人选择 jasypt
 
+## 问题咨询
 
-
-## ❤  问题咨询
 ![](https://cdn.nlark.com/yuque/0/2022/gif/283679/1662563973685-c22e9831-db66-42b5-973f-886d25d1e0e7.gif)
 

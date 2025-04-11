@@ -3,21 +3,39 @@ title: "前端国际化配置"
 ---
 
 ## 国际化配置
-框架内置 中文简体、英文
 
-### 1. 多国语言配置
-##### 前端配置国际化
-注意：页面国际化数据最好放 同级的目录中 i18n 里。/@/i18n 为框架内置，为了更好的升级，最好别添加到里面
+<Note>
+框架内置中文简体、英文两种语言支持。
+</Note>
 
-![](https://minio.pigx.top/oss/202304/1681629726.png)
+### 多国语言配置
 
-##### 后端配置国际化
+#### 前端配置国际化
+
+<Note>
+页面国际化数据最好放在同级的目录中 i18n 里。`/@/i18n` 为框架内置，为了更好的升级，建议不要直接修改。
+</Note>
+
+<Card title="前端国际化目录结构" icon="folder">
+  ![前端国际化目录](https://minio.pigx.top/oss/202304/1681629726.png)
+</Card>
+
+#### 后端配置国际化
+
+<Note>
 与前端 i18n 配置 ts 文件格式相同，i18n 可以通过后台进行国际化管理的配置和使用。
+</Note>
 
-![](https://minio.pigx.top/oss/202304/1682143507.png)
+<Card title="后端国际化配置" icon="image">
+  ![后端国际化配置](https://minio.pigx.top/oss/202304/1682143507.png)
+</Card>
 
-### 2. 国际化使用
-#### 页面上使用 .vue，$t('xxx.xxx')
+### 国际化使用
+
+#### 在 Vue 模板中使用
+
+使用 `$t('xxx.xxx')` 语法：
+
 ```html
 <el-button>
   <span>{{ $t('message.account.accountBtnText') }}</span>
@@ -28,15 +46,21 @@ title: "前端国际化配置"
 </el-divider>
 ```
 
-#### ts 上使用 .ts，i18n.global.t(xxx)
-```plain
+#### 在 TypeScript 文件中使用
+
+使用 `i18n.global.t(xxx)` 语法：
+
+```typescript
 import { i18n } from "/@/i18n/index";
 
 const webTitle = i18n.global.t(router.currentRoute.value.meta.title as any);
 ```
 
-#### setup 里使用，t(xxx)
-```plain
+#### 在 setup 中使用
+
+使用 `t(xxx)` 语法：
+
+```typescript
 <script lang="ts">
 import { defineComponent } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -54,19 +78,32 @@ export default defineComponent({
 ```
 
 ## 框架其它国际化
-使用方法参考：[国际化 - 国际化使用](/config/i18n/#_4-%E5%9B%BD%E9%99%85%E5%8C%96%E4%BD%BF%E7%94%A8)。需提前定义多国语言数据 message.xxx.xxx
 
-### 1. 菜单
-[/@/layout/navMenu](#/src/layout/navMenu)，取 [/@/router/route.ts](#/src/router/route.ts) 中的 meta.title 字段（message.router.xxx 需提前在 [/@/i18n/lang](#/src/i18n/lang)）中定义
+<Note>
+使用方法参考：[国际化 - 国际化使用](/config/i18n/#_4-%E5%9B%BD%E9%99%85%E5%8C%96%E4%BD%BF%E7%94%A8)。需提前定义多国语言数据 message.xxx.xxx
+</Note>
+
+### 菜单国际化
+
+<Card title="代码位置" icon="code">
+  `/@/layout/navMenu`
+</Card>
+
+从 `/@/router/route.ts` 中的 `meta.title` 字段获取（`message.router.xxx` 需提前在 `/@/i18n/lang` 中定义）：
 
 ```vue
 <span>{{ $t(val.meta.title) }}</span>
 ```
 
-### 2. 浏览器标题
-[/@/utils/other.ts](#/src/utils/other.ts#L28) useTitle 方法，使用时：other.useTitle()
+### 浏览器标题国际化
 
-```javascript
+<Card title="代码位置" icon="code">
+  `/@/utils/other.ts` useTitle 方法
+</Card>
+
+使用方法：`other.useTitle()`
+
+```typescript
 /**
  * 设置浏览器标题国际化
  * @method const title = useTitle(); ==> title()
@@ -88,17 +125,27 @@ export function useTitle() {
 }
 ```
 
-### 3. 顶栏
-[/@/layout/navBars/breadcrumb](#/src/layout/navBars/breadcrumb)，面包屑、组件大小、语言切换、菜单搜索、布局配置、消息、开/关全屏、用户下拉菜单（鼠标放入 icon 图标 上会显示图标说明）。
+### 顶栏国际化
 
-基本都使用 $t(xxx.xxx.xxx) 语法。
+<Card title="代码位置" icon="code">
+  `/@/layout/navBars/breadcrumb`
+</Card>
+
+面包屑、组件大小、语言切换、菜单搜索、布局配置、消息、开/关全屏、用户下拉菜单（鼠标放入 icon 图标上会显示图标说明）。
+
+基本都使用 `$t(xxx.xxx.xxx)` 语法：
 
 ```html
 <div>{{ $t(v.meta.title) }}</div>
 ```
 
-### 4. 布局配置
-[/@/layout/navBars/breadcrumb/setings.vue](#/src/layout/navBars/breadcrumb/setings.vue)，国际化数据在 [/@/i18n/lang](#/src/i18n/lang) 中的 layout 对象。基本上使用 $t('message.layout.xxx') 语法
+### 布局配置国际化
+
+<Card title="代码位置" icon="code">
+  `/@/layout/navBars/breadcrumb/setings.vue`
+</Card>
+
+国际化数据在 `/@/i18n/lang` 中的 layout 对象。基本上使用 `$t('message.layout.xxx')` 语法：
 
 ```html
 <div class="layout-breadcrumb-seting-bar-flex-label">
@@ -106,6 +153,7 @@ export function useTitle() {
 </div>
 ```
 
-### 5. 页面
-基本上使用 $t('message.xxx.xxx') 语法
+### 页面国际化
+
+基本上使用 `$t('message.xxx.xxx')` 语法。
 

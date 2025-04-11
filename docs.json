@@ -261,7 +261,54 @@
   },
   "footer": {
     "socials": {
+      "website": "https://pig4cloud.com",
       "github": "https://github.com/pig-mesh"
-    }
+    },
+    "links": [
+      {
+        "header": "联系我们",
+        "items": [
+          {
+            "label": "邮箱: sw@pigx.vip",
+            "href": "mailto:sw@pigx.vip"
+          },
+          {
+            "label": "微信: pigcloud999",
+            "href": "https://minio.pigx.vip/oss/202504/1744390695.png"
+          }
+        ]
+      },
+      {
+        "header": "其他产品",
+        "items": [
+          {
+            "label": "AI 大模型平台",
+            "href": "https://ai.pig4cloud.com"
+          },
+          {
+            "label": "工作流引擎平台",
+            "href": "https://flow.pig4cloud.com"
+          }
+        ]
+      },
+      {
+        "header": "友情链接",
+        "items": [
+          {
+            "label": "mybatis-plus",
+            "href": "https://baomidou.com"
+          },
+          {
+            "label": "mica-mqtt",
+            "href": "https://github.com/dromara/mica-mqtt"
+          },
+          {
+            "label": "avuejs",
+            "href": "https://avuejs.com"
+          }
+          
+        ]
+      }
+    ]
   }
 }

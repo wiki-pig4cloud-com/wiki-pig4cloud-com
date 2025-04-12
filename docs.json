@@ -36,9 +36,8 @@
         "icon": "book-open",
         "groups": [
           {
-            "group": "快速开始",
+            "group": "开源共建",
             "pages": [
-              "index",
               "info/development-participation",
               "info/learning-materials"
             ]
@@ -67,86 +66,86 @@
             "group": "后端开发",
             "pages": [
               {
-                "group": "功能使用",
-                "icon": "function",
-                "pages": [
-                  "backend/function/swagger-integration",
-                  "backend/function/swagger-api-debugging",
-                  "backend/function/knife4j-api-debugging",
-                  "backend/function/postman-api-usage",
-                  "backend/function/quartz-job-usage",
-                  "backend/function/captcha-configuration",
-                  "backend/function/config-file-encryption",
-                  "backend/function/redis-cache-usage",
-                  "backend/function/pig-xss-filter",
-                  "backend/function/pig-global-exception",
-                  "backend/function/backend-i18n",
-                  "backend/function/pig-dynamic-datasource",
-                  "backend/function/pig-user-registration",
-                  "backend/function/pig-oss-upload",
-                  "backend/function/realtime-log-level",
-                  "backend/function/browser-log-view",
-                  "backend/function/monitor-security",
-                  "backend/function/sentinel-console",
-                  "backend/function/syslog-annotation",
-                  "backend/function/login-post-processing",
-                  "backend/function/time-conversion",
-                  "backend/function/enable-pig-feign-clients"
-                ]
-              },
-              {
-                "group": "认证授权",
-                "icon": "lock",
-                "pages": [
-                  "backend/auth/token-jwt-oauth2-session",
-                  "backend/auth/pig-token-authentication",
-                  "backend/auth/pig-token-authorization",
-                  "backend/auth/pig-token-expiration",
-                  "backend/auth/pig-authorization-code",
-                  "backend/auth/pig-client-mode",
-                  "backend/auth/inner-annotation",
-                  "backend/auth/feign-service-auth",
-                  "backend/auth/api-exposure",
-                  "backend/auth/get-current-user",
-                  "backend/auth/frontend-login-encryption",
-                  "backend/auth/sms-login-config",
-                  "backend/auth/extension-user-multi-table",
-                  "backend/auth/extension-force-token"
-                ]
-              },
-              {
                 "group": "基础概念",
                 "icon": "java",
                 "pages": [
                   {
                     "group": "编程基础",
                     "pages": [
-                      "backend/basics/lombok-usage",
-                      "backend/basics/java-util-usage",
-                      "backend/basics/java8-resources",
-                      "backend/basics/pig-stream-usage",
-                      "backend/basics/pig-lambda-usage"
+                      "dev/basics/lombok-usage",
+                      "dev/basics/java-util-usage",
+                      "dev/basics/java8-resources",
+                      "dev/basics/pig-stream-usage",
+                      "dev/basics/pig-lambda-usage"
                     ]
                   },
                   {
                     "group": "微服务基础",
                     "pages": [
-                      "backend/basics/nacos-config-center",
-                      "backend/basics/nacos-server-implementation",
-                      "backend/basics/gateway-usage",
-                      "backend/basics/loadbalancer-usage",
-                      "backend/basics/sentinel-protection"
+                      "dev/basics/nacos-config-center",
+                      "dev/basics/nacos-server-implementation",
+                      "dev/basics/gateway-usage",
+                      "dev/basics/loadbalancer-usage",
+                      "dev/basics/sentinel-protection"
                     ]
                   },
                   {
                     "group": "网关功能",
                     "pages": [
-                      "backend/gateway/gateway-routing",
-                      "backend/gateway/gateway-cors",
-                      "backend/gateway/gateway-rate-limiting",
-                      "backend/gateway/gateway-timeout-handling"
+                      "dev/basics/gateway-routing",
+                      "dev/basics/gateway-cors",
+                      "dev/basics/gateway-rate-limiting",
+                      "dev/basics/gateway-timeout-handling"
                     ]
                   }
+                ]
+              },
+              {
+                "group": "功能使用",
+                "icon": "function",
+                "pages": [
+                  "dev/function/swagger-integration",
+                  "dev/function/swagger-api-debugging",
+                  "dev/function/knife4j-api-debugging",
+                  "dev/function/postman-api-usage",
+                  "dev/function/quartz-job-usage",
+                  "dev/function/captcha-configuration",
+                  "dev/function/config-file-encryption",
+                  "dev/function/redis-cache-usage",
+                  "dev/function/pig-xss-filter",
+                  "dev/function/pig-global-exception",
+                  "dev/function/backend-i18n",
+                  "dev/function/pig-dynamic-datasource",
+                  "dev/function/pig-user-registration",
+                  "dev/function/pig-oss-upload",
+                  "dev/function/realtime-log-level",
+                  "dev/function/browser-log-view",
+                  "dev/function/monitor-security",
+                  "dev/function/sentinel-console",
+                  "dev/function/syslog-annotation",
+                  "dev/function/login-post-processing",
+                  "dev/function/time-conversion",
+                  "dev/function/enable-pig-feign-clients"
+                ]
+              },
+              {
+                "group": "认证授权",
+                "icon": "lock",
+                "pages": [
+                  "dev/auth/token-jwt-oauth2-session",
+                  "dev/auth/pig-token-authentication",
+                  "dev/auth/pig-token-authorization",
+                  "dev/auth/pig-token-expiration",
+                  "dev/auth/pig-authorization-code",
+                  "dev/auth/pig-client-mode",
+                  "dev/auth/inner-annotation",
+                  "dev/auth/feign-service-auth",
+                  "dev/auth/api-exposure",
+                  "dev/auth/get-current-user",
+                  "dev/auth/frontend-login-encryption",
+                  "dev/auth/sms-login-config",
+                  "dev/auth/extension-user-multi-table",
+                  "dev/auth/extension-force-token"
                 ]
               }
             ]
@@ -154,22 +153,22 @@
           {
             "group": "前端开发",
             "pages": [
-              "frontend/browser-compatibility",
-              "frontend/font-icon-config",
-              "frontend/config-explanation",
-              "frontend/util-functions",
-              "frontend/table-component",
-              "frontend/i18n-config",
-              "frontend/permission-management",
-              "frontend/data-state-management",
-              "frontend/rich-text-component",
-              "frontend/floating-input",
-              "frontend/left-query-tree",
-              "frontend/text-tooltip",
-              "frontend/table-toolbar",
-              "frontend/dictionary-feature",
-              "frontend/route-management",
-              "frontend/tab-management"
+              "dev/frontend/browser-compatibility",
+              "dev/frontend/font-icon-config",
+              "dev/frontend/config-explanation",
+              "dev/frontend/util-functions",
+              "dev/frontend/table-component",
+              "dev/frontend/i18n-config",
+              "dev/frontend/permission-management",
+              "dev/frontend/data-state-management",
+              "dev/frontend/rich-text-component",
+              "dev/frontend/floating-input",
+              "dev/frontend/left-query-tree",
+              "dev/frontend/text-tooltip",
+              "dev/frontend/table-toolbar",
+              "dev/frontend/dictionary-feature",
+              "dev/frontend/route-management",
+              "dev/frontend/tab-management"
             ]
           },
           {
@@ -178,40 +177,38 @@
               {
                 "group": "三方系统单点登录 PIG",
                 "pages": [
-                  "integration/sso-jfinal-pig",
-                  "integration/sso-ruoyi-pig-separated",
-                  "integration/sso-guns-pig",
-                  "integration/sso-renren-pig",
-                  "integration/sso-jeecg-pig",
-                  "integration/sso-jeesite-pig"
+                  "dev/integration/sso-jfinal-pig",
+                  "dev/integration/sso-ruoyi-pig-separated",
+                  "dev/integration/sso-guns-pig",
+                  "dev/integration/sso-renren-pig",
+                  "dev/integration/sso-jeecg-pig",
+                  "dev/integration/sso-jeesite-pig"
                 ]
               },
               {
                 "group": "Nacos 适配其他数据源",
                 "pages": [
-                  "integration/pig-register-nacos-dm",
-                  "integration/pig-register-nacos-oracle",
-                  "integration/pig-register-nacos-kingbase"
+                  "dev/integration/pig-register-nacos-dm",
+                  "dev/integration/pig-register-nacos-oracle",
+                  "dev/integration/pig-register-nacos-kingbase"
                 ]
               },
-              "integration/pig-dm-database",
-              "integration/pig-shardingsphere-integration",
-              "integration/pig-liteflow-integration",
-              "integration/pig-websocket-integration",
-              "integration/pig-tongrds-integration",
-              "integration/pig-api-captcha",
-              "integration/pig-multi-level-cache",
-              "integration/pig-email-integration",
-              "integration/pig-rabbitmq-integration",
-              "integration/pig-rocketmq-integration",
-              "integration/pig-skywalking-integration",
-              "integration/pig-lightweight-log-tracing",
-              "integration/pig-elk-integration",
-              "integration/pig-aliyun-sls",
-              "integration/pig-ui-cascade-selector",
-              "integration/pig-dingtalk-wechat-robot",
-              "production/https-frontend-deployment",
-              "production/rainbond-deployment"
+              "dev/integration/pig-dm-database",
+              "dev/integration/pig-shardingsphere-integration",
+              "dev/integration/pig-liteflow-integration",
+              "dev/integration/pig-websocket-integration",
+              "dev/integration/pig-tongrds-integration",
+              "dev/integration/pig-api-captcha",
+              "dev/integration/pig-multi-level-cache",
+              "dev/integration/pig-email-integration",
+              "dev/integration/pig-rabbitmq-integration",
+              "dev/integration/pig-rocketmq-integration",
+              "dev/integration/pig-skywalking-integration",
+              "dev/integration/pig-lightweight-log-tracing",
+              "dev/integration/pig-elk-integration",
+              "dev/integration/pig-aliyun-sls",
+              "dev/integration/pig-ui-cascade-selector",
+              "dev/integration/pig-dingtalk-wechat-robot"
             ]
           }
         ]
@@ -225,30 +222,30 @@
         "dropdown": "常见问题",
         "icon": "question",
         "pages": [
-          "faq/faq",
-          "faq/asking-guidelines/question-guidelines",
-          "faq/client-settings/modify-client-info",
-          "faq/login-issues/invalid-clientid",
-          "faq/service-startup/gateway-doc-config-null",
-          "faq/service-startup/failed-to-configure-datasource",
-          "faq/service-startup/pig-register-startup-fail",
-          "faq/service-startup/nacos-service-list-empty",
-          "faq/service-startup/pig-db-connection-fail",
-          "faq/login-issues/wrong-password",
-          "faq/login-issues/captcha-not-showing",
-          "faq/service-startup/java-jar-yml-input-length-error",
-          "faq/service-startup/new-module-resource-not-found",
-          "faq/service-startup/fastjson-vulnerability",
-          "faq/deployment-issues/free-docker-registry",
-          "faq/frontend-issues/modify-pig-ui-port",
-          "faq/service-startup/modify-pig-register-port",
-          "faq/service-startup/sentinel-bean-duplicate",
-          "faq/service-startup/gateway-crypto-mining",
-          "faq/frontend-issues/frontend-startup-fail",
-          "faq/code-references/nacos-naming-config-source",
-          "faq/code-references/root-pom-dependencies",
-          "faq/service-startup/pig-auth-deserialize-error",
-          "faq/service-startup/main-yml-syntax-error"
+          "dev/faq",
+          "dev/faq/asking-guidelines/question-guidelines",
+          "dev/faq/client-settings/modify-client-info",
+          "dev/faq/login-issues/invalid-clientid",
+          "dev/faq/service-startup/gateway-doc-config-null",
+          "dev/faq/service-startup/failed-to-configure-datasource",
+          "dev/faq/service-startup/pig-register-startup-fail",
+          "dev/faq/service-startup/nacos-service-list-empty",
+          "dev/faq/service-startup/pig-db-connection-fail",
+          "dev/faq/login-issues/wrong-password",
+          "dev/faq/login-issues/captcha-not-showing",
+          "dev/faq/service-startup/java-jar-yml-input-length-error",
+          "dev/faq/service-startup/new-module-resource-not-found",
+          "dev/faq/service-startup/fastjson-vulnerability",
+          "dev/faq/deployment-issues/free-docker-registry",
+          "dev/faq/frontend-issues/modify-pig-ui-port",
+          "dev/faq/service-startup/modify-pig-register-port",
+          "dev/faq/service-startup/sentinel-bean-duplicate",
+          "dev/faq/service-startup/gateway-crypto-mining",
+          "dev/faq/frontend-issues/frontend-startup-fail",
+          "dev/faq/code-references/nacos-naming-config-source",
+          "dev/faq/code-references/root-pom-dependencies",
+          "dev/faq/service-startup/pig-auth-deserialize-error",
+          "dev/faq/service-startup/main-yml-syntax-error"
         ]
       }
     ]

@@ -1,9 +1,9 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "PIG 技术指南V3",
+  "name": "PIG 技术指南 V3",
   "banner": {
-    "content": "🚀 PIG AI 大模型平台已上线! [点击了解一下？](https://ai.pig4cloud.com?utm_source=pig-wiki)",
+    "content": "🚀 PIG AI 大模型平台已上线！[点击了解一下？](https://ai.pig4cloud.com?utm_source=pig-wiki)",
     "dismissible": true
   },
   "background": {
@@ -50,6 +50,7 @@
               "docs/deployment/quick-start",
               "docs/deployment/monolith-usage",
               "docs/deployment/linux-deploy",
+              "docs/deployment/docker-deployment",
               "docs/deployment/k8s-deploy"
             ]
           },
@@ -57,6 +58,7 @@
             "group": "二次开发",
             "pages": [
               "docs/dev/create-microservice-skeleton",
+              "docs/dev/microservice-crud",
               "docs/dev/microservice-config-management",
               "docs/dev/monolith-secondary-dev"
             ]
@@ -98,6 +100,7 @@
                 "pages": [
                   "docs/backend/auth-authorization/token-jwt-oauth2-session",
                   "docs/backend/auth-authorization/pig-token-authentication",
+                  "docs/backend/auth-authorization/pig-token-authorization",
                   "docs/backend/auth-authorization/pig-token-expiration",
                   "docs/backend/auth-authorization/pig-authorization-code",
                   "docs/backend/auth-authorization/pig-client-mode",
@@ -173,7 +176,7 @@
             "group": "集成能力",
             "pages": [
               {
-                "group": "三方系统单点登录PIG",
+                "group": "三方系统单点登录 PIG",
                 "pages": [
                   "docs/integration/sso-jfinal-pig",
                   "docs/integration/sso-ruoyi-pig-separated",
@@ -184,7 +187,7 @@
                 ]
               },
               {
-                "group": "nacos适配其他数据源",
+                "group": "nacos 适配其他数据源",
                 "pages": [
                   "docs/integration/pig-register-nacos-dm",
                   "docs/integration/pig-register-nacos-oracle",
@@ -273,11 +276,11 @@
         "header": "联系我们",
         "items": [
           {
-            "label": "邮箱: sw@pigx.vip",
+            "label": "邮箱：sw@pigx.vip",
             "href": "mailto:sw@pigx.vip"
           },
           {
-            "label": "微信: pigcloud999",
+            "label": "微信：pigcloud999",
             "href": "https://minio.pigx.vip/oss/202504/1744390695.png"
           }
         ]

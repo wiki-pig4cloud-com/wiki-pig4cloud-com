@@ -11,9 +11,9 @@ alwaysApply: true
 
 示例用法：
 
-:::accordion Title of the Accordion
-Here is the hidden detailed content.
-:::
+<Accordion title="I am an Accordion.">
+  You can put any content in here.
+</Accordion>
 
 ## 2. Accordion Groups（折叠组）
 
@@ -21,27 +21,24 @@ Here is the hidden detailed content.
 
 示例用法：
 
-:::accordion-group
-:::accordion Step 1
-Details for Step 1
-:::
-:::accordion Step 2
-Details for Step 2
-:::
-:::
+<AccordionGroup>
+  <Accordion title="FAQ with Icon" icon="alien-8bit">
+    Check out the [Accordion](mdc:content/components/accordions) docs for all the supported props.
+  </Accordion>
+
+  <Accordion title="FAQ without Icon">
+    Check out the [Accordion](mdc:content/components/accordions) docs for all the supported props.
+  </Accordion>
+</AccordionGroup
 
 ## 3. Callout Boxes（提示框）
 
 适用场景：高亮提醒、注意事项、警告信息等。
 
 示例用法：
-
-:::info
-This is an informational callout.
-:::
-:::warning
-This is a warning callout.
-:::
+<Tip>This suggests a helpful tip</Tip>
+<Note>This adds a note in the content</Note>
+<Warning>This raises a warning to watch out for</Warning>
 
 ## 4. Cards（卡片）
 
@@ -49,10 +46,10 @@ This is a warning callout.
 
 示例用法：
 
-:::card
-**Title of the Card**
-Short description goes here.
-:::
+<Card title="Click on me" icon="link" href="/content/components/card-group">
+  This is how you use a card with an icon and a link. Clicking on this card
+  brings you to the Card Group page.
+</Card>
 
 ## 5. Card Groups（卡片组）
 
@@ -60,16 +57,20 @@ Short description goes here.
 
 示例用法：
 
-:::card-group
-:::card
-**Card 1**
-Details for card 1.
-:::
-:::card
-**Card 2**
-Details for card 2.
-:::
-:::
+<CardGroup cols={2}>
+  <Card title="First Card" icon="square-1">
+    Neque porro quisquam est qui dolorem ipsum quia dolor sit amet
+  </Card>
+  <Card title="Second Card" icon="square-2">
+    Lorem ipsum dolor sit amet, consectetur adipiscing elit
+  </Card>
+  <Card title="Third Card" icon="square-3">
+    Ut enim ad minim veniam, quis nostrud exercitation ullamco
+  </Card>
+  <Card title="Fourth Card" icon="square-4">
+    Excepteur sint occaecat cupidatat non proident
+  </Card>
+</CardGroup>
 
 ## 6. Code Blocks（代码块）
 
@@ -87,22 +88,19 @@ print("Hello World")
 
 示例用法：
 
-:::code-group
-```python
-print("Python code")
+<CodeGroup>
 
-console.log("JavaScript code")
-
-:::
-
+```javascript helloWorld.js
+console.log("Hello World");
+```
+</CodeGroup>
 ## 8. Frames（内嵌框架）
 **适用场景**：嵌入外部网页、文档、演示页面。
 
 **示例用法**：
-```markdown
-:::frame https://example.com
-:::
-
+<Frame caption="Caption Text">
+  <img src="/path/image.jpg" />
+</Frame>
 
 ## 9. Icons（图标）
 
@@ -110,7 +108,7 @@ console.log("JavaScript code")
 
 示例用法：
 
-:rocket: Launch your app!
+<Icon icon="check" size={32} />
 
 ## 10. Mermaid Diagrams（流程图/图表）
 
@@ -132,11 +130,17 @@ flowchart TD
 
 示例用法：
 
-:::steps
-1. Do this first
-2. Then do this
-3. Finally, do this
-:::
+<Steps>
+  <Step title="First Step">
+    These are instructions or content that only pertain to the first step.
+  </Step>
+  <Step title="Second Step">
+    These are instructions or content that only pertain to the second step.
+  </Step>
+  <Step title="Third Step">
+    These are instructions or content that only pertain to the third step.
+  </Step>
+</Steps>
 
 ## 12. Tabs（标签页）
 
@@ -144,14 +148,17 @@ flowchart TD
 
 示例用法：
 
-:::tabs
-@tab Mac
-Installation instructions for Mac
-@tab Windows
-Installation instructions for Windows
-@tab Linux
-Installation instructions for Linux
-:::
+<Tabs>
+  <Tab title="First Tab">
+    ☝️ Welcome to the content that you can only see inside the first Tab.
+  </Tab>
+  <Tab title="Second Tab">
+    ✌️ Here's content that's only inside the second Tab.
+  </Tab>
+  <Tab title="Third Tab">
+    💪 Here's content that's only inside the third Tab.
+  </Tab>
+</Tabs>
 
 
 ## 13. Tooltips（悬浮提示）
@@ -159,5 +166,4 @@ Installation instructions for Linux
 适用场景：对关键词提供悬浮解释，不打断阅读流。
 
 示例用法：
-
-This is a term with a :tooltip[tooltip content](mdc:hover explanation).
+<Tooltip tip="This is a tooltip</Tooltip>

@@ -1,0 +1,1 @@
+docs/backend/auth-authorization/pig-token-authorization.mdx 

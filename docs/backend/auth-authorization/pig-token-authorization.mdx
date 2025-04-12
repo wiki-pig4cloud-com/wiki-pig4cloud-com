@@ -1,0 +1,72 @@
+---
+title: "Token 校验鉴权流程 👍"
+---
+
+<Note>
+**Token 认证流程概述**
+
+当用户携带 token 请求资源服务器的资源时，Spring Security 拦截 token，进行 token 和 userdetails 匹配过程，把无状态的 token 转化成具体用户。
+</Note>
+
+![Token 校验流程](/images/1656242926639-8ef6bdcf-3ef9-4557-8e85-ebd79ed79b8e.png)
+
+## 1. Filter 拦截请求进行鉴权
+
+<Info>
+**BearerTokenAuthenticationFilter 功能说明**
+
+- 拦截所有资源服务器的请求
+- 解析 header 或者参数中的 access_token 字段
+- 根据 access_token 构造出来 BearerTokenAuthenticationToken 认证对象
+</Info>
+
+![Filter 拦截流程](/images/1656243169406-f63b7d54-2f6a-450f-a3e3-54378eba9fc9.png)
+
+## 2. 匹配自省鉴权处理器
+
+![自省鉴权处理器](/images/1656243415234-41e6db77-2bc6-474d-a082-ba15cf89abae.png)
+
+## 3. 调用自省拦截器实现处理
+
+<Info>
+**自省拦截器处理流程**
+
+- PigRedisOAuth2AuthorizationService 通过 token value 查询认证中心下发令牌时存储的用户认证信息
+- 根据用户认证信息再次调用 PigUserDetailsService 查询数据库中的最新数据
+- 避免 redis 存储旧数据，实现权限实时更新
+</Info>
+
+![自省拦截器实现](/images/1656243603568-b19f6bfc-629b-4076-ad20-b4c789e57a19.png)
+
+## 4. 接口进行权限判断
+
+<Info>
+**权限判断机制**
+
+如下代码上进行 hasPermission 鉴权操作会调用 **PermissionService.hasPermission** 进行权限判断
+</Info>
+
+```java
+@GetMapping("/export")
+@PreAuthorize("@pms.hasPermission('sys_user_import_export')")
+public List<UserExcelVO> export(UserDTO userDTO) {
+}
+```
+
+![权限判断示例](/images/1656243795.png)
+
+## 5. PIG 数据库权限模型
+
+<Info>
+**权限模型说明**
+
+- **用户 1 : 角色 N** (一个用户可以拥有多个角色)
+- **角色 1 : 菜单 (权限) N** (一个角色可以拥有多个权限)
+</Info>
+
+![数据库权限模型](/images/1656244704693-cb1b39b5-64d3-48be-a1be-f9baa0653b55.png)
+
+## ♥️ 获取支持
+<Card title="遇到问题？" horizontal icon="link" href="https://gitee.com/log4j/pig/issues">
+  如果您在使用过程中遇到任何问题、有功能建议或需求，请点击此卡片前往 Gitee 仓库提交 Issue。
+</Card>

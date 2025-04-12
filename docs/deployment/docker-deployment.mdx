@@ -1,0 +1,112 @@
+---
+title: "Docker Compose 部署应用"
+icon: "docker"
+---
+
+<iframe
+  width="100%"
+  height="500"
+  src="https://player.bilibili.com/player.html?bvid=BV12t411B7e9&p=16&page=16&autoplay=0"
+  title="Docker 部署 PIG 应用教程"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowfullscreen
+></iframe>
+
+<Warning>
+  由于 PIG v3 使用镜像分层技术，Docker 版本必须为 19.x+ 以上版本。本教程环境要求：Linux CentOS 7 / 2 核 8G 内存。
+</Warning>
+
+![Docker 部署架构概览](/images/docker-deployment/docker-overview.png)
+
+## 官方镜像部署
+```shell
+curl -o docker-compose.yaml https://try.pig4cloud.com
+
+# 等待 5 分钟
+docker compose up
+```
+
+## 自编译源码部署
+
+### 1. 安装 Docker 
+
+```shell
+# step 1: 安装必要的一些系统工具
+sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+# Step 2: 添加软件源信息
+sudo yum-config-manager --add-repo https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+# Step 3: 更新并安装 Docker-CE
+sudo yum makecache fast
+sudo yum -y install docker-ce
+# Step 4: 开启 Docker 服务
+sudo service docker start
+# 由于 pig v3 使用镜像分层技术，Docker 版本必须为 19.x+
+docker --version
+```
+
+### 2. 打包部署服务端代码
+
+<Tip>
+  注意根据不同架构选择对应的打包命令
+</Tip>
+
+```shell
+# 微服务版本打包
+mvn clean install -Pcloud
+
+# 单体版本打包
+mvn clean install -Pboot
+```
+
+![构建结果](/images/docker-deployment/build-result.png)
+
+```shell
+# 构建镜像
+docker compose build
+
+# 启动容器（-d 后台启动，建议第一次不要加，方便看错误）
+docker compose up -d
+```
+
+### 3. 等待 3 分钟查看后端
+
+访问 CentOS7 宿主机 IP:8848 查看 Nacos 状态，确定所有服务全部启动。
+
+### 4. 前端构建生成包
+
+```shell
+# 安装依赖
+npm install
+
+# 执行打包命令
+npm run build:docker
+```
+
+**打包过程**
+
+webpack 会生成相应的目录结构 (压缩和混淆的代码)
+
+**打包产物**
+
+pig-ui/docker/dist 目录会生成打包后的页面
+
+![前端构建结果](/images/docker-deployment/frontend-dist.png)
+
+### 5. 运行前端
+
+```shell
+cd pig-ui/docker
+
+# 启动请确保已经启动了后端应用
+docker compose up -d
+```
+
+<Note>
+  请按照上述视频文档的操作进行，无需修改容器的 hosts，docker-compose 会根据容器名称自动处理。
+</Note>
+
+## ♥️ 获取支持
+<Card title="遇到问题？" horizontal icon="link" href="https://gitee.com/log4j/pig/issues">
+  如果您在使用过程中遇到任何问题、有功能建议或需求，请点击此卡片前往 Gitee 仓库提交 Issue。
+</Card>

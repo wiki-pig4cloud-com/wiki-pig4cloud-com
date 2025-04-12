@@ -32,11 +32,11 @@ com.pig4cloud.pig.demo.api.feign.RemoteDemoService
 3. 所以只要带 token 访问 A 无论后边链路有多长 ABCD 都可以获取当前用户信息
 4. 权限需要有这些整个链路接口的全部权限才能成功
 
-![带Token请求流程](/images/1599314191979-fea7b81a-4a6b-41f2-8a0c-139a2f9691c0.png)
+![带 Token 请求流程](/images/1599314191979-fea7b81a-4a6b-41f2-8a0c-139a2f9691c0.png)
 
 ## 无 Token 请求
 
-![无Token请求流程](/images/1599314191907-97e3a538-9710-406f-9924-ca88a6312589.png)
+![无 Token 请求流程](/images/1599314191907-97e3a538-9710-406f-9924-ca88a6312589.png)
 
 <Warning>
 很多情况下，比如定时任务。A 服务并没有 token 去请求 B 服务，pig 也对这种情况进行了兼容。类似于 A 对外暴露 API，但是又安全限制

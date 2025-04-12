@@ -1,0 +1,128 @@
+---
+title: "2.完成微服务增删改查"
+icon: "plane-departure"
+---
+
+<iframe
+  width="100%"
+  height="500"
+  src="https://player.bilibili.com/player.html?bvid=BV12t411B7e9&p=3&page=3&autoplay=0"
+  title="微服务增删改查教程"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowfullscreen
+></iframe>
+
+## 1. 创建测试数据库及其表
+
+```sql
+-- 创建测试库
+create database `pig_demo` default character set utf8mb4 collate utf8mb4_general_ci;
+
+USE pig_demo;
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- 创建测试表
+DROP TABLE IF EXISTS `demo`;
+
+-- 数据表要求，主键设置为 bigint, 字段下划线命名
+CREATE TABLE `demo` (
+  `id` bigint NOT NULL COMMENT '主键',
+  `username` varchar(255) DEFAULT NULL COMMENT '用户名',
+  `nicename` varchar(255) DEFAULT NULL COMMENT '昵称',
+  `create_time` datetime DEFAULT NULL COMMENT '创建时间',
+  `create_by` varchar(64) DEFAULT NULL COMMENT '创建人',
+  `update_time` datetime DEFAULT NULL COMMENT '修改时间',
+  `update_by` varchar(64) DEFAULT NULL COMMENT '更新人',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 ROW_FORMAT=DYNAMIC COMMENT='demo 表';
+```
+
+## 2. 维护数据源并代码生成
+
+<Steps>
+  <Step title="启动代码生成模块">
+    启动 PigCodeGenApplication 模块
+  </Step>
+  <Step title="添加数据源">
+    导航到 开发平台 > 数据源管理 > 新增
+  </Step>
+</Steps>
+
+<Frame caption="数据源管理界面">
+  <img src="/images/microservice-crud/datasource.png" />
+</Frame>
+
+## 3. 代码生成
+
+- 导航到 开发平台 > 代码生成
+
+<Frame caption="代码生成界面">
+  <img src="/images/microservice-crud/code-gen.png" />
+</Frame>
+
+- 选择自定义路径模式
+
+<Frame caption="自定义路径模式">
+  <img src="/images/microservice-crud/custom-path.png" />
+</Frame>
+
+## 4. 菜单脚本执行
+
+<Note>
+  在后端的生成路径中会包含 menu/demo_menu.sql，需要在 pig 库中执行菜单插入
+</Note>
+
+<Frame caption="菜单脚本位置">
+  <img src="/images/microservice-crud/menu-script.png" />
+</Frame>
+
+## 5. 检查 `demo-biz` 数据库配置信息
+
+<Frame caption="数据库配置信息">
+  <img src="/images/microservice-crud/db-config.png" />
+</Frame>
+
+## 6. 配置网关路由
+
+<Warning>
+  在 nacos/pig-gateway-dev.yml 中配置如下路由规则
+</Warning>
+
+<Frame caption="配置网关路由">
+  <img src="/images/microservice-crud/gateway-route.png" />
+</Frame>
+
+```yaml
+spring:
+  cloud:
+    gateway:
+      routes:
+        # demo 模块
+        - id: pig-demo
+          uri: lb://demo-biz
+          predicates:
+            - Path=/demo/**
+```
+
+## 7. 角色分配权限
+
+<Steps>
+  <Step title="分配权限">
+    给角色分配权限（角色管理 > 权限）
+  </Step>
+  <Step title="刷新浏览器">
+    强制刷新浏览器，查看 demo 功能
+  </Step>
+</Steps>
+
+<Frame caption="角色权限分配">
+  <img src="/images/microservice-crud/role-permission.png" />
+</Frame>
+
+## ♥️ 获取支持
+<Card title="遇到问题？" horizontal icon="link" href="https://gitee.com/log4j/pig/issues">
+  如果您在使用过程中遇到任何问题、有功能建议或需求，请点击此卡片前往 Gitee 仓库提交 Issue。
+</Card>

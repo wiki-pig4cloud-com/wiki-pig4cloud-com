@@ -1,33 +1,48 @@
 ---
-title: "Knife4j 接口文档调试"
+title: "Knife4j API 接口调试指南"
+icon: "rectangle-code"
 ---
 
-[bilibili](https://player.bilibili.com/player.html?bvid=BV12t411B7e9&p=34&page=34&autoplay=0)
+<iframe
+  width="100%"
+  height="500"
+  src="https://player.bilibili.com/player.html?bvid=BV12t411B7e9&p=34&page=34&autoplay=0"
+  title="Knife4j API 调试视频教程"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowfullscreen
+></iframe>
 
+## 立即使用
 
+#### 1. 访问接口文档页面
 
-#### 1. 访问 doc.html 页面
-```shell
+<CodeGroup>
+
+```bash 微服务版本
 http://127.0.0.1:9999/doc.html
 ```
 
-```shell
+```bash 单体版本
 http://127.0.0.1:9999/admin/doc.html
 ```
 
+</CodeGroup>
 
+#### 2. 填写认证参数
 
-#### 2. 填写参数
+<CodeGroup>
+
+```bash 认证参数
+username: admin
+password: YehdBPev
+client_id: test
+client_secret: test
+```
+
+</CodeGroup>
+
+认证参数填写示例：
 ![](/images/1692113318275-5c885c24-be28-4fdc-bc12-c7a0a4487872.png)
 
-
-
-```java
-username: admin
-
-password:  YehdBPev  
-    
-client_id: test
-client_secret ：  test
-```
 

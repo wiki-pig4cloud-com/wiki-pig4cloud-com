@@ -296,21 +296,21 @@
         ]
       },
       {
-        "header": "友情链接",
+        "header": "其他开源",
         "items": [
           {
-            "label": "mybatis-plus",
-            "href": "https://baomidou.com"
+            "label": "office2md",
+            "href": "https://github.com/pig-mesh/office2md"
+          },
+          {
+            "label": "deepseek4j",
+            "href": "https://github.com/pig-mesh/deepseek4j"
           },
           {
             "label": "mica-mqtt",
             "href": "https://github.com/dromara/mica-mqtt"
-          },
-          {
-            "label": "avuejs",
-            "href": "https://avuejs.com"
           }
-          
+        
         ]
       }
     ]

@@ -2,41 +2,77 @@
 title: "PIG 整合 RuoYi 单点登录"
 ---
 
-![](/images/1689225998534-54174374-b99e-4b7c-9f1a-457e2dc3c167.png)
+<iframe width="100%" height="500px" src="//player.bilibili.com/player.html?isOutside=true&aid=39687329&bvid=BV12t411B7e9&cid=561211923&p=31" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"></iframe>
 
-## 调整后源码地址
-:::warning
-[https://github.com/pig-mesh/Ruoyi-vue-pig](https://github.com/pig-mesh/Ruoyi-vue-pig/edit/pig-4.6.5/README.md)
+## 源码地址
 
-:::
+<Warning>
+  集成后的源码可在以下地址查看和下载：
+  
+  [https://github.com/pig-mesh/Ruoyi-vue-pig](https://github.com/pig-mesh/Ruoyi-vue-pig/edit/pig-4.6.5/README.md)
+</Warning>
 
-## PIG 整合前后端分离项目登录
+## 实现概述
 
-![](https://minio.pigx.vip/alei/2023/01/66d6c4525e9b90a2afbd0e4b8cd41ece.png)
+PIG 作为认证服务器，可以为 RuoYi 前后端分离项目提供统一的身份认证服务，实现单点登录功能。
 
-## 插入客户端
+<Frame caption="单点登录集成架构图">
+  <img src="/images/sso-ruoyi-pig-overview.png" />
+</Frame>
+
+## 配置步骤
+
+### 1. 添加 OAuth2 客户端配置
+
+在 PIG 系统中添加 RuoYi 的客户端配置信息：
 
 ```sql
-INSERT INTO `pig`.`sys_oauth_client_details`(`client_id`, `resource_ids`, `client_secret`, `scope`, `authorized_grant_types`, `web_server_redirect_uri`, `authorities`, `access_token_validity`, `refresh_token_validity`, `additional_information`, `autoapprove`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES ('ruoyi', '', 'ruoyi', 'server', 'authorization_code', '', '', 17800000, 17800000, '', 'false', '2023-01-17 10:37:32', '2023-01-17 10:37:32', 'admin', 'admin');
+INSERT INTO `pig`.`sys_oauth_client_details`(
+  `client_id`, `resource_ids`, `client_secret`, `scope`, 
+  `authorized_grant_types`, `web_server_redirect_uri`, 
+  `authorities`, `access_token_validity`, `refresh_token_validity`, 
+  `additional_information`, `autoapprove`, `create_time`, 
+  `update_time`, `create_by`, `update_by`
+) 
+VALUES (
+  'ruoyi', '', 'ruoyi', 'server', 
+  'authorization_code', '', '', 
+  17800000, 17800000, '', 'false', 
+  '2023-01-17 10:37:32', '2023-01-17 10:37:32', 
+  'admin', 'admin'
+);
 ```
 
-## RuoYi 后端信息
+### 2. RuoYi 后端配置
 
-> 配置  RuoYi 前端地址 默认 1024 端口  
-配置  PIG 认证中心地址
->
+在 RuoYi 后端配置文件中设置：
+- RuoYi 前端地址（默认 1024 端口）
+- PIG 认证中心地址
 
-![](https://minio.pigx.vip/alei/2023/01/222f680ce489d1d3545df1f191b69135.png)
+<Frame caption="RuoYi 后端配置示例">
+  <img src="/images/sso-ruoyi-backend-config.png" />
+</Frame>
 
-## RuoYi 前端配置
+### 3. RuoYi 前端配置
 
-+  登录页面配置  
-![](https://minio.pigx.vip/alei/2023/01/1368a6395176e47a3b9b4548da6bdd5e.png) 
-+  退出页面配置  
-![](https://minio.pigx.vip/alei/2023/01/54344adec7f766fa419e360da682526a.png)
+<Steps>
+  <Step title="登录页面配置">
+    配置登录页面以使用 PIG 的认证服务
+    <Frame>
+      <img src="/images/sso-ruoyi-login-config.png" />
+    </Frame>
+  </Step>
+  <Step title="退出页面配置">
+    配置退出页面以正确处理单点登出
+    <Frame>
+      <img src="/images/sso-ruoyi-logout-config.png" />
+    </Frame>
+  </Step>
+</Steps>
 
-## ♥️ 获取支持
-<Card title="遇到问题？" horizontal icon="link" href="https://gitee.com/log4j/pig/issues">
-  如果您在使用过程中遇到任何问题、有功能建议或需求，请点击此卡片前往 Gitee 仓库提交 Issue。
+## 获取支持
+
+<Card title="遇到问题？" icon="question-circle" href="https://gitee.com/log4j/pig/issues">
+  如果您在集成过程中遇到任何问题、有功能建议或需求，请点击此卡片前往 Gitee 仓库提交 Issue。
 </Card>
 

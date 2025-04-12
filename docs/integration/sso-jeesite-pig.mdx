@@ -1,45 +1,80 @@
 ---
 title: "PIG 整合 JeeSite 单点登录"
+description: "指导如何配置 PIG 与 JeeSite 系统进行单点登录集成"
 ---
 
-## jeesite 改造后源码
-:::warning
-[https://github.com/pig-mesh/jeesite5](https://github.com/pig-mesh/jeesite5)
+## JeeSite 改造后源码
 
-[https://github.com/pig-mesh/jeesite-vue](https://github.com/pig-mesh/jeesite-vue)
+<Warning>
+改造后的 JeeSite 源码可在以下仓库获取：
 
-:::
+- [JeeSite5 后端代码](https://github.com/pig-mesh/jeesite5)
+- [JeeSite Vue 前端代码](https://github.com/pig-mesh/jeesite-vue)
+</Warning>
 
-## pig 整合前后端分离项目登录
+## PIG 整合前后端分离项目登录
 
-![](https://minio.pigx.vip/alei/2023/01/5331045f8c867c6ae6c4e62aa6434850.png)
+<Frame caption="PIG与JeeSite整合概览">
+  <img src="/images/jeesite-sso/project-overview.png" alt="PIG与JeeSite整合概览" />
+</Frame>
+
+在 PIG 系统中配置 OAuth2 客户端，添加 JeeSite 相关参数：
 
 ```sql
-INSERT INTO `pig`.`sys_oauth_client_details`(`client_id`, `resource_ids`, `client_secret`, `scope`, `authorized_grant_types`, `web_server_redirect_uri`, `authorities`, `access_token_validity`, `refresh_token_validity`, `additional_information`, `autoapprove`, `create_time`, `update_time`, `create_by`, `update_by`) VALUES ('jeesite', '', 'jeesite', 'server', 'authorization_code', 'http://127.0.0.1:3100/sso', '', 168000000, 168000000, '', 'false', '2023-01-17 08:31:46', '2023-01-17 09:32:06', 'admin', 'admin');
+INSERT INTO `pig`.`sys_oauth_client_details`(
+  `client_id`, `resource_ids`, `client_secret`, `scope`, 
+  `authorized_grant_types`, `web_server_redirect_uri`, `authorities`, 
+  `access_token_validity`, `refresh_token_validity`, `additional_information`, 
+  `autoapprove`, `create_time`, `update_time`, `create_by`, `update_by`
+) VALUES (
+  'jeesite', '', 'jeesite', 'server', 
+  'authorization_code', 'http://127.0.0.1:3100/sso', '', 
+  168000000, 168000000, '', 'false', 
+  '2023-01-17 08:31:46', '2023-01-17 09:32:06', 'admin', 'admin'
+);
 ```
 
 ## 后端配置
 
-> 配置  jeesite 前端地址 默认 3100 端口  
-配置  PIG 网关地址
->
+<Note>
+配置说明：
+- 需配置 JeeSite 前端地址（默认 3100 端口）
+- 需配置 PIG 网关地址
+</Note>
 
-+ 增加 sso 的配置  
-![](https://minio.pigx.vip/alei/2023/01/eb241f5b203e21d5cb762f8886359f21.png)
+增加 SSO 的配置:
+
+<Frame caption="后端SSO配置">
+  <img src="/images/jeesite-sso/backend-config.png" alt="后端SSO配置" />
+</Frame>
 
 ## 前端配置
 
-+ 前端地址 [https://github.com/pig-mesh/jeesite-vue](https://github.com/pig-mesh/jeesite-vue)
+前端代码地址: [https://github.com/pig-mesh/jeesite-vue](https://github.com/pig-mesh/jeesite-vue)
 
-+  登录页面配置  
-![](https://minio.pigx.vip/alei/2023/01/17ad9445a17f4acdb6fe47553c02e7bd.png) 
-+  增加 sso 页面，回调使用，用于 code 处理  
-![](https://minio.pigx.vip/alei/2023/01/bfe2b67054ec830b02ce60e9ffbc03e2.png) 
-+  退出系统  
-![](https://minio.pigx.vip/alei/2023/01/371c233f36a77003fdc48d5f3736f197.png)
+### 登录页面配置
 
-## ♥️ 获取支持
-<Card title="遇到问题？" horizontal icon="link" href="https://gitee.com/log4j/pig/issues">
-  如果您在使用过程中遇到任何问题、有功能建议或需求，请点击此卡片前往 Gitee 仓库提交 Issue。
+<Frame caption="登录页面配置">
+  <img src="/images/jeesite-sso/login-config.png" alt="登录页面配置" />
+</Frame>
+
+### 增加 SSO 页面
+
+为处理回调和 code 参数创建 SSO 页面：
+
+<Frame caption="SSO回调页面">
+  <img src="/images/jeesite-sso/sso-callback.png" alt="SSO回调页面" />
+</Frame>
+
+### 退出系统配置
+
+<Frame caption="退出系统配置">
+  <img src="/images/jeesite-sso/logout-config.png" alt="退出系统配置" />
+</Frame>
+
+## 获取支持
+
+<Card title="遇到问题？" icon="question-circle" href="https://gitee.com/log4j/pig/issues">
+  如果您在使用过程中遇到任何问题、有功能建议或需求，请前往 Gitee 仓库提交 Issue。
 </Card>
 

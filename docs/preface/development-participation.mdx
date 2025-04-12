@@ -4,58 +4,156 @@ icon: "git"
 iconType: "solid"
 ---
 
-## 参与贡献，反馈社区
+## 欢迎参与贡献
 
 我们非常欢迎您的贡献和加入，无论是微不足道的清理或大的新功能。我们希望通过每一位用户参与到 pig 的功能开发中，**「共同打造完美的微服务解决方案」**。  
 
 当然代码不是唯一贡献方式。我们非常重视文档、与其他项目的集成，并欣然接受这些方面的改进。
 
-## 贡献福利
+## 贡献者福利
 
-### 1. Gitee 获取 GVP 项目标识
-![](/images/1625898688116-a5fc16a7-7181-4234-8e61-40d9dcda9dc3.png)
+<CardGroup cols={2}>
+  <Card title="Gitee GVP 项目标识" icon="award">
+    成为贡献者后，您将在 Gitee 获取 GVP 项目标识。
+    
+    <img src="/images/1625898688116-a5fc16a7-7181-4234-8e61-40d9dcda9dc3.png" height="200" alt="Gitee GVP 项目标识" />
+  </Card>
+  
+  <Card title="贡献者名单" icon="users">
+    您的 ID 将出现在 pig 贡献者列表中。
+    
+    <img src="/images/1625898761016-c616723d-fdeb-4ef8-9854-83f8da19943b.png" height="200" alt="贡献者列表" />
+  </Card>
+  
+  <Card title="定制周边福利" icon="gift">
+    优秀贡献者将获得定制周边福利。
+    <img src="/images/1627972504246-8b82f0f4-43aa-42cd-9789-9db29acb8d8b.png" height="200" alt="定制水杯1" />
+  </Card>
+  
+  <Card title="线下交流活动" icon="handshake">
+    核心贡献者可参与定期线下面基福利，冷冷请客（北京）。
+    
+    <Note>
+    核心贡献者线下**约码**交流
+    </Note>
+    <img src="/images/1628040128164-36304817-95ed-4a06-8ebe-9be0f1413cb9.png" height="200" alt="线下约码" />
+  </Card>
+</CardGroup>
 
-### 2. pig 贡献者列表会出现您的 ID
-![](/images/1625898761016-c616723d-fdeb-4ef8-9854-83f8da19943b.png)
+## 贡献指南
 
-### 3. 优秀贡献者奖励定制周边福利
-<Note>
-如下图为第一期发放给贡献者的**定制水杯**
-</Note>
-
-![](/images/1627972504246-8b82f0f4-43aa-42cd-9789-9db29acb8d8b.png)![](/images/1627972520920-7427ce21-61ee-4f49-9a1c-f26227c29166.png)
-
-### 4. 定期线下面基福利，冷冷请客（北京）
-<Note>
-核心贡献者线下**约码**交流
-</Note>
-
-![](/images/1628040128164-36304817-95ed-4a06-8ebe-9be0f1413cb9.png)
-
-## 如何贡献
-
-### 1. fork 代码到您的仓库
-
-浏览器访问：[https://gitee.com/log4j/pig](https://gitee.com/log4j/pig)
-
-![](/images/1604289479920-db45d776-fcba-44ca-b084-d32549207af6.jpeg)
-
-![](/images/1604289479767-5b2a63af-247d-49e0-b17b-d1898ff5ed02.jpeg)
-
-### 2. clone 您仓库中的 pig 到本地
-
-```shell
-git clone https://gitee.com/{您的用户名}/pig.git
-```
-
-![](/images/1604289468858-e0c47103-4a6a-4b05-a97b-57eb86880d66.jpeg)
-
-### 3. 修改代码并提交
-
-### 4. 提交 pull request 至我们 DEV 分支
-
-![](/images/1604289390693-e0b22e84-49e0-4c08-a584-b94225abf918.jpeg)
-
-![](/images/1604289390759-6aadfd05-d6a9-4285-9936-9c1fb051c83b.jpeg)
-
-![](/images/1604289390698-e3797238-6aaf-40d8-942d-6d1c88bb9e8f.jpeg)
+<Tabs>
+  <Tab title="1. Fork 仓库">
+    <Card title="第一步：Fork 代码仓库" icon="code-branch">
+      浏览器访问：[https://gitee.com/log4j/pig](https://gitee.com/log4j/pig)
+      
+      <Note>
+        Fork 操作会在您的 Gitee 账号下创建 pig 项目的副本，您可以在此副本上自由开发
+      </Note>
+      
+      <img src="/images/1604289479920-db45d776-fcba-44ca-b084-d32549207af6.jpeg" height="200" alt="Fork 步骤1" />
+      
+      <img src="/images/1604289479767-5b2a63af-247d-49e0-b17b-d1898ff5ed02.jpeg" height="200" alt="Fork 步骤2" />
+    </Card>
+  </Tab>
+  
+  <Tab title="2. Clone 代码">
+    <Card title="第二步：Clone 本地仓库" icon="download">
+      使用以下命令将代码克隆到本地：
+      
+      ```shell
+      git clone https://gitee.com/{您的用户名}/pig.git
+      ```
+      
+      <Warning>
+        确保已安装 Git 并配置好 Gitee 的 SSH key 或用户名密码
+      </Warning>
+      
+      完成后进入项目目录：
+      
+      ```shell
+      cd pig
+      ```
+      
+      添加上游仓库，便于同步最新代码：
+      
+      ```shell
+      git remote add upstream https://gitee.com/log4j/pig.git
+      ```
+      
+      <img src="/images/1604289468858-e0c47103-4a6a-4b05-a97b-57eb86880d66.jpeg" height="200" alt="Clone 仓库" />
+    </Card>
+  </Tab>
+  
+  <Tab title="3. 开发提交">
+    <Card title="第三步：修改并提交代码" icon="code">
+      <Warning>
+        请确保您的代码遵循项目规范并经过充分测试
+      </Warning>
+      
+      开发前同步最新代码：
+      ```shell
+      git fetch upstream
+      git checkout dev
+      git merge upstream/dev
+      ```
+      
+      创建并切换到新分支进行开发：
+      ```shell
+      git checkout -b feature/your-feature-name
+      ```
+      
+      修改代码后，提交到您的本地仓库：
+      ```shell
+      git add .
+      git commit -m "feat: 添加新功能描述"
+      ```
+      
+      推送到您的远程仓库：
+      ```shell
+      git push origin feature/your-feature-name
+      ```
+      
+      <Note>
+        commit 信息请遵循规范：
+        - feat: 新功能
+        - fix: 修复 bug
+        - docs: 文档变更
+        - style: 代码格式调整
+        - refactor: 代码重构
+        - perf: 性能优化
+        - test: 测试用例相关
+        - build: 构建系统或依赖相关
+      </Note>
+    </Card>
+  </Tab>
+  
+  <Tab title="4. Pull Request">
+    <Card title="第四步：提交 Pull Request" icon="code-pull-request">
+      将您的修改提交 Pull Request 至我们的 DEV 分支。
+      
+      <img src="/images/1604289390693-e0b22e84-49e0-4c08-a584-b94225abf918.jpeg" height="200" alt="PR 步骤1" />
+      
+      <img src="/images/1604289390759-6aadfd05-d6a9-4285-9936-9c1fb051c83b.jpeg" height="200" alt="PR 步骤2" />
+      
+      <img src="/images/1604289390698-e3797238-6aaf-40d8-942d-6d1c88bb9e8f.jpeg" height="200" alt="PR 步骤3" />
+      
+      <Warning>
+        提交 PR 前请确认：
+        1. 代码已经过本地完整测试
+        2. 无明显冲突
+        3. 代码符合项目规范
+      </Warning>
+      
+      <Note>
+        提交PR时，请在描述中包含：
+        1. 功能/修复的详细描述
+        2. 相关的 issue 编号（如有）
+        3. 必要的截图或演示
+        4. 测试结果说明
+      </Note>
+      
+      提交后，项目维护者会审核您的代码并给出反馈。根据反馈修改代码后，PR 可能会被合并到主分支。
+    </Card>
+  </Tab>
+</Tabs>

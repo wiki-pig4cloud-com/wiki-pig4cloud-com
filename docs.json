@@ -14,6 +14,14 @@
     "light": "#07C983",
     "dark": "#15803D"
   },
+  "contextual": {
+    "options": [
+      "chatgpt",
+      "claude",
+      "copy",
+      "view"
+    ]
+  },
   "favicon": "/favicon.svg",
   "navigation": {
     "global": {

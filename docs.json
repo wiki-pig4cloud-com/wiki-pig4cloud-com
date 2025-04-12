@@ -3,7 +3,7 @@
   "theme": "mint",
   "name": "PIG 技术指南V3",
   "banner": {
-    "content": "🚀 PIG AI 大模型平台已上线! [点击了解一下？](https://ai.pig4cloud.com)",
+    "content": "🚀 PIG AI 大模型平台已上线! [点击了解一下？]()",
     "dismissible": true
   },
   "background": {
@@ -24,7 +24,7 @@
           "icon": "book-open"
         },
         {
-          "href": "https://ai.pig4cloud.com",
+          "href": "",
           "anchor": "AI 解决方案",
           "icon": "robot"
         }
@@ -287,7 +287,7 @@
         "items": [
           {
             "label": "AI 大模型平台",
-            "href": "https://ai.pig4cloud.com"
+            "href": ""
           },
           {
             "label": "工作流引擎平台",

@@ -1,0 +1,163 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+文档基于 Mintlify实现，补充文档时候考虑使用如下：Mintlify Components
+
+## 1. Accordions（折叠面板）
+
+适用场景：隐藏/展开详细说明内容，减少页面初始信息量。
+
+示例用法：
+
+:::accordion Title of the Accordion
+Here is the hidden detailed content.
+:::
+
+## 2. Accordion Groups（折叠组）
+
+适用场景：分组管理多个折叠面板，组织复杂文档内容。
+
+示例用法：
+
+:::accordion-group
+:::accordion Step 1
+Details for Step 1
+:::
+:::accordion Step 2
+Details for Step 2
+:::
+:::
+
+## 3. Callout Boxes（提示框）
+
+适用场景：高亮提醒、注意事项、警告信息等。
+
+示例用法：
+
+:::info
+This is an informational callout.
+:::
+:::warning
+This is a warning callout.
+:::
+
+## 4. Cards（卡片）
+
+适用场景：独立展示一组信息，如功能简介、博客预览等。
+
+示例用法：
+
+:::card
+**Title of the Card**
+Short description goes here.
+:::
+
+## 5. Card Groups（卡片组）
+
+适用场景：排列展示多张卡片，如多个产品功能对比。
+
+示例用法：
+
+:::card-group
+:::card
+**Card 1**
+Details for card 1.
+:::
+:::card
+**Card 2**
+Details for card 2.
+:::
+:::
+
+## 6. Code Blocks（代码块）
+
+适用场景：显示单段代码。
+
+示例用法：
+
+```python
+print("Hello World")
+```
+
+## 7. Code Groups（代码组）
+
+适用场景：多个编程语言的示例切换展示。
+
+示例用法：
+
+:::code-group
+```python
+print("Python code")
+
+console.log("JavaScript code")
+
+:::
+
+## 8. Frames（内嵌框架）
+**适用场景**：嵌入外部网页、文档、演示页面。
+
+**示例用法**：
+```markdown
+:::frame https://example.com
+:::
+
+
+## 9. Icons（图标）
+
+适用场景：在文档中快速插入小图标，美化内容。 图标来源：Font Awesome 和 Lucide
+
+示例用法：
+
+:rocket: Launch your app!
+
+## 10. Mermaid Diagrams（流程图/图表）
+
+适用场景：绘制流程图、时序图、组织结构图等。
+
+示例用法：
+
+```mermaid
+flowchart TD
+    A[Start] --> B[Process]
+    B --> C{Decision}
+    C -->|Yes| D[End]
+    C -->|No| E[Back]
+```
+
+## 11. Steps（步骤列表）
+
+适用场景：展示按顺序进行的操作流程。
+
+示例用法：
+
+:::steps
+1. Do this first
+2. Then do this
+3. Finally, do this
+:::
+
+## 12. Tabs（标签页）
+
+适用场景：切换显示不同的内容区域，如安装指南（Mac/Linux/Windows）。
+
+示例用法：
+
+:::tabs
+@tab Mac
+Installation instructions for Mac
+@tab Windows
+Installation instructions for Windows
+@tab Linux
+Installation instructions for Linux
+:::
+
+
+## 13. Tooltips（悬浮提示）
+
+适用场景：对关键词提供悬浮解释，不打断阅读流。
+
+示例用法：
+
+This is a term with a :tooltip[tooltip content](mdc:hover explanation).

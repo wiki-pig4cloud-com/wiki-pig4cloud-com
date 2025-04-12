@@ -69,5 +69,7 @@ Thumbs.db
 *.swo
 *~
 *.bak
+*.py
+*.sh
 *.tmp
 *.temp 

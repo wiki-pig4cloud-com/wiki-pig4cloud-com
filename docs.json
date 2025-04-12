@@ -187,7 +187,7 @@
                 ]
               },
               {
-                "group": "nacos 适配其他数据源",
+                "group": "Nacos 适配其他数据源",
                 "pages": [
                   "docs/integration/pig-register-nacos-dm",
                   "docs/integration/pig-register-nacos-oracle",

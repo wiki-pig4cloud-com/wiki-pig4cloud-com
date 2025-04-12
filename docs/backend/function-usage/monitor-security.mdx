@@ -4,21 +4,13 @@ title: "监控模块安全认证"
 
 ![](/images/1599314884511-fd7a33c0-578a-4cac-a281-fa5f2bd0fe42.png)
 
-
-
 ### 为什么要做二次认证
-
 
 spring boot admin 默认没有开启认证，也是就是别人知道了监控模块的 IP:PORT 即可访问。监控功能在生产上又是必要的功能，所以需要有二次认证
 
-
-
 ### 实现原理
 
-
 + 引入 spring security
-
-
 
 ```plain
 <!--security-->
@@ -28,11 +20,7 @@ spring boot admin 默认没有开启认证，也是就是别人知道了监控�
 </dependency>
 ```
 
-
-
 + 配置 spring security 即可
-
-
 
 ```java
 @Configuration
@@ -71,15 +59,9 @@ public class WebSecurityConfigurer extends WebSecurityConfigurerAdapter {
 }
 ```
 
-
-
 + 在对应的 pig-monitor-dev.yml 配置用户
 
-
-
 pig 默认的登录用户 pig/pig，可以参考配置文件加解密章节
-
-
 
 ```plain
 spring:
@@ -88,3 +70,9 @@ spring:
       name: ENC(8Hk2ILNJM8UTOuW/Xi75qg==)     # pig
       password: ENC(o6cuPFfUevmTbkmBnE67Ow====) # pig
 ```
+
+## ♥️ 获取支持
+<Card title="遇到问题？" horizontal icon="link" href="https://gitee.com/log4j/pig/issues">
+  如果您在使用过程中遇到任何问题、有功能建议或需求，请点击此卡片前往 Gitee 仓库提交 Issue。
+</Card>
+

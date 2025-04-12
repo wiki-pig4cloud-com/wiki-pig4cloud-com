@@ -79,7 +79,6 @@ private void checkCode(ServerHttpRequest request) {
     redisTemplate.delete(key);
 }
 
-
 // 不使用就要加这个抛出
 private void checkCode(ServerHttpRequest request) throws ValidateCodeException {
     String code = request.getQueryParams().getFirst("code");
@@ -132,3 +131,9 @@ while (true) {
 ### 总结
 
 Lombok 常用的注解就那么几个，@Data、@Getter/Setter，Pig 使用例子中的几个可以让代码的更加优雅，建议在你的工程中使用
+
+## ♥️ 获取支持
+<Card title="遇到问题？" horizontal icon="link" href="https://gitee.com/log4j/pig/issues">
+  如果您在使用过程中遇到任何问题、有功能建议或需求，请点击此卡片前往 Gitee 仓库提交 Issue。
+</Card>
+

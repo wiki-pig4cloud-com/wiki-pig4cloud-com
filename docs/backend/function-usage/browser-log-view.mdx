@@ -4,36 +4,19 @@ title: "配置 Logfile Viewer 日志挂载"
 
 开启后可以在浏览器实时查看当前日志输出
 
-
-
 ### pig 默认没有开启 Logfile viewer
-
-
-
 
 + 配置 logback-spring.xml
 
-
-
 可以直接复制 **pig-upms/pig-upms-biz/src/main/resources/logback-spring.xml** 文件，到新增服务的 resources 目录。
-
-
 
 + 默认路径会自动加载
 
-
-
 ![](/images/1619492131597-da4aec01-363b-4fd4-b386-834084f5f26a.png)
-
-
 
 + 其他路径日志挂载 配置 logging.file.name
 
-
-
 在 bootstrap.yml 配置 logging.file 的配置即可开启 Logfile view
-
-
 
 ```yaml
 # 配置 Logfile Viewer 日志挂载
@@ -44,7 +27,12 @@ logging:
 
 ### 启动 pig-monitor
 
-
 + 选中 目标服务  
 ![](/images/1599314949078-f693fbd2-5275-460a-9a65-07995315e187.png)  
 ![](/images/1599314949075-d33d2329-9359-42f9-b0df-70d96cb45322.png)
+
+## ♥️ 获取支持
+<Card title="遇到问题？" horizontal icon="link" href="https://gitee.com/log4j/pig/issues">
+  如果您在使用过程中遇到任何问题、有功能建议或需求，请点击此卡片前往 Gitee 仓库提交 Issue。
+</Card>
+

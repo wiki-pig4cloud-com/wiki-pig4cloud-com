@@ -66,3 +66,9 @@ export const loginByUsername = (username, password, code, randomStr) => {
 
 + 第一次是`OPTIONS`方式，这是因为浏览器检测到有一个请求跨域了，于是发出一个预检请求，问一问服务端"有啥处理意见"。
 + 第二次是`POST`方式，也就是真正的需要执行的请求，这是因为"服务端的回答让浏览器满意"了，所以浏览器执行真正的请求。如果服务端（也就是`Pig Gateway`）没有进行相关配置，浏览器就没法得到它期望的答复，这一步便不会执行。
+
+## ♥️ 获取支持
+<Card title="遇到问题？" horizontal icon="link" href="https://gitee.com/log4j/pig/issues">
+  如果您在使用过程中遇到任何问题、有功能建议或需求，请点击此卡片前往 Gitee 仓库提交 Issue。
+</Card>
+

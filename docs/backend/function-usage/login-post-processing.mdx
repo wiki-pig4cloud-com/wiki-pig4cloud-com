@@ -4,11 +4,7 @@ title: "登录后置处理"
 
 用户登录成功、失败后，pig 捕获了 spring security 发出的对应事件。
 
-
-
 + 用户登录成功时，发布 AuthenticationSuccessEvent 事件
-
-
 
 ```java
 public class PigAuthenticationSuccessEventHandler extends AuthenticationSuccessEventHandler {
@@ -27,12 +23,8 @@ public class PigAuthenticationSuccessEventHandler extends AuthenticationSuccessE
 }
 ```
 
-
-
 + 用户登录失败时  
 AuthenticationException  是登录异常信息，包括常见的用户密码不正确，用户信息不正确，用户状态不正确等
-
-
 
 ```java
 @Slf4j
@@ -53,11 +45,7 @@ public class PigAuthenticationFailureEvenHandler extends AuthenticationFailureEv
 }
 ```
 
-
-
 + Authentication 用户身份认证信息
-
-
 
 ```java
 public interface Authentication extends Principal, Serializable {
@@ -78,3 +66,9 @@ public interface Authentication extends Principal, Serializable {
 
 }
 ```
+
+## ♥️ 获取支持
+<Card title="遇到问题？" horizontal icon="link" href="https://gitee.com/log4j/pig/issues">
+  如果您在使用过程中遇到任何问题、有功能建议或需求，请点击此卡片前往 Gitee 仓库提交 Issue。
+</Card>
+

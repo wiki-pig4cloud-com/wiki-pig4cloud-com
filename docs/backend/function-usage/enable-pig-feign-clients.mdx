@@ -4,10 +4,7 @@ title: "EnablePigFeignClients 注解解析原理"
 
 ### 源码解析
 
-
 只是给默认的 EnableFeignClients 增加了一个默认值。
-
-
 
 ```java
 @Target(ElementType.TYPE)
@@ -29,24 +26,16 @@ public @interface EnablePigxFeignClients {
 }
 ```
 
-
-
 ### 以 UPMS 为例分析封装的好处
 
-
 ![](/images/1599314550296-36fd05e3-7630-4de6-8b0b-4310a6e4922e.png)
-
-
 
 + 如果使用原生的 EnableFeignClients 默认的扫描范围是 com.pig4cloud.pig.admin 包的所有 FeignClient。
 + 而由于微服务拆分所有的 feignClient 都在 com.pig4cloud.pig.模块.api 包里面，这样默认情况会扫描不到
 + 除非明确指定扫描范围 @EnableFeignClients("com.pig4cloud.pig.模块.api")
 + 使用了@EnablePigFeignClients 默认扫描 com.pig4cloud.pigx 下边的 feignClient 更为简洁
 
-
-
 #### [@EnableFeignClients ](/EnableFeignClients )
-
 
 ```java
 @EnableFeignClients
@@ -56,10 +45,7 @@ public class PigAdminApplication {
 }
 ```
 
-
-
 #### @EnablePigFeignClients
-
 
 ```java
 @EnablePigFeignClients
@@ -71,3 +57,9 @@ public class PigAdminApplication {
 
 }
 ```
+
+## ♥️ 获取支持
+<Card title="遇到问题？" horizontal icon="link" href="https://gitee.com/log4j/pig/issues">
+  如果您在使用过程中遇到任何问题、有功能建议或需求，请点击此卡片前往 Gitee 仓库提交 Issue。
+</Card>
+

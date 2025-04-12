@@ -2,16 +2,10 @@
 title: "[单点案例] renren 系统接入 pig"
 ---
 
-
 ## 环境说明
-
 
 + pig 2.10
 + renren-security 4.0.0
-
-
-
-
 
 ## 添加依赖和配置
 + PIG 客户端表 信息客户端
@@ -22,8 +16,6 @@ INSERT INTO `pig`.`sys_oauth_client_details` (`client_id`,`resource_ids`,`client
 
 + renren-admin/pom.xm 
 
-
-
 ```xml
 		<dependency>
 			<groupId>com.pig4cloud.shiro</groupId>
@@ -31,8 +23,6 @@ INSERT INTO `pig`.`sys_oauth_client_details` (`client_id`,`resource_ids`,`client
 			<version>0.0.7</version>
 		</dependency>
 ```
-
-
 
 + 增加配置 application.yml
 
@@ -48,7 +38,6 @@ oauth2:
 ```
 
 ## 新增配置 OAuth2Realm
-
 
 + renren-admin/io.renren.modules.sys.shiro
 
@@ -89,7 +78,6 @@ public class OAuth2Realm extends UserRealm {
 
 ## 前端使用
 
-
 ```shell
 http://localhost:8080/renren-admin/sso/login
 ```
@@ -106,3 +94,9 @@ http://localhost:8080/renren-admin/sso/login
 ```
 
 ![](/images/1601979272644-934ef2b2-ddfc-4fdd-b68d-9cd0c6565240.png)
+
+## ♥️ 获取支持
+<Card title="遇到问题？" horizontal icon="link" href="https://gitee.com/log4j/pig/issues">
+  如果您在使用过程中遇到任何问题、有功能建议或需求，请点击此卡片前往 Gitee 仓库提交 Issue。
+</Card>
+

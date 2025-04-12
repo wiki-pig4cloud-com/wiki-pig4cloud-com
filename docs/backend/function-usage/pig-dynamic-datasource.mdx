@@ -4,16 +4,11 @@ title: "pig 动态数据源使用"
 
 ## 动态数据源
 
-
 pig 的多数据配置，是基于 [dynamic-datasource-spring-boot-starter](https://github.com/baomidou/dynamic-datasource-spring-boot-starter/wiki)实现，理论上支持此组件的全部功能。
-
-
 
 ## 如何使用
 
-
 #### 1. 业务服务引入动态数据源服务
-
 
 ```xml
 <dependency>
@@ -22,10 +17,7 @@ pig 的多数据配置，是基于 [dynamic-datasource-spring-boot-starter](http
 </dependency>
 ```
 
-
-
 #### 2. 配置数据源信息来源（JDBC 配置）
-
 
 ```yaml
 ## 默认查询本服务数据源 ` gen_datasource_conf`，可参考 `pig_codegen` 模块
@@ -35,14 +27,9 @@ spring:
       query-ds-sql: 'select * from gen_datasource_conf where del_flag = 0'
 ```
 
-
-
 ![](/images/1599315066287-0a240b69-3494-476e-8892-0f4abba9ff2c.png)
 
-
-
 #### 3. 开启动态数据源
-
 
 ```java
 @EnableDynamicDataSource
@@ -52,8 +39,6 @@ public class App {
    }
 }
 ```
-
-
 
 #### 4. 使用动态数据源查询
 :::color3
@@ -69,11 +54,7 @@ public interface DemoMapper extends BaseMapper<Demo> {
 }
 ```
 
-
-
 + Service 层调用
-
-
 
 ```java
 @Service
@@ -86,14 +67,9 @@ public class DemoServiceImpl extends ServiceImpl<DemoMapper, Demo> implements De
 }
 ```
 
-
-
 #### 扩展使用
 
-
 + [可以参考官方文档：动态参数解析数据源](https://github.com/baomidou/dynamic-datasource-spring-boot-starter/wiki/Dynamic-Analysis-DataSource)
-
-
 
 ```java
 @DS("#session.tenantName")//从 session 获取
@@ -116,3 +92,9 @@ public List selecSpelByTenant(User user) {
    return userMapper.selectUsers();
 }
 ```
+
+## ♥️ 获取支持
+<Card title="遇到问题？" horizontal icon="link" href="https://gitee.com/log4j/pig/issues">
+  如果您在使用过程中遇到任何问题、有功能建议或需求，请点击此卡片前往 Gitee 仓库提交 Issue。
+</Card>
+

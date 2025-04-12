@@ -14,17 +14,23 @@ iconType: "solid"
   allowfullscreen
 ></iframe>
 
-### 1. 编译原有 pig 项目
+## 1. 编译原有 pig 项目
 
-**pig 根目录执行** `mvn clean install`
+在 pig 根目录执行以下命令：
 
-### 2. 执行生成
+```bash
+mvn clean install
+```
+
+## 2. 执行生成
 
 <Warning>
 **务必按照本文档** `包名、项目名` **进行初始化，其他请了解 pig** `feign、mybatis` **的包扫描规则，不然 bean 扫描不到！**
 </Warning>
 
-- [**浏览器访问 在线下载**](https://pig4cloud.com/data/other/archetype.html?v=3.8.3)
+<Card title="在线下载" icon="link" href="https://pig4cloud.com/data/other/archetype.html?v=3.8.3">
+  点击此处访问在线下载页面
+</Card>
 
 ![参数对应关系](/images/1721096240999-6f06577e-9d96-4d1d-a2e0-ab94ac47f53f.png)
 
@@ -40,17 +46,25 @@ iconType: "solid"
 
 ### 2. 解决方案
 
-- 检查是否**编译 PIG 微服务项目**  
-- 检查创**建的项目和 PIG 项目版本**是否保持一致
-- 检查 IDEA Maven 设置是否都是关联的目标仓库
+<Tabs>
+  <Tab title="检查编译">
+    **编译验证：** 确认已完成PIG微服务项目的整体编译（执行过`mvn clean install`）
+  </Tab>
+  <Tab title="检查版本">
+    **版本一致性：** 核对新建项目与PIG主工程的版本号（查看pom.xml中parent版本号）
+  </Tab>
+  <Tab title="检查 Maven 设置">
+    **配置验证：** 验证IDEA中Maven配置指向正确的本地仓库及远程仓库（File > Settings > Build Tools > Maven）
+  </Tab>
+</Tabs>
 
 ![Maven 设置](/images/1661477769308-44a8e837-9bf7-406e-98d6-a32877cc5a7e.png)
 
-- 3. 刷新 maven 面板
+### 3. 刷新 Maven 面板
 
 ![刷新 Maven 面板](/images/1661477882335-b77e0eed-f889-48dc-a0c6-9237da433cc8.png)
 
-## ❤ 问题咨询
+## 问题咨询
 
 ![问题咨询](/images/1662563973685-c22e9831-db66-42b5-973f-886d25d1e0e7.gif)
 

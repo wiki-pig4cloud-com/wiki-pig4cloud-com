@@ -10,6 +10,7 @@ iconType: "solid"
   src="//player.bilibili.com/player.html?isOutside=true&aid=39687329&bvid=BV12t411B7e9&cid=1513528587&p=39"
   title="PIG 单体架构部署视频教程"
   frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
   allowfullscreen="true"
 ></iframe>
 
@@ -36,7 +37,7 @@ git clone https://gitee.com/log4j/pig.git -b jdk17
 ```
 
 ### ② 执行 SQL 脚本
-```sql SQL脚本在后端代码 db/*.sql
+```sql
 pig
 ├── db
 │   ├── pig.sql
@@ -44,7 +45,7 @@ pig
 
 ### ③ 加载 pig-boot 模块
 <Note>
-切换 Maven profils 至 boot 
+切换 Maven profile 至 boot 
 </Note>
 
 ![](/images/1713334205920-02749b6a-3a0a-4dee-acec-e3df113266e1.png)
@@ -72,7 +73,7 @@ git clone https://gitee.com/log4j/pig-ui.git -b master
 **配置前端架构为单体**
 </Note>
 
-![](https://minio.pigx.top/oss/202311/1700473026.png)
+![](/images/1700473026.png)
 
 <Note>
 安装依赖运行
@@ -117,7 +118,7 @@ npm run dev
 ![](/images/1700527095040-b7284663-db53-4c11-a0c2-7b59c1cd2a08.png)
 
 ## ♥️ 获取支持
-<Card title="遇到问题？" horizontal icon="link" href="https://gitee.com/log4j/pig/issues">
+<Card title="遇到问题？" icon="link" href="https://gitee.com/log4j/pig/issues">
   如果您在使用过程中遇到任何问题、有功能建议或需求，请点击此卡片前往 Gitee 仓库提交 Issue。
 </Card>
 

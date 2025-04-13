@@ -7,27 +7,27 @@ iconType: "solid"
 <iframe
   width="100%"
   height="500"
-  src="//player.bilibili.com/player.html?isOutside=true&aid=39687329&bvid=BV12t411B7e9&cid=1224704505&p=2"
+  src="https://player.bilibili.com/player.html?isOutside=true&aid=39687329&bvid=BV12t411B7e9&cid=1224704505&p=2"
   title="Pig4Cloud 部署视频教程"
   frameborder="0"
   allowfullscreen="true"
 ></iframe>
 
 <Warning>
-**无论您是多年编程的高级工程师，还是刚刚入门的实习生，部署请完全参考本文档操作**
+  无论您是多年编程的高级工程师，还是刚刚入门的实习生，部署请完全参考本文档操作
 </Warning>
 
 ## 环境准备
 
 <Tip>
-[pig4cloud 基础环境软件百度网盘批量下载「提取密码 8888」](https://pan.baidu.com/s/12pgv8iVr82RHd9IN8p6YBQ?pwd=8888)
+  [pig4cloud 基础环境软件百度网盘批量下载「提取密码 8888」](https://pan.baidu.com/s/12pgv8iVr82RHd9IN8p6YBQ?pwd=8888)
 </Tip>
 
 | 工具 | 版本 | 备注 |
 | --- | --- | --- |
 | JDK | 17 | 支持 JDK21 |
 | Maven | 3.8+ | |
-| MySQL | 5.7.8 + | 强制要求 |
+| MySQL | 5.7.8+ | 强制要求 |
 | Redis | 7+ | |
 | Node.js | 18 | 强制要求 |
 | 开发工具 | IDEA 2023+ | 非必须 |
@@ -41,12 +41,12 @@ git clone https://gitee.com/log4j/pig.git -b jdk17
 
 ### 2. 初始化数据库
 <Note>
-- **版本要求：MySQL 5.7.8+ (支持 8)**
-- **默认字符集：utf8mb4**
-- **默认排序规则：utf8mb4_general_ci**
+  - **版本要求：MySQL 5.7.8+ (支持 8)**
+  - **默认字符集：utf8mb4**
+  - **默认排序规则：utf8mb4_general_ci**
 </Note>
 
-```sql SQL脚本在后端代码 db/*.sql
+```sql
 -- 核心数据库
 source db/pig.sql;
 -- nacos 配置
@@ -57,10 +57,10 @@ source db/pig_config.sql;
 
 #### 3.1 修改注册中心数据库配置
 <Note>
-**找到源代码目录 pig-register，修改数据库连接信息，然后通过 Main 方法启动。**
+  找到源代码目录 pig-register，修改数据库连接信息，然后通过 Main 方法启动。
 </Note>
 
-```yaml 修改pig/pig-register/src/main/resources/application.yml 
+```yaml
 db:
   num: 1
   user: ${MYSQL-USER:root}  #修改：用户名
@@ -71,10 +71,12 @@ db:
 
 #### 3.2 修改 Redis 和 MySQL 配置
 <Note>
-访问 Nacos 控制台：[http://127.0.0.1:8848/nacos](http://127.0.0.1:8848/nacos#/configurationManagement) (默认账号密码：nacos/nacos)
+  访问 Nacos 控制台：[http://127.0.0.1:8848/nacos](http://127.0.0.1:8848/nacos#/configurationManagement) (默认账号密码：nacos/nacos)
 </Note>
 
-![](/images/1736924558140-a6b70b07-3071-4a9b-bc59-e31a1a656ca3.png)
+<Frame>
+  <img src="/images/1736924558140-a6b70b07-3071-4a9b-bc59-e31a1a656ca3.png" alt="Nacos配置界面" />
+</Frame>
 
 | 配置文件 Data Id | 修改配置信息 |
 | --- | --- |
@@ -85,7 +87,7 @@ db:
 
 ### 4. 服务启动顺序
 <Note>
-**找到对应模块的类，直接右键 Main 启动即可**
+  找到对应模块的类，直接右键 Main 启动即可
 </Note>
 
 ```java
@@ -96,7 +98,7 @@ db:
 ```
 
 <Note>
-使用代码生成、监控时再启动以下项目
+  使用代码生成、监控时再启动以下项目
 </Note>
 
 ```java
@@ -107,46 +109,51 @@ db:
 
 ### 5. 前端部署
 
-#### 5.1 环境检查
-```shell
-# 检查 node 版本 = 18
-node -v 
+<Steps>
+  <Step title="环境检查">
+    ```shell
+    # 检查 node 版本 = 18
+    node -v 
+    
+    # 若高版本 node 可执行 n 命令切换至 18 版本
+    n 18
+    ```
+  </Step>
+  <Step title="下载前端代码">
+    ```shell
+    git clone https://gitee.com/log4j/pig-ui.git
+    ```
+  </Step>
+  <Step title="安装依赖">
+    ```shell
+    npm install --registry=https://registry.npmmirror.com
+    ```
+  </Step>
+  <Step title="启动前端服务">
+    ```shell
+    npm run dev
+    ```
+  </Step>
+  <Step title="访问系统">
+    <Note>
+      - 浏览器访问：http://localhost:8888
+      - 默认用户名：admin
+      - 默认密码：123456
+    </Note>
+  </Step>
+</Steps>
 
-# 若高版本 node 可执行 n 命令切换至 18 版本
-n 18
-```
-
-#### 5.2 下载前端代码
-```shell
-git clone https://gitee.com/log4j/pig-ui.git
-```
-
-#### 5.3 安装依赖
-```shell
-npm install --registry=https://registry.npmmirror.com
-```
-
-#### 5.4 启动前端服务
-```shell
-npm run dev
-```
-
-#### 5.5 访问系统
-<Note>
-- 浏览器访问：http://localhost:8888
-- 默认用户名：admin
-- 默认密码：123456
-</Note>
-
-#### 5.6 注意事项
 <Warning>
-1. 如果 npm install 过程中出现网络问题导致报错，请删除 pig-ui 根目录中的 node_modules 文件夹
-2. 重新执行 npm install 命令
-3. 注意 node 版本不要太高，推荐使用 18 版本
+  1. 如果 npm install 过程中出现网络问题导致报错，请删除 pig-ui 根目录中的 node_modules 文件夹
+  2. 重新执行 npm install 命令
+  3. 注意 node 版本不要太高，推荐使用 18 版本
 </Warning>
 
-## ♥️ 获取支持
-<Card title="遇到问题？" horizontal icon="link" href="https://gitee.com/log4j/pig/issues">
-  如果您在使用过程中遇到任何问题、有功能建议或需求，请点击此卡片前往 Gitee 仓库提交 Issue。
-</Card>
+## 获取支持
+
+<CardGroup cols={1}>
+  <Card title="遇到问题？" icon="circle-question" href="https://gitee.com/log4j/pig/issues">
+    如果您在使用过程中遇到任何问题、有功能建议或需求，请前往 Gitee 仓库提交 Issue。
+  </Card>
+</CardGroup>
 

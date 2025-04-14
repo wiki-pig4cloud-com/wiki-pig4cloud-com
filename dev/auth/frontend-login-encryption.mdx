@@ -6,17 +6,21 @@ title: "前端登录请求加密"
 
 用户登录时，对登录密码进行加密传输
 
-![登录密码加密](https://pigx.coding.net/p/oss/d/oss1/git/raw/master/2020-9/20200915164251.png)
+<Frame>
+  <img src="https://minio.pigx.vip/oss/202504/1744646005.png" alt="登录密码加密传输" />
+</Frame>
 
 ## 前端加密功能
 
 <Warning>
-特别说明：修改密钥注意同步修改前后端的 key，必须为 16 位
+  修改密钥注意同步修改前后端的 key，必须为 16 位
 </Warning>
 
 - 前端 **env VITE_PWD_ENC_KEY** 提供简单的 AES 对称加密算法，注意 key 和后端网关配置相同，这里打包混淆后，相对安全。
 
-![密钥配置](https://minio.pigx.top/oss/202307/1690082310.png)
+<Frame caption="密钥配置">
+  <img src="https://minio.pigx.top/oss/202307/1690082310.png" alt="密钥配置" />
+</Frame>
 
 - 对应后端代码解密的 key 在 **nacos/pig-auth-dev.yml** 定义
 
@@ -29,14 +33,17 @@ security:
 
 使用密码加密服务：[https://enc.pig4cloud.com](https://enc.pig4cloud.com)
 
-![密码加密服务](https://minio.pigx.vip/oss/1638683003.png)
+<Frame caption="密码加密服务">
+  <img src="https://minio.pigx.vip/oss/1638683003.png" alt="密码加密服务" />
+</Frame>
 
 ## 总结
 
 虽然 AES 是对称加密，但在此场景中提供了基本的传输保护。
 
-## ♥️ 获取支持
-<Card title="遇到问题？" horizontal icon="link" href="https://gitee.com/log4j/pig/issues">
+## 获取支持
+
+<Card title="遇到问题？" icon="link" href="https://gitee.com/log4j/pig/issues">
   如果您在使用过程中遇到任何问题、有功能建议或需求，请点击此卡片前往 Gitee 仓库提交 Issue。
 </Card>
 

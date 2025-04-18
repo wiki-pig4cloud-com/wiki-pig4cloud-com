@@ -19,9 +19,9 @@
     "global": {
       "anchors": [
         {
-          "href": "https://paper.pig4cloud.com",
-          "anchor": "商业版本",
-          "icon": "book-open"
+          "href": "http://wiki.pig4cloud.com/info/biz",
+          "anchor": "商业版本 🚀",
+          "icon": "flag-checkered"
         },
         {
           "href": "https://javaai.pig4cloud.com?utm_source=pig-wiki",

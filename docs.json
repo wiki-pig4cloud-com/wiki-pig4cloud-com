@@ -30,17 +30,11 @@
         }
       ]
     },
-    "dropdowns": [
+    "tabs": [
       {
-        "dropdown": "快速入门",
-        "icon": "book-open",
-        "groups": [
-          {
-            "group": "开源共建",
-            "pages": [
-              "info/development-participation"
-            ]
-          },
+        "tab": "快速入门",
+        "pages": [
+          "info/development-participation",
           {
             "group": "部署指南",
             "pages": [
@@ -210,19 +204,13 @@
               "dev/integration/pig-dingtalk-wechat-robot"
             ]
           }
-        ]
+          ]
       },
       {
-        "dropdown": "视频教程",
-        "icon": "video",
-        "href": "https://tv.pig4cloud.com"
-      },
-      {
-        "dropdown": "常见问题",
-        "icon": "question",
+        "tab": "常见问题",
         "pages": [
-          "dev/faq",
-          "dev/faq/asking-guidelines/question-guidelines",
+          "dev/faq/how-ask",
+          "dev/faq/login-issues/captcha-not-showing",
           "dev/faq/client-settings/modify-client-info",
           "dev/faq/login-issues/invalid-clientid",
           "dev/faq/service-startup/gateway-doc-config-null",
@@ -231,7 +219,6 @@
           "dev/faq/service-startup/nacos-service-list-empty",
           "dev/faq/service-startup/pig-db-connection-fail",
           "dev/faq/login-issues/wrong-password",
-          "dev/faq/login-issues/captcha-not-showing",
           "dev/faq/service-startup/java-jar-yml-input-length-error",
           "dev/faq/service-startup/new-module-resource-not-found",
           "dev/faq/service-startup/fastjson-vulnerability",

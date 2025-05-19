@@ -21,10 +21,12 @@ title: "授权码模式使用（开放平台）"
 1. 注册支持授权码的客户端，<Warning>直接操作数据库，注意清空 redis (flushdb)</Warning>
 
 ```sql
-UPDATE `sys_oauth_client_details` SET `authorized_grant_types` = 'password,refresh_token,authorization_code,client_credentials', `web_server_redirect_uri` = 'https://pig4cloud.com'WHERE `client_id` = 'test';
+UPDATE `sys_oauth_client_details` SET `authorized_grant_types` = 'password,refresh_token,authorization_code,client_credentials', `web_server_redirect_uri` = 'https://pig4cloud.com' WHERE `client_id` = 'test';
 ```
 
-2. 浏览器访问如下链接，必须完全复制不要修改任何参数；<Warning>注意</Warning>：授权码模式回调地址不能使用 localhost
+2. 浏览器访问如下链接，必须完全复制不要修改任何参数；
+
+<Warning>注意：授权码模式回调地址不能使用 localhost</Warning>
 
 ```shell
 http://localhost:3000/oauth2/authorize?scope=server&client_id=test&response_type=code&redirect_uri=https://pig4cloud.com

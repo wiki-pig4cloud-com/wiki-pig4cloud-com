@@ -4,45 +4,103 @@ icon: "code-branch"
 iconType: "solid"
 ---
 
-在进行新项目的技术选型时，推荐 Java17 + SpringBoot3 + Vue3 的技术栈。
+在进行新项目的技术选型时，强烈推荐使用 **JDK17 分支（默认）** 的技术栈：Java17 + SpringBoot3.5 + Spring Cloud 2025 + Vue3。
 
-1. **Java17**：Java17 相较于 Java8，带来了许多性能上的改进和优化。通过平滑升级到 Java17，您可以享受到更好的性能和稳定性，同时仍然可以**保持与旧版本的兼容性**。
-2. **SpringBoot3**：最新版本的 SpringBoot3 可以保证项目在功能和性能上的最新更新，并且官方将于 2023-11 停止 SpringBoot 2.X 的更新和维护，**避免后续的安全漏洞**。
-3. **Vue3**：相比于 Vue2，Vue3 在性能和灵活度方面有了显著的提升。它采用了更加精简的代码结构，使得**开发过程更高效**，并提供了一些新的特性和工具，有助于提升用户体验和开发效率。
+<Note>
+JDK17 分支是当前的主要开发分支，提供最新的技术特性和最佳的性能表现。
+</Note>
+
+## 技术栈优势
+
+<CardGroup cols={3}>
+  <Card title="Java17" icon="java">
+    长期支持版本，相较于 Java8 带来显著的性能提升和新特性支持
+  </Card>
+  <Card title="SpringBoot 3.5" icon="leaf">
+    最新版本框架，提供更好的云原生支持和性能优化
+  </Card>
+  <Card title="Spring Cloud 2025" icon="cloud">
+    微服务架构的最新实现，支持现代化的分布式系统开发
+  </Card>
+</CardGroup>
+
+## 分支版本说明
 
 <AccordionGroup>
-  <Accordion title="SpringBoot 3 版本">
-    核心技术栈：Java17、SpringBoot 3.4、Spring Cloud 2024、Vue3
+  <Accordion title="JDK17 分支（推荐使用）" icon="star">
+    **核心技术栈**：Java17 + SpringBoot 3.5 + Spring Cloud 2025 + Vue3
+    
+    <Tip>
+    这是当前的默认分支，推荐用于所有新项目开发。
+    </Tip>
+
+    **技术优势**：
+    - 🚀 **性能优化**：Java17 带来显著的性能提升和内存优化
+    - 🛡️ **安全性**：最新的安全特性和漏洞修复
+    - 🔧 **开发效率**：SpringBoot 3.5 提供更丰富的开发工具和自动配置
+    - ☁️ **云原生**：Spring Cloud 2025 完美支持容器化和微服务架构
 
     <CardGroup>
       <Card title="前端仓库" icon="link" href="https://gitee.com/log4j/pig-ui">
-        SpringBoot 3 版本的前端代码仓库
+        JDK17 版本的前端代码仓库
       </Card>
 
       <Card title="后端仓库" icon="link" href="https://gitee.com/log4j/pig/tree/next-sa">
-        SpringBoot 3 版本的后端代码仓库
+        JDK17 版本的后端代码仓库
       </Card>
     </CardGroup>
   </Accordion>
 
-  <Accordion title="SpringBoot 2 版本">
-    核心技术栈：Java8、SpringBoot 2.7、Spring Cloud 2021、Vue3
+  <Accordion title="Master 分支（过时，后续迁移）" icon="archive">
+    **核心技术栈**：Java8 + SpringBoot 2.7 + Spring Cloud 2023 + Vue3
+    
+    <Warning>
+    此分支仅用于维护现有项目，不推荐用于新项目开发。
+    </Warning>
+
+    <Note>
+    **重要通知**：Master 分支后续会变更为 JDK17 技术栈，请关注版本迁移通知。
+    </Note>
+
+    **注意事项**：
+    - ⚠️ **技术栈过时**：使用的技术版本相对较旧
+    - 🔒 **安全风险**：可能存在已知的安全漏洞
+    - 📉 **性能限制**：无法享受新版本带来的性能提升
+    - 🚫 **功能受限**：缺少最新的框架特性和功能
+    - 🔄 **迁移计划**：后续将升级到 JDK17 技术栈
 
     <CardGroup>
       <Card title="前端仓库" icon="link" href="https://gitee.com/log4j/pig-ui/tree/master/">
-        SpringBoot 2 版本的前端代码仓库
+        Master 版本的前端代码仓库
       </Card>
 
       <Card title="后端仓库" icon="link" href="https://gitee.com/log4j/pig/tree/master">
-        SpringBoot 2 版本的后端代码仓库
+        Master 版本的后端代码仓库
       </Card>
     </CardGroup>
   </Accordion>
 </AccordionGroup>
 
+## 迁移建议
+
+<Steps>
+  <Step title="评估现有项目">
+    分析当前项目的技术债务和迁移成本
+  </Step>
+  <Step title="制定迁移计划">
+    规划从 Master 分支到 JDK17 分支的迁移路径
+  </Step>
+  <Step title="逐步迁移">
+    建议采用渐进式迁移策略，降低风险
+  </Step>
+  <Step title="测试验证">
+    完整的功能测试和性能测试验证
+  </Step>
+</Steps>
+
 ## 获取支持
 
 <Card title="遇到问题？" icon="link" href="https://gitee.com/log4j/pig/issues">
-  如果您在使用过程中遇到任何问题、有功能建议或需求，请点击此卡片前往 Gitee 仓库提交 Issue。
+  如果您在版本迁移或使用过程中遇到任何问题、有功能建议或需求，请点击此卡片前往 Gitee 仓库提交 Issue。
 </Card>
 

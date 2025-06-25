@@ -1,0 +1,225 @@
+---
+title: "PIG 整合 Lock4j 实现分布式锁"
+description: "PIG 系统中集成 Lock4j 分布式锁组件的详细指南，包括配置、使用和高级特性"
+---
+
+<Frame caption="lock4j 分布式锁使用演示">
+  <iframe 
+    src="https://player.bilibili.com/player.html?bvid=BV12t411B7e9&p=35&page=35&autoplay=0" 
+    width="100%" 
+    height="500px"
+    frameborder="0"
+    allowfullscreen
+  />
+</Frame>
+
+## Lock4j 简介
+
+[Lock4j](https://gitee.com/baomidou/lock4j) 是一个分布式锁组件，其提供了多种不同的支持以满足不同性能和环境的需求。立志打造一个简单但富有内涵的分布式锁组件。
+
+<Card title="主要特性" icon="star">
+  - 多种执行器支持（Redis、Redisson、Zookeeper）
+  - 注解式使用，简单易用
+  - 支持 SpEL 表达式
+  - 可自定义锁key生成器和失败策略
+  - 支持手动上锁解锁
+</Card>
+
+## 快速开始
+
+<Steps>
+  <Step title="添加依赖">
+    在项目的 `pom.xml` 文件中添加 Lock4j 依赖：
+
+    ```xml
+    <dependency>
+      <groupId>com.baomidou</groupId>
+      <artifactId>lock4j-redis-template-spring-boot-starter</artifactId>
+      <version>2.2.5</version>
+    </dependency>
+    ```
+  </Step>
+
+  <Step title="配置 Redis 连接">
+    <Warning>
+      确保 Redis 连接信息配置正确，以下为默认配置位置
+    </Warning>
+
+    ```yaml
+    spring:
+      data:
+        redis:
+          host: pig-redis
+    ```
+  </Step>
+
+  <Step title="使用 @Lock4j 注解">
+    在需要分布式锁的方法上添加 `@Lock4j` 注解：
+
+    <CodeGroup>
+    ```java 基础用法
+    @Service
+    public class DemoService {
+
+        // 默认获取锁超时3秒，30秒锁过期
+        @Lock4j
+        public void simple() {
+            // do something
+        }
+    }
+    ```
+
+    ```java 完整配置
+    @Service
+    public class DemoService {
+
+        // 完全配置，支持 SpEL 表达式
+        @Lock4j(keys = {"#key"}, expire = 60000, acquireTimeout = 1000)
+        public R customMethod(String key) {
+            return R.ok();
+        }
+    }
+    ```
+    </CodeGroup>
+  </Step>
+</Steps>
+
+## 配置说明
+
+### 全局属性配置
+
+<Accordion title="配置全局默认参数">
+配置全局默认的获取锁超时时间和锁过期时间：
+
+```yaml
+lock4j:
+  acquire-timeout: 3000 # 默认值3s，可不设置
+  expire: 30000 # 默认值30s，可不设置
+  primary-executor: com.baomidou.lock.executor.RedisTemplateLockExecutor # 默认redisson>redisTemplate>zookeeper，可不设置
+  lock-key-prefix: lock4j # 锁key前缀, 默认值lock4j，可不设置
+```
+</Accordion>
+
+<AccordionGroup>
+  <Accordion title="acquire-timeout 参数说明" icon="clock">
+    **acquire-timeout** 可以理解为排队时长，超过这个时间就退出排队，抛出获取锁超时异常。
+
+    **为什么必须要有这个参数？**
+    - 现实中你会一直排队等下去吗？
+    - 所有人都一直排队会有什么问题？
+  </Accordion>
+
+  <Accordion title="expire 参数说明" icon="timer">
+    **expire** 锁过期时间，主要是防止死锁。
+
+    **建议设置：**
+    - 估计好锁方法运行时长
+    - 正常没有复杂业务的增删改查最多几秒
+    - 留有一定冗余，10秒足够
+    - 默认30秒是为了兼容绝大部分场景
+  </Accordion>
+</AccordionGroup>
+
+## 高级特性
+
+<Tabs>
+  <Tab title="自定义执行器">
+    可在方法级指定使用某种执行器，若自己实现的需要提前注入到Spring：
+
+    ```java
+    @Service
+    public class DemoService {
+
+        // 可在方法级指定使用某种执行器
+        @Lock4j(executor = RedissonLockExecutor.class)
+        public Boolean test() {
+            return "true";
+        }
+    }
+    ```
+  </Tab>
+
+  <Tab title="自定义锁Key生成器">
+    默认的锁key生成器为 `com.baomidou.lock.DefaultLockKeyBuilder`：
+
+    ```java
+    @Component
+    public class MyLockKeyBuilder extends DefaultLockKeyBuilder {
+
+        @Override
+        public String buildKey(MethodInvocation invocation, String[] definitionKeys) {
+            String key = super.buildKey(invocation, definitionKeys);
+            // do something
+            return key;
+        }
+    }
+    ```
+  </Tab>
+
+  <Tab title="自定义失败策略">
+    默认的锁获取失败策略为 `com.baomidou.lock.DefaultLockFailureStrategy`：
+
+    ```java
+    @Component
+    public class MyLockFailureStrategy implements LockFailureStrategy {
+
+        @Override
+        public void onLockFailure(String key, long acquireTimeout, int acquireCount) {
+            // write my code
+        }
+    }
+    ```
+  </Tab>
+
+  <Tab title="手动上锁解锁">
+    支持编程式的锁操作：
+
+    ```java
+    @Service
+    public class ProgrammaticService {
+        @Autowired
+        private LockTemplate lockTemplate;
+
+        public void programmaticLock(String userId) {
+            // 各种查询操作 不上锁
+            // ...
+            
+            // 获取锁
+            final LockInfo lockInfo = lockTemplate.lock(userId, 30000L, 5000L, RedissonLockExecutor.class);
+            if (null == lockInfo) {
+                throw new RuntimeException("业务处理中,请稍后再试");
+            }
+            
+            // 获取锁成功，处理业务
+            try {
+                System.out.println("执行简单方法1 , 当前线程:" + Thread.currentThread().getName() + " , counter：" + (counter++));
+            } finally {
+                // 释放锁
+                lockTemplate.releaseLock(lockInfo);
+            }
+            // 结束
+        }
+    }
+    ```
+  </Tab>
+</Tabs>
+
+<Tip>
+在实际项目中，建议优先使用注解方式，手动上锁主要用于复杂业务场景下的精细化控制。
+</Tip>
+
+## 相关链接
+
+<CardGroup cols={2}>
+  <Card title="Lock4j 官方文档" icon="book" href="https://gitee.com/baomidou/lock4j">
+    查看 Lock4j 的完整文档和最新版本信息
+  </Card>
+  <Card title="Redis 配置" icon="database" href="/dev/basics/redis-config">
+    了解 PIG 系统中 Redis 的详细配置
+  </Card>
+</CardGroup>
+
+## ♥️ 获取支持
+<Card title="遇到问题？" horizontal icon="link" href="https://gitee.com/log4j/pig/issues">
+  如果您在使用过程中遇到任何问题、有功能建议或需求，请点击此卡片前往 Gitee 仓库提交 Issue。
+</Card>

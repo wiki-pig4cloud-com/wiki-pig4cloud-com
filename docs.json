@@ -192,6 +192,8 @@
               "dev/integration/pig-websocket-integration",
               "dev/integration/pig-tongrds-integration",
               "dev/integration/pig-api-captcha",
+              "dev/integration/pig-redisson",
+              "dev/integration/pig-lock4j",
               "dev/integration/pig-multi-level-cache",
               "dev/integration/pig-email-integration",
               "dev/integration/pig-rabbitmq-integration",

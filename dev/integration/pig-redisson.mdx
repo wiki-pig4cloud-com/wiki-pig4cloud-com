@@ -1,0 +1,227 @@
+---
+title: "PIG 整合 Redisson 实现接口幂等"
+description: "基于 Redisson 实现的分布式接口幂等性解决方案，防止重复请求导致的系统问题"
+---
+
+<iframe
+  width="100%"
+  height="400"
+  src="https://player.bilibili.com/player.html?bvid=BV12t411B7e9&p=20&page=20"
+  title="幂等性视频教程"
+  frameborder="0"
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+  allowfullscreen
+>
+</iframe>
+
+## 什么是接口幂等性？
+
+<Tip>
+幂等性原本是数学上的概念，用在接口上就可以理解为：**同一个接口，多次发出同一个请求，必须保证操作只执行一次。**
+</Tip>
+
+调用接口发生异常并且重复尝试时，总是会造成系统所无法承受的损失，所以必须阻止这种现象的发生。
+
+![幂等性示意图](/images/idempotent-diagram.png)
+
+## 快速开始
+
+<Steps>
+  <Step title="引入依赖">
+    在项目的 `pom.xml` 文件中添加幂等组件依赖：
+
+    ```xml
+    <dependency>
+        <groupId>com.pig4cloud.plugin</groupId>
+        <artifactId>idempotent-spring-boot-starter</artifactId>
+        <version>0.6.0</version>
+    </dependency>
+    ```
+  </Step>
+
+  <Step title="配置 Redis 连接">
+    在 `application.yml` 中配置 Redis 相关信息：
+
+    ```yaml
+    spring:
+      cache:
+        type: redis
+      data:
+        redis:
+          host: 127.0.0.1
+          port: 6379
+    ```
+
+    <Note>
+    理论上支持 [redisson-spring-boot-starter](https://github.com/redisson/redisson/tree/master/redisson-spring-boot-starter) 的全部配置项
+    </Note>
+  </Step>
+
+  <Step title="添加幂等注解">
+    在需要保证幂等性的接口方法上添加 `@Idempotent` 注解：
+
+    ```java
+    @Idempotent(key = "#demo.username", expireTime = 3, info = "请勿重复查询")
+    @GetMapping("/test")
+    public String test(Demo demo) {
+        return "success";
+    }
+    ```
+  </Step>
+</Steps>
+
+## 注解配置详解
+
+<AccordionGroup>
+  <Accordion title="key - 幂等操作唯一标识" icon="key">
+    ```java
+    String key();
+    ```
+    
+    - 使用 Spring EL 表达式，用 `#` 来引用方法参数
+    - 可为空，如果为空则取当前 URL + 参数作为标识
+    - 示例：`#demo.username`、`#id`
+  </Accordion>
+
+  <Accordion title="expireTime - 有效期设置" icon="clock">
+    ```java
+    int expireTime() default 1;
+    ```
+    
+    - 默认值：1
+    - 有效期要大于程序执行时间，否则请求还是可能会进来
+    - 建议根据业务执行时间合理设置
+  </Accordion>
+
+  <Accordion title="timeUnit - 时间单位" icon="hourglass">
+    ```java
+    TimeUnit timeUnit() default TimeUnit.SECONDS;
+    ```
+    
+    - 默认：秒（SECONDS）
+    - 可选：MILLISECONDS、SECONDS、MINUTES、HOURS 等
+  </Accordion>
+
+  <Accordion title="info - 失败提示信息" icon="message">
+    ```java
+    String info() default "重复请求，请稍后重试";
+    ```
+    
+    - 幂等失败时的提示信息
+    - 可自定义为更友好的业务提示
+  </Accordion>
+
+  <Accordion title="delKey - 是否删除缓存键" icon="trash">
+    ```java
+    boolean delKey() default false;
+    ```
+    
+    - true：业务完成后删除 key
+    - false：不删除，让 key 自然过期
+    - **建议设置为 false**，强制锁定 expireTime 时间
+  </Accordion>
+</AccordionGroup>
+
+## 异常处理
+
+<Warning>
+当幂等性触发后，切面会抛出 `IdempotentException` 异常。需要在全局异常处理器中捕获此异常并处理。
+</Warning>
+
+```java
+@ControllerAdvice
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(IdempotentException.class)
+    public ResponseEntity<String> handleIdempotentException(IdempotentException ex) {
+        // 处理幂等异常，返回自定义的错误信息或业务逻辑
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+}
+```
+
+## 实现原理
+
+<Accordion title="查看实现原理">
+  <CardGroup cols={2}>
+    <Card title="请求开始" icon="play">
+      根据 key 查询 Redis：
+      - 查到结果：抛出异常
+      - 未查到：存入 key-value-expireTime
+    </Card>
+    
+    <Card title="请求结束" icon="stop">
+      根据配置决定是否删除 key：
+      - delKey=true：删除缓存键
+      - delKey=false：保持键直到过期
+    </Card>
+  </CardGroup>
+
+  ### 核心要点
+
+  1. **过期时间保护**：防止请求卡死导致永久阻塞，超过过期时间自动删除
+  2. **接口层面拦截**：直接在接口请求层面进行幂等控制
+  3. **时间评估重要**：过期时间需要大于业务执行时间
+  4. **强制锁定**：建议 `delKey = false`，即使业务执行完也不删除 key
+
+  ### 适用场景
+
+  - 防止用户重复点击提交
+  - 网络异常导致的重复请求
+  - 前端页面跳转后的重复操作
+
+  ### 注意事项
+
+  <Warning>
+  此注解专用于幂等性保证，不适用于高并发锁场景。在极高并发（如 100+ 并发）压测场景下可能出现问题，但实际用户使用中不会出现短时间内大量重复请求的情况。
+  </Warning>
+</Accordion>
+
+## 最佳实践
+
+<Tabs>
+  <Tab title="推荐配置">
+    ```java
+    @Idempotent(
+        key = "#userId", 
+        expireTime = 5, 
+        timeUnit = TimeUnit.SECONDS,
+        info = "操作过于频繁，请稍后重试",
+        delKey = false
+    )
+    @PostMapping("/submit")
+    public Result submit(@RequestParam Long userId, @RequestBody SubmitData data) {
+        // 业务逻辑
+        return Result.success();
+    }
+    ```
+  </Tab>
+  
+  <Tab title="多层防护">
+    建议结合以下方式实现完整的重复提交防护：
+    
+    - **前端层面**：提交按钮置灰、页面遮罩
+    - **接口层面**：使用 `@Idempotent` 注解
+    - **数据库层面**：唯一索引约束
+    - **业务层面**：先查询再操作的逻辑
+  </Tab>
+  
+  <Tab title="参数选择">
+    | 场景 | expireTime | delKey | 说明 |
+    |------|------------|--------|------|
+    | 表单提交 | 3-5秒 | false | 防止用户快速重复点击 |
+    | 支付接口 | 10-30秒 | false | 支付流程较长，需要更长保护时间 |
+    | 查询接口 | 1-2秒 | false | 短时间防重即可 |
+  </Tab>
+</Tabs>
+
+## 源码地址
+
+<Card title="GitHub 仓库" icon="github" href="https://github.com/pig-mesh/idempotent-spring-boot-starter">
+  点击查看完整源码实现和更多示例
+</Card>
+
+## ♥️ 获取支持
+<Card title="遇到问题？" horizontal icon="link" href="https://gitee.com/log4j/pig/issues">
+  如果您在使用过程中遇到任何问题、有功能建议或需求，请点击此卡片前往 Gitee 仓库提交 Issue。
+</Card>
